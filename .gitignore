@@ -1,0 +1,18 @@
+# Qt 编译生成的临时文件
+*.obj
+*.o
+*.a
+*.lib
+*.exe
+*.dll
+Makefile*
+*.Debug
+*.Release
+debug/
+release/
+
+# Qt Creator 的用户设置
+*.pro.user
+
+# 编译生成的文件夹（影子构建）
+build-*
