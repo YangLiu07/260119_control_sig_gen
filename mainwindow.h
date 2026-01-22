@@ -6,7 +6,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-// 新建类
+// 新建类测试
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
