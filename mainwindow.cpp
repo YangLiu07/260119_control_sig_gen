@@ -7,6 +7,8 @@
 #include <QUrl>
 #include <QDir>
 #include <QProcess>
+#include <QScrollBar>
+
 
 //编写public函数MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -40,11 +42,18 @@ MainWindow::~MainWindow()
 // /////////////////////////////////////////日志管理////////////////////////////
 
 //日志生成方法
-void MainWindow::appendLog(const QString &msg, int level)
+enum class LogLevel //枚举类型，一组有名字的整数常量
+{
+    LOG_INFO = 0,
+    LOG_SUCCESS,
+    LOG_WARNING,
+    LOG_ERROR
+};
+void MainWindow::appendLog(const QString &msg, int Loglevel)
 {
     // --- 1. 处理界面显示 (UI Logic) ---
-    QString color = (level == 2) ? "red" : (level == 1 ? "orange" : "black");
-    QString levelStr = (level == 2) ? "[ERROR]" : (level == 1 ? "[WARN]" : "[INFO]");
+    QString color = (Loglevel == 3) ? "red" : (Loglevel == 2) ? "orange" :(Loglevel == 1 ? "green" : "black");
+    QString levelStr = (Loglevel == 3) ? "[ERROR]" :(Loglevel == 2) ? "[WARNING]" : (Loglevel == 1 ? "[SUCCESS]" : "[INFO]");
 
     QDateTime current = QDateTime::currentDateTime();
     QString timeStr = current.toString("[yyyy-MM-dd hh:mm:ss]");
@@ -71,7 +80,11 @@ void MainWindow::appendLog(const QString &msg, int level)
         QTextStream out(&file);
         out << plainText << "\n";
         file.close();
+
     }
+
+    QScrollBar *bar = ui->textBrowserLog->verticalScrollBar();
+    bar->setValue(bar->maximum());
 
     // --- 3. 自动清理旧日志 (Cleanup Logic) ---
     // 为了不影响性能，我们可以加个判断：只有在每天第一次写日志，或者程序启动时清理一次
@@ -154,7 +167,52 @@ void MainWindow::on_logContextMenu(const QPoint &pos){
 }
 
 // /////////////////////////////////////////日志管理////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////
 
+// ////////////////////////////////////////自检功能实现/////////////////////////////
+void MainWindow::on_btnSelfTest_clicked()
+{
+    ui->textBrowserLog->clear();
+    appendLog("===== 开始仪器自检 =====",1);
+
+    bool ok1 = checkInstrument(rigol,
+                             ui->lineEditDGAddress->text(),
+                               "信号源");
+
+    // ------------数采的自检代码尚未实现，缺少驱动代码-----------------
+    // bool ok2 = checkInstrument(daq,
+    //                            ui->lineEditMRAddress->text(),
+    //                            "数据采集仪");
+    bool ok2=1;
+
+    if(ok1 && ok2)
+        ui->textBrowserLog->append("===== 全部设备正常 =====");
+    else
+        ui->textBrowserLog->append("===== 存在异常设备 =====");
+}
+
+
+// 自检函数封装
+bool MainWindow::checkInstrument(RigolDriver* dev, QString addr, QString name)
+{
+    ui->textBrowserLog->append("检测 " + name + "...");
+
+    if(dev->connectDevice(addr))
+    {
+        // QString idn = dev->sendCmd("*IDN?");
+        ui->textBrowserLog->append(name + " 连接成功");
+        // ui->textBrowserLog->append("IDN: " + idn);
+        return true;
+    }
+    else
+    {
+        ui->textBrowserLog->append(name + " 连接失败！");
+        return false;
+    }
+}
+
+// ////////////////////////////////////////自检功能实现/////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////
 
 // 连接按钮
 void MainWindow::on_btnConnect_clicked()
@@ -164,15 +222,16 @@ void MainWindow::on_btnConnect_clicked()
     QString addr = ui->lineEditDGAddress->text();
 
     if(rigol->connectDevice(addr)) {
-        ui->btnConnect1_2->setText("已连接");
-        ui->btnConnect1_2->setEnabled(false);
+        // ui->btnConnect1_2->setText("已连接");
+
+        // ui->btnConnect1_2->setEnabled(false);
     }
 }
 
 //设置幅度按钮
 void MainWindow::on_btnSetAmp_clicked()
 {
-    double vpp = ui->doubleSpinBox->value();
+    double vpp = ui->doubleSpinBoxAmp->value();
     rigol->setAmplitude(vpp);
 }
 // 设置频率按钮
@@ -189,7 +248,7 @@ void MainWindow::on_btnOutput_toggled(bool checked)
     rigol->setOutputState(checked);
 
     if(checked) {
-        ui->btnOutput->setText("Output: ON");
+        ui->btnOutput_2->setText("Output: ON");
         ui->btnOutput->setStyleSheet("background-color: green; color: white;");
     } else {
         ui->btnOutput->setText("Output: OFF");

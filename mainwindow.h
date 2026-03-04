@@ -22,12 +22,14 @@ private slots:
     void on_btnSetFreq_clicked();
     void on_btnOutput_toggled(bool checked);
     void on_logContextMenu(const QPoint &pos); // ✨ 新增：处理右键菜单
+    void on_btnSelfTest_clicked(); //自检按键槽函数
 
 private:
     Ui::MainWindow *ui;
     RigolDriver *rigol; // 声明驱动对象
     void appendLog(const QString &msg,int level);//私有增加日志方法；level=0黑色消息，level=1黄色警告，level=2红色错误
     void cleanOldLogs(const QString &path);
+    bool checkInstrument(RigolDriver* dev, QString addr, QString name);
 
 };
 

@@ -152,7 +152,7 @@ QString RigolDriver::findRigolGen()
 }
 
 
-// --- 业务逻辑封装 ---
+// ---------------- 业务逻辑封装 -----------------------
 
 void RigolDriver::setFrequency(double kHz)
 {
