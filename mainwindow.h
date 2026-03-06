@@ -17,12 +17,13 @@ public:
 
 private slots:
     // 声明槽函数，这样 .cpp 里的函数才能对上号
-    void on_btnConnect_clicked();
-    void on_btnSetAmp_clicked();
-    void on_btnSetFreq_clicked();
-    void on_btnOutput_toggled(bool checked);
+    // void on_btnConnect_clicked();
+    // void on_btnSetAmp_clicked();
+    // void on_btnSetFreq_clicked();
+    // void on_btnOutput_toggled(bool checked);
     void on_logContextMenu(const QPoint &pos); // ✨ 新增：处理右键菜单
     void on_btnSelfTest_clicked(); //自检按键槽函数
+    void on_btnSweepConfig_clicked();//扫频配置按键槽函数
 
 private:
     Ui::MainWindow *ui;

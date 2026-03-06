@@ -8,7 +8,16 @@
 #include <QDir>
 #include <QProcess>
 #include <QScrollBar>
+#include <QMessageBox>
 
+
+enum LogLevel //枚举类型，一组有名字的整数常量 日志等级增加代码可读性
+{
+    LOG_INFO = 0,
+    LOG_SUCCESS,
+    LOG_WARNING,
+    LOG_ERROR
+};
 
 //编写public函数MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -20,8 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     // 1. 初始化驱动对象，实例化对象？
     rigol = new RigolDriver(this);
 
+    //Qt 信号槽机制 + Lambda 表达式 将sigLog的信息传递到ui界面的日志中
    connect(rigol, &RigolDriver::sigLog, this, [=](QString msg){
-        this->appendLog(msg,1); });
+        this->appendLog(msg,LOG_INFO); });
 
     //设置日志框允许自定义右键菜单
     ui->textBrowserLog->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -29,6 +39,20 @@ MainWindow::MainWindow(QWidget *parent)
     //连接“请求弹出菜单”的信号到我们的槽函数
     connect(ui->textBrowserLog, &QWidget::customContextMenuRequested,
             this, &MainWindow::on_logContextMenu);
+
+    //切换信号源模式 扫频/自定义信号
+    connect(ui->comboBox_selectWaweMode_2,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            ui->stackedWidget_2,
+            &QStackedWidget::setCurrentIndex);
+
+
+    // 在构造函数中对信号源频率范围进行设定
+    QDoubleValidator *freqValidator = new QDoubleValidator(0.001, 30000, 6, this);
+    freqValidator->setNotation(QDoubleValidator::StandardNotation);
+
+    ui->editSweepFreqStart->setValidator(freqValidator);
+    ui->editSweepFreqEnd->setValidator(freqValidator);
 
 }
 
@@ -42,18 +66,11 @@ MainWindow::~MainWindow()
 // /////////////////////////////////////////日志管理////////////////////////////
 
 //日志生成方法
-enum class LogLevel //枚举类型，一组有名字的整数常量
-{
-    LOG_INFO = 0,
-    LOG_SUCCESS,
-    LOG_WARNING,
-    LOG_ERROR
-};
-void MainWindow::appendLog(const QString &msg, int Loglevel)
+void MainWindow::appendLog(const QString &msg, int LogLevel)
 {
     // --- 1. 处理界面显示 (UI Logic) ---
-    QString color = (Loglevel == 3) ? "red" : (Loglevel == 2) ? "orange" :(Loglevel == 1 ? "green" : "black");
-    QString levelStr = (Loglevel == 3) ? "[ERROR]" :(Loglevel == 2) ? "[WARNING]" : (Loglevel == 1 ? "[SUCCESS]" : "[INFO]");
+    QString color = (LogLevel == 3) ? "red" : (LogLevel == 2) ? "orange" :(LogLevel == 1 ? "green" : "black");
+    QString levelStr = (LogLevel == 3) ? "[ERROR]" :(LogLevel == 2) ? "[WARNING]" : (LogLevel == 1 ? "[SUCCESS]" : "[INFO]");
 
     QDateTime current = QDateTime::currentDateTime();
     QString timeStr = current.toString("[yyyy-MM-dd hh:mm:ss]");
@@ -83,8 +100,8 @@ void MainWindow::appendLog(const QString &msg, int Loglevel)
 
     }
 
-    QScrollBar *bar = ui->textBrowserLog->verticalScrollBar();
-    bar->setValue(bar->maximum());
+    // QScrollBar *bar = ui->textBrowserLog->verticalScrollBar();
+    // bar->setValue(bar->maximum());
 
     // --- 3. 自动清理旧日志 (Cleanup Logic) ---
     // 为了不影响性能，我们可以加个判断：只有在每天第一次写日志，或者程序启动时清理一次
@@ -167,13 +184,13 @@ void MainWindow::on_logContextMenu(const QPoint &pos){
 }
 
 // /////////////////////////////////////////日志管理////////////////////////////
-// ///////////////////////////////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
 
 // ////////////////////////////////////////自检功能实现/////////////////////////////
 void MainWindow::on_btnSelfTest_clicked()
 {
     ui->textBrowserLog->clear();
-    appendLog("===== 开始仪器自检 =====",1);
+    appendLog("===== 开始仪器自检 =====",LOG_INFO);
 
     bool ok1 = checkInstrument(rigol,
                              ui->lineEditDGAddress->text(),
@@ -186,72 +203,128 @@ void MainWindow::on_btnSelfTest_clicked()
     bool ok2=1;
 
     if(ok1 && ok2)
-        ui->textBrowserLog->append("===== 全部设备正常 =====");
+        appendLog("===== 全部设备正常 =====",LOG_INFO);
     else
-        ui->textBrowserLog->append("===== 存在异常设备 =====");
+        appendLog("===== 存在异常设备 =====",LOG_WARNING);
 }
 
 
 // 自检函数封装
 bool MainWindow::checkInstrument(RigolDriver* dev, QString addr, QString name)
 {
-    ui->textBrowserLog->append("检测 " + name + "...");
+    appendLog("检测 " + name + "...",LOG_INFO);
 
     if(dev->connectDevice(addr))
     {
         // QString idn = dev->sendCmd("*IDN?");
-        ui->textBrowserLog->append(name + " 连接成功");
+        appendLog(name + " 连接成功",LOG_SUCCESS);
         // ui->textBrowserLog->append("IDN: " + idn);
         return true;
     }
     else
     {
-        ui->textBrowserLog->append(name + " 连接失败！");
+        appendLog(name + " 连接失败！",LOG_ERROR);
         return false;
     }
 }
 
+// ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+void MainWindow::on_btnSweepConfig_clicked()
+{
+    QString startStr = ui->editSweepFreqStart->text();
+    QString stopStr  = ui->editSweepFreqEnd->text();
+
+    if(startStr.isEmpty() || stopStr.isEmpty())
+    {
+        QMessageBox::warning(this,"输入错误","请输入扫频范围！");
+        return;
+    }
+
+    bool ok1, ok2;
+
+    double startFreq = startStr.toDouble(&ok1);
+    double stopFreq  = stopStr.toDouble(&ok2);
+
+    if(!ok1 || !ok2)
+    {
+        QMessageBox::warning(this,"输入错误","请输入正确的数字！");
+        return;
+    }
+
+    // DG1032 频率范围限制
+    if(startFreq < 0.001 || stopFreq > 30000)
+    {
+        QMessageBox::warning(this,
+                             "超出范围",
+                             "DG1032频率范围为 0.001kHz - 30MHz");
+        return;
+    }
+
+    // 起始 <= 结束
+    if(startFreq > stopFreq)
+    {
+        QMessageBox::warning(this,
+                             "逻辑错误",
+                             "起始频率不能大于截止频率！");
+        return;
+    }
+
+    // // 设置扫频模式
+    // rigol->sendCmd(":SOUR1:SWE:STAT ON");
+
+    // // 设置起始频率
+    // rigol->sendCmd(QString(":SOUR1:FREQ:STAR %1KHZ").arg(startFreq));
+
+    // // 设置截止频率
+    // rigol->sendCmd(QString(":SOUR1:FREQ:STOP %1KHZ").arg(stopFreq));
+
+    // QMessageBox::information(this,"成功","扫频参数设置成功");
+}
+
+
+
 // ////////////////////////////////////////自检功能实现/////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////
+// -------------------------------------------------------------------------------
 
-// 连接按钮
-void MainWindow::on_btnConnect_clicked()
-{
-    // 获取输入框里的 VISA 地址
-    // 实际地址建议去 NI MAX 软件里复制，例如 "USB0::0x1AB1::..."
-    QString addr = ui->lineEditDGAddress->text();
+// // 连接按钮
+// void MainWindow::on_btnConnect_clicked()
+// {
+//     // 获取输入框里的 VISA 地址
+//     QString addr = ui->lineEditDGAddress->text();
 
-    if(rigol->connectDevice(addr)) {
-        // ui->btnConnect1_2->setText("已连接");
+//     if(rigol->connectDevice(addr)) {
+//         // ui->btnConnect1_2->setText("已连接");
 
-        // ui->btnConnect1_2->setEnabled(false);
-    }
-}
+//         // ui->btnConnect1_2->setEnabled(false);
+//     }
+// }
 
-//设置幅度按钮
-void MainWindow::on_btnSetAmp_clicked()
-{
-    double vpp = ui->doubleSpinBoxAmp->value();
-    rigol->setAmplitude(vpp);
-}
-// 设置频率按钮
-void MainWindow::on_btnSetFreq_clicked()
-{
-    // 获取 SpinBox 里的数值
-    double freq = ui->doubleSpinBoxFreq->value();
-    rigol->setFrequency(freq);
-}
+// //设置幅度按钮
+// void MainWindow::on_btnSetAmp_clicked()
+// {
+//     double vpp = ui->doubleSpinBoxAmp->value();
+//     rigol->setAmplitude(vpp);
+// }
+// // 设置频率按钮
+// void MainWindow::on_btnSetFreq_clicked()
+// {
+//     // 获取 SpinBox 里的数值
+//     double freq = ui->doubleSpinBoxFreq->value();
+//     rigol->setFrequency(freq);
+// }
 
-// 输出开关按钮 (Checkable Button)
-void MainWindow::on_btnOutput_toggled(bool checked)
-{
-    rigol->setOutputState(checked);
+// // 输出开关按钮 (Checkable Button)
+// void MainWindow::on_btnOutput_toggled(bool checked)
+// {
+//     rigol->setOutputState(checked);
 
-    if(checked) {
-        ui->btnOutput_2->setText("Output: ON");
-        ui->btnOutput->setStyleSheet("background-color: green; color: white;");
-    } else {
-        ui->btnOutput->setText("Output: OFF");
-        ui->btnOutput->setStyleSheet("");
-    }
-}
+//     if(checked) {
+//         ui->btnOutput_2->setText("Output: ON");
+//         ui->btnOutput->setStyleSheet("background-color: green; color: white;");
+//     } else {
+//         ui->btnOutput->setText("Output: OFF");
+//         ui->btnOutput->setStyleSheet("");
+//     }
+// }
+
+
