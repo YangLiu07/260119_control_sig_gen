@@ -60,6 +60,10 @@ bool RigolDriver::sendCmd(QString scpi)
     if (!m_connected) return false;
 
     // SCPI 规范建议以换行符结尾
+
+    //调试语句
+    qDebug() << "SCPI SEND:" << scpi;
+
     QString cmdWithEnd = scpi + "\n";
     QByteArray cmdBytes = cmdWithEnd.toLatin1();
     ViUInt32 retCount = 0;
@@ -187,3 +191,42 @@ bool RigolDriver::checkStatus(ViStatus status, QString actionName)
     }
     return true;
 }
+
+
+// //////////////////////////对信号源进行扫频参数配置///////////////////////////////////
+void RigolDriver::setSweep(double startFreq,
+                           double stopFreq,
+                           double amplitude,
+                           double sweepTime,
+                           int stepCount)
+{
+    sendCmd(":SOUR1:FUNC SIN");
+    sendCmd(":SOUR1:VOLT " + QString::number(amplitude));
+    sendCmd(":SOUR1:SWE:STAT ON");
+    sendCmd(":SOUR1:FREQ:STAR " + QString::number(startFreq*1000));
+    sendCmd(":SOUR1:FREQ:STOP " + QString::number(stopFreq*1000));
+    sendCmd(":SOUR1:SWE:TIME " + QString::number(sweepTime));
+    sendCmd(":SOUR1:SWE:STEP " + QString::number(stepCount));
+}
+
+void RigolDriver::setArbWave(QString filePath,
+                             double sampleRate,
+                             double amplitude)
+{
+    sendCmd(":SOUR1:VOLT " + QString::number(amplitude));
+    // 切换ARB模式
+    sendCmd(":SOUR1:FUNC ARB");
+
+    // 设置采样率
+    // sendCmd(QString(":SOUR1:ARB:SRAT %1").arg(sampleRate));
+
+    // 设置幅度
+    // sendCmd(QString(":SOUR1:VOLT %1").arg(amplitude));
+
+    // 载入波形
+    // sendCmd(QString(":MMEM:LOAD \"%1\"").arg(filePath));
+
+    // // 打开输出
+    // sendCmd(":OUTP1 ON");
+}
+

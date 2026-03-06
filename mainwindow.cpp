@@ -9,6 +9,13 @@
 #include <QProcess>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <windows.h>
+#include "bodedrive.h"
+#include <QtConcurrent>
+
+
+
 
 
 enum LogLevel //枚举类型，一组有名字的整数常量 日志等级增加代码可读性
@@ -19,15 +26,53 @@ enum LogLevel //枚举类型，一组有名字的整数常量 日志等级增加
     LOG_ERROR
 };
 
+namespace DG1032Spec
+{
+const double MIN_FREQ = 0.001;          // kHz
+const double MAX_FREQ = 30000;
+
+const double MIN_AMP = 0.001;           // V
+const double MAX_AMP = 20.0;
+
+const double MIN_TIME = 0.001;          // s
+const double MAX_TIME = 500.0;
+
+const int MIN_STEP = 2;
+const int MAX_STEP = 65535;
+
+const double MIN_ARB_SAMPLE = 0.001;     // kSa/s
+const double MAX_ARB_SAMPLE = 200000;    // kSa/s
+
+const double MIN_ARB_AMP = 0.001;        // V
+const double MAX_ARB_AMP = 10.0;         // V
+}
+
+namespace Bode100Spec
+{
+    const std::wstring command =
+        L"D:\\software\\Omicorn\\OmicronLab.VectorNetworkAnalysis.ScpiRunner.exe -s LN919Y";
+
+    const double MIN_FREQ = 0.01;
+    const double MAX_FREQ = 40000;
+
+
+}
+
 //编写public函数MainWindow
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    //初始化ui界面，实例化
     ui->setupUi(this);
 
     // 1. 初始化驱动对象，实例化对象？
     rigol = new RigolDriver(this);
+
+    bode = new BodeDrive();
+
+    //初始化菜单连接
+    initMenuConnections();
 
     //Qt 信号槽机制 + Lambda 表达式 将sigLog的信息传递到ui界面的日志中
    connect(rigol, &RigolDriver::sigLog, this, [=](QString msg){
@@ -49,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 在构造函数中对信号源频率范围进行设定
     QDoubleValidator *freqValidator = new QDoubleValidator(0.001, 30000, 6, this);
-    freqValidator->setNotation(QDoubleValidator::StandardNotation);
+    freqValidator->setNotation(QDoubleValidator::ScientificNotation);
 
     ui->editSweepFreqStart->setValidator(freqValidator);
     ui->editSweepFreqEnd->setValidator(freqValidator);
@@ -78,7 +123,7 @@ void MainWindow::appendLog(const QString &msg, int LogLevel)
     QString htmlText = QString("<font color='%1'>%2</font>").arg(color, plainText);
 
     ui->textBrowserLog->append(htmlText);
-
+    ui->textBrowserLog2->append(htmlText);
     // --- 2. 处理文件写入 (File Logic) ---
     // 获取当前程序运行目录下的 Logs 文件夹（避免把根目录弄乱）
     QString logDir = QCoreApplication::applicationDirPath() + "/Logs";
@@ -229,102 +274,464 @@ bool MainWindow::checkInstrument(RigolDriver* dev, QString addr, QString name)
 }
 
 // ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+/// \brief MainWindow::on_btnSweepConfig_clicked
+/// 槽函数仅对逻辑流程进行定义，具体驱动实现与控制再次进行封装
 void MainWindow::on_btnSweepConfig_clicked()
 {
-    QString startStr = ui->editSweepFreqStart->text();
-    QString stopStr  = ui->editSweepFreqEnd->text();
+    double startFreq;
+    double stopFreq;
+    double amplitude;
+    double sweepTime;
+    int stepCount;
 
-    if(startStr.isEmpty() || stopStr.isEmpty())
+    QString errorMsg;
+
+     rigol->sendCmd(":SOUR1:SWE:STAT ON");
+
+    if(!validateSweepConfig(startFreq,stopFreq,amplitude,sweepTime,stepCount,errorMsg))
     {
-        QMessageBox::warning(this,"输入错误","请输入扫频范围！");
+        QMessageBox::warning(this,"输入错误",errorMsg);
         return;
+    }
+
+    rigol->setSweep(startFreq,stopFreq,amplitude,sweepTime,stepCount);
+
+    appendLog("扫频参数配置完成",1);
+}
+
+bool MainWindow::validateSweepConfig(double &startFreq,
+                                     double &stopFreq,
+                                     double &amplitude,
+                                     double &sweepTime,
+                                     int &stepCount,
+                                     QString &errorMsg)
+{
+    QString startStr = ui->editSweepFreqStart->text().trimmed();
+    QString stopStr  = ui->editSweepFreqEnd->text().trimmed();
+    QString ampStr   = ui->spinSweepAmp->text().trimmed();
+    QString timeStr  = ui->spinSweepTime->text().trimmed();
+    QString stepStr  = ui->spinSweepCount->text().trimmed();
+
+    if(startStr.isEmpty() || stopStr.isEmpty()
+        || ampStr.isEmpty() || timeStr.isEmpty() || stepStr.isEmpty())
+    {
+        errorMsg = "所有参数必须填写";
+        return false;
+    }
+
+    bool ok1,ok2,ok3,ok4,ok5;
+
+    startFreq = startStr.toDouble(&ok1);
+    stopFreq  = stopStr.toDouble(&ok2);
+    amplitude = ampStr.toDouble(&ok3);
+    sweepTime = timeStr.toDouble(&ok4);
+    stepCount = stepStr.toInt(&ok5);
+
+    if(!ok1||!ok2||!ok3||!ok4||!ok5)
+    {
+        errorMsg="请输入合法数字";
+        return false;
+    }
+
+    if(startFreq < DG1032Spec::MIN_FREQ || stopFreq > DG1032Spec::MAX_FREQ)
+    {
+        errorMsg="频率范围错误:0.001kHz - 30000kHz";
+        return false;
+    }
+
+    if(startFreq > stopFreq)
+    {
+        errorMsg="起始频率不能大于截止频率";
+        return false;
+    }
+
+    if(amplitude < DG1032Spec::MIN_AMP || amplitude > DG1032Spec::MAX_AMP)
+    {
+        errorMsg="幅度范围:0.001-20Vpp";
+        return false;
+    }
+
+    if(sweepTime < DG1032Spec::MIN_TIME || sweepTime > DG1032Spec::MAX_TIME)
+    {
+        errorMsg="扫频时间范围:0.001-500s";
+        return false;
+    }
+
+    if(stepCount < DG1032Spec::MIN_STEP || stepCount > DG1032Spec::MAX_STEP)
+    {
+        errorMsg="步进数范围:2-65535";
+        return false;
+    }
+
+    return true;
+}
+// ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+// ------------------------------------------------------------------------------------
+
+// ///////////////////////////////////////自定义信号配置页面逻辑实现/////////////////////////
+bool MainWindow::validateArbConfig(QString &filePath,
+                                   double &sampleRate,
+                                   double &amplitude,
+                                   QString &errorMsg)
+{
+    filePath = ui->lineFileName->text().trimmed();
+    QString rateStr = ui->spinArbSampleRate->text().trimmed();
+    QString ampStr  = ui->spinArbAmp->text().trimmed();
+
+    if(filePath.isEmpty())
+    {
+        errorMsg = "请选择波形文件";
+        return false;
+    }
+
+    if(!filePath.endsWith(".raf", Qt::CaseInsensitive))
+    {
+        errorMsg = "波形文件必须为 .raf 格式";
+        return false;
     }
 
     bool ok1, ok2;
 
-    double startFreq = startStr.toDouble(&ok1);
-    double stopFreq  = stopStr.toDouble(&ok2);
+    sampleRate = rateStr.toDouble(&ok1);
+    amplitude  = ampStr.toDouble(&ok2);
 
     if(!ok1 || !ok2)
     {
-        QMessageBox::warning(this,"输入错误","请输入正确的数字！");
-        return;
+        errorMsg = "采样率或幅度输入错误";
+        return false;
     }
 
-    // DG1032 频率范围限制
-    if(startFreq < 0.001 || stopFreq > 30000)
+    if(sampleRate < DG1032Spec::MIN_ARB_SAMPLE ||
+        sampleRate > DG1032Spec::MAX_ARB_SAMPLE)
     {
-        QMessageBox::warning(this,
-                             "超出范围",
-                             "DG1032频率范围为 0.001kHz - 30MHz");
-        return;
+        errorMsg = "采样率范围: 0.001kSa/s - 200000kSa/s";
+        return false;
     }
 
-    // 起始 <= 结束
-    if(startFreq > stopFreq)
+    if(amplitude < DG1032Spec::MIN_ARB_AMP ||
+        amplitude > DG1032Spec::MAX_ARB_AMP)
     {
-        QMessageBox::warning(this,
-                             "逻辑错误",
-                             "起始频率不能大于截止频率！");
+        errorMsg = "幅度范围: 0.001V - 10V";
+        return false;
+    }
+
+    return true;
+}
+
+void MainWindow::on_btnSelectArb_clicked()
+{
+    // 1 打开文件选择框
+    QString filePath = QFileDialog::getOpenFileName(
+        this,
+        "选择ARB波形文件",
+        "",
+        "ARB File (*.raf);;All Files (*)");
+
+    // 2 用户取消
+    if(filePath.isEmpty())
+    {
+        appendLog("用户取消选择ARB文件",0);
         return;
     }
 
-    // // 设置扫频模式
-    // rigol->sendCmd(":SOUR1:SWE:STAT ON");
+    // 3 检查文件是否存在
+    QFileInfo fileInfo(filePath);
 
-    // // 设置起始频率
-    // rigol->sendCmd(QString(":SOUR1:FREQ:STAR %1KHZ").arg(startFreq));
+    if(!fileInfo.exists())
+    {
+        QMessageBox::warning(this,"文件错误","文件不存在");
+        return;
+    }
 
-    // // 设置截止频率
-    // rigol->sendCmd(QString(":SOUR1:FREQ:STOP %1KHZ").arg(stopFreq));
+    // 4 检查文件扩展名
+    if(fileInfo.suffix().toLower() != "raf")
+    {
+        QMessageBox::warning(this,"文件类型错误","请选择 .raf 波形文件");
+        return;
+    }
 
-    // QMessageBox::information(this,"成功","扫频参数设置成功");
+    // 5 保存路径（成员变量）
+    arbFilePath = filePath;
+
+    // 6 UI显示文件名
+    ui->lineFileName->setText(fileInfo.fileName());
+
+    // 7 日志
+    appendLog("ARB文件加载: " + fileInfo.fileName(),1);
 }
 
 
+void MainWindow::on_btnArbConfig_clicked()
+{
+    QString filePath;
+    double sampleRate;
+    double amplitude;
+    QString errorMsg;
 
-// ////////////////////////////////////////自检功能实现/////////////////////////////
-// -------------------------------------------------------------------------------
+    if(!validateArbConfig(filePath,sampleRate,amplitude,errorMsg))
+    {
+        QMessageBox::warning(this,"输入错误",errorMsg);
+        return;
+    }
 
-// // 连接按钮
-// void MainWindow::on_btnConnect_clicked()
-// {
-//     // 获取输入框里的 VISA 地址
-//     QString addr = ui->lineEditDGAddress->text();
+    rigol->setArbWave(filePath,sampleRate,amplitude);
 
-//     if(rigol->connectDevice(addr)) {
-//         // ui->btnConnect1_2->setText("已连接");
+    appendLog("ARB波形配置完成",LOG_INFO);
+}
 
-//         // ui->btnConnect1_2->setEnabled(false);
-//     }
-// }
+// ///////////////////////////////////////自定义信号配置页面逻辑实现/////////////////////////
+// ------------------------------------------------------------------------------------
 
-// //设置幅度按钮
-// void MainWindow::on_btnSetAmp_clicked()
-// {
-//     double vpp = ui->doubleSpinBoxAmp->value();
-//     rigol->setAmplitude(vpp);
-// }
-// // 设置频率按钮
-// void MainWindow::on_btnSetFreq_clicked()
-// {
-//     // 获取 SpinBox 里的数值
-//     double freq = ui->doubleSpinBoxFreq->value();
-//     rigol->setFrequency(freq);
-// }
 
-// // 输出开关按钮 (Checkable Button)
-// void MainWindow::on_btnOutput_toggled(bool checked)
-// {
-//     rigol->setOutputState(checked);
 
-//     if(checked) {
-//         ui->btnOutput_2->setText("Output: ON");
-//         ui->btnOutput->setStyleSheet("background-color: green; color: white;");
-//     } else {
-//         ui->btnOutput->setText("Output: OFF");
-//         ui->btnOutput->setStyleSheet("");
-//     }
-// }
+// ///////////////////////////////////////菜单界面切换按钮////////////////////////////////
+
+//将菜单与界面关联
+void MainWindow::initMenuConnections()
+{
+    connect(ui->menuTxTest, &QMenu::triggered, this, [=](){
+        switchPage(ui->pageTxTest);
+    });
+
+    connect(ui->menuRxTest, &QMenu::triggered, this, [=](){
+        switchPage(ui->pageRxTest);
+    });
+
+    connect(ui->menuDITest, &QMenu::triggered, this, [=](){
+        switchPage(ui->pageDITest);
+    });
+
+    connect(ui->menuImpendanceTest, &QMenu::triggered, this, [=](){
+        switchPage(ui->pageImpendanceTest);
+    });
+
+    connect(ui->menuPCBTest, &QMenu::triggered, this, [=](){
+        switchPage(ui->pagePCBTest);
+    });
+}
+
+
+void MainWindow::switchPage(QWidget *page)
+{
+    if (!page)
+        return;
+
+    ui->stackedMenu->setCurrentWidget(page);
+}
+
+// ///////////////////////////////////////阻抗分析测试配置页面实现////////////////////////
+
+// ///////////////////连接服务器实现/////////////////////
+void MainWindow::on_btnBodeVisaConnect_clicked() 
+{
+    QString ip = ui->editBodeVisa->text().trimmed();
+
+    if (ip.isEmpty())
+    {
+        appendLog("ERROR: IP address is empty.", LOG_ERROR);
+        return;
+    }
+
+    appendLog("Starting SCPI Runner...",LOG_INFO);
+
+    PROCESS_INFORMATION pi{};
+
+    bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
+
+    if (!runnerOK)
+    {
+        appendLog("ERROR: Failed to start SCPI Runner.", LOG_ERROR);
+        return;
+    }
+    
+    appendLog("SCPI Runner started.", LOG_INFO);
+    appendLog("Connecting VISA...", LOG_INFO);
+    
+
+    bool ok = bode->connectVisa(ip);
+
+    if (!ok)
+    {
+        appendLog("ERROR: VISA connection failed.", LOG_ERROR);
+
+        return;
+    }
+    appendLog("VISA connected.", LOG_INFO);
+
+    QString idn = bode->queryIDN();
+    appendLog("Device ID: " + idn, LOG_INFO);
+}
+// ///////////////////连接服务器实现/////////////////////
+// ------------------------------------------------------
+
+// ///////////////////校准实现/////////////////////
+void MainWindow::on_btnOpenCali_clicked()
+{
+
+    if (vi != 0) {
+        // ==========================================
+        // 1. 申请仪器控制权 (加锁)
+        // ==========================================
+        QString lockStatus = bode->queryCommand( ":SYST:LOCK:REQ?\n");
+
+        // 可选：检查是否成功拿到锁（如果返回不是 1 或 OK，说明被别的软件占用了）
+        if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
+            appendLog("获取仪器控制权失败，仪器可能正被官方软件占用！", LOG_ERROR);
+            return; // 拿不到锁就直接退出，不要往下执行了
+        }
+
+        appendLog("成功获取仪器控制权，开始校准...", LOG_INFO);
+
+        // ==========================================
+        // 2. 执行你的正常校准流程 (你原来的代码)
+        // ==========================================
+        QString ope = bode->bodeCalibration(vi, BodeDrive::CalMode::Open);
+        QString ope2 = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
+        QString ope3 = bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
+
+        appendLog("校准指令发送完毕", LOG_INFO);
+        appendLog(ope + ope2 + ope3, LOG_INFO);
+
+        // 假设 bodeCalibrationCom 是你的应用校准/综合处理函数
+        // QString com = bode->bodeCalibrationCom(vi);
+        // appendLog(com, LOG_INFO);
+
+        // ==========================================
+        // 3. 释放仪器控制权 (解锁) - 【非常重要】
+        // ==========================================
+        QString relok = bode->queryCommand( ":SYST:LOCK:REL?\n");
+        appendLog("仪器控制权已释放", LOG_INFO);
+        QString com=bode->bodeCalibrationCom(vi);
+        appendLog(com, LOG_INFO);
+
+    }
+    else {
+        appendLog("句柄无效，开路校准失败", LOG_ERROR);
+    }
+    //if (vi != 0) { // 简单检查句柄是否有效
+
+    //    QString ope=bode->bodeCalibration(vi, BodeDrive::CalMode::Open);
+    //    QString ope2 = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
+    //    QString ope3 = bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
+    //    appendLog("校准成功", LOG_INFO);
+    //    appendLog(ope+ope2+ope3, LOG_INFO);
+    //    QString com=bode->bodeCalibrationCom(vi);
+    //    appendLog(com, LOG_INFO);
+    //}
+    //else {
+    //    appendLog("开路校准失败", LOG_ERROR);
+    //}
+}
+
+
+void MainWindow::on_btnShortCali_clicked()
+{
+    if (vi != 0) { // 简单检查句柄是否有效
+
+        QString shor = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
+        appendLog("短路校准成功", LOG_INFO);
+        appendLog(shor, LOG_INFO);
+    }
+    else {
+        appendLog("短路校准失败", LOG_ERROR);
+    }
+}
+
+void MainWindow::on_btnLoadCali_clicked()
+{
+    if (vi != 0) { // 简单检查句柄是否有效
+
+        QString ss=bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
+        if (ss.trimmed().isEmpty()) {
+            appendLog("ss 是空或全是空格", LOG_INFO);
+        }
+        appendLog("负载校准成功",LOG_INFO);
+        appendLog(ss, LOG_INFO);
+    }
+    else {
+        appendLog("负载校准失败", LOG_ERROR);
+    }
+    QString sss = bode->bodeCalibrationCom(vi);
+    appendLog(sss, LOG_INFO);
+}
+
+// ///////////////////校准实现/////////////////////
+// // ------------------------------------------------------
+// ///////////////////////////////////////阻抗分析测试配置页面实现////////////////////////
+void MainWindow::on_btnStartMeasurement_clicked()
+{
+    if (vi == 0) {
+        appendLog("仪器未连接，请先连接仪器！", LOG_ERROR);
+        return;
+    }
+
+    // ==========================================
+    // 1. 收集 UI 上的用户参数
+    // ==========================================
+    SweepParams params;
+
+    // 因为你是 SpinBox，通过 value() 获取数字，并转换为字符串发给仪器
+    // 假设你的 SpinBox 单位默认是 Hz
+    params.startFreq = QString::number(ui->spinStartFreq->value());
+    params.stopFreq = QString::number(ui->spinStopFreq->value());
+    params.points = ui->spinSweepPoint->value();
+
+    // 判断扫频模式 (假设 ComboBox 第1项是线性，第2项是对数)
+    if (ui->boxSweepMode->currentIndex() == 0) {
+        params.sweepType = "LIN";
+    }
+    else {
+        params.sweepType = "LOG";
+    }
+
+    params.bandwidth = "300Hz"; // 暂时写死，或者你后续也可以加一个控件
+
+    // ==========================================
+    // 2. 锁定界面按钮，防止重复点击
+    // ==========================================
+    ui->btnStartMeasurement->setEnabled(false);
+    appendLog(QString(">>> 开始自动测量 | 范围: %1Hz - %2Hz | 点数: %3")
+        .arg(params.startFreq).arg(params.stopFreq).arg(params.points), LOG_INFO);
+
+    // ==========================================
+    // 3. 开启子线程执行测量 (防卡死)
+    // ==========================================
+    QFuture<void> future = QtConcurrent::run([=]() {
+
+        // 调用底层的测量函数
+        MeasureResult result = bode->performMeasurement(vi, params);
+
+        // ==========================================
+        // 4. 切回主线程更新 UI
+        // ==========================================
+        QMetaObject::invokeMethod(this, [=]() {
+            if (result.success) {
+                appendLog("✅ " + result.message, LOG_INFO);
+
+                // 仅作演示：打印拿到的第一个点的数据，证明数据真的抓回来了
+                if (!result.frequencies.isEmpty()) {
+                    QString pointInfo = QString("样本数据 [1] -> 频率: %1 Hz, 阻抗: %2 欧姆, 相位: %3 度")
+                        .arg(result.frequencies[0])
+                        .arg(result.magnitudes[0])
+                        .arg(result.phases[0]);
+                    appendLog(pointInfo, LOG_INFO);
+                }
+
+                // 【下一步预留位置】
+                // 这里拿到了完整的 result.frequencies, result.magnitudes
+                // 之后你可以把这些数组丢给 QCustomPlot 画出曲线！
+
+            }
+            else {
+                appendLog("❌ " + result.message, LOG_ERROR);
+            }
+
+            // 测量结束，恢复按钮点击功能
+            ui->btnStartMeasurement->setEnabled(true);
+            });
+        });
+}
+
+// -------------------------------------------------------------------------------------------
 
 

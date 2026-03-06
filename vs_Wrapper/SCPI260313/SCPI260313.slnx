@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SCPI260313/SCPI260313.vcxproj" Id="2e6ab9d8-3ab7-40d7-8223-cb9e23e09d39" />
+</Solution>

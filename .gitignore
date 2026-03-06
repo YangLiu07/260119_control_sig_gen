@@ -1,18 +1,46 @@
-# Qt 编译生成的临时文件
+# ==================================
+# Visual Studio & C++ 忽略项
+# ==================================
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.aps
+*.ncb
+*.opendb
+*.db
+*.suo
+*.sdf
+*.ipch
+
+# ==================================
+# 编译生成的中间文件和输出目录
+# ==================================
+Debug/
+Release/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
 *.obj
-*.o
-*.a
-*.lib
 *.exe
 *.dll
+*.lib
+*.pdb
+*.ilk
+*.idb
+*.exp
+*.tlog
+*.lastbuildstate
+*.log
+
+# ==================================
+# Qt 专属忽略项
+# ==================================
+.qmake.stash
 Makefile*
-*.Debug
-*.Release
-debug/
-release/
-
-# Qt Creator 的用户设置
-*.pro.user
-
-# 编译生成的文件夹（影子构建）
-build-*
+# Qt 编译自动生成的代码（可选，视团队习惯而定）
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h

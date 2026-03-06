@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include "rigoldriver.h" // 引入驱动头文件
+#include"bodedrive.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,13 +25,43 @@ private slots:
     void on_logContextMenu(const QPoint &pos); // ✨ 新增：处理右键菜单
     void on_btnSelfTest_clicked(); //自检按键槽函数
     void on_btnSweepConfig_clicked();//扫频配置按键槽函数
+    void on_btnArbConfig_clicked();
+    void on_btnSelectArb_clicked();
+    void switchPage(QWidget *page);
+    void on_btnBodeVisaConnect_clicked();
+    void on_btnOpenCali_clicked();
+
+    void on_btnShortCali_clicked();
+    void appendLog(const QString& msg, int level);//公共增加日志方法；level=0黑色消息，level=1黄色警告，level=2红色错误
+    void on_btnLoadCali_clicked();
+
+    void on_btnStartMeasurement_clicked();
+
+    
+    // 页面切换函数
+    void initMenuConnections();// 初始化菜单连接
+
 
 private:
     Ui::MainWindow *ui;
     RigolDriver *rigol; // 声明驱动对象
-    void appendLog(const QString &msg,int level);//私有增加日志方法；level=0黑色消息，level=1黄色警告，level=2红色错误
+    BodeDrive* bode;
+    QString arbFilePath;     // 保存ARB波形文件路径
+    ViSession vi;
+    
     void cleanOldLogs(const QString &path);
-    bool checkInstrument(RigolDriver* dev, QString addr, QString name);
+    bool checkInstrument(RigolDriver* dev, QString addr, QString name);// 仪器自检函数
+    bool validateSweepConfig(double &startFreq,         //扫频信号输入检测函数
+                             double &stopFreq,
+                             double &amplitude,
+                             double &sweepTime,
+                             int &stepCount,
+                             QString &errorMsg);
+    bool validateArbConfig(QString &filePath,   //自定义信号输入检测函数
+                           double &sampleRate,
+                           double &amplitude,
+                           QString &errorMsg);
+
 
 };
 

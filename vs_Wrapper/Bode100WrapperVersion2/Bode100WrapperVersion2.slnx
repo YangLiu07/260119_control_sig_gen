@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/解决方案项/">
+    <Project Path="../testmeaSurementCode/testmeaSurementCode/testmeaSurementCode.vcxproj" Id="2a6c2c54-c51a-4b05-8d0c-f1c3c0792875" />
+  </Folder>
+  <Project Path="Bode100WrapperVersion2/Bode100WrapperVersion2.vcxproj" />
+</Solution>
