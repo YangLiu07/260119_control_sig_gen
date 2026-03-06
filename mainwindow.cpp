@@ -9,6 +9,9 @@
 #include <QProcess>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QFileDialog>
+
+
 
 
 enum LogLevel //枚举类型，一组有名字的整数常量 日志等级增加代码可读性
@@ -18,6 +21,30 @@ enum LogLevel //枚举类型，一组有名字的整数常量 日志等级增加
     LOG_WARNING,
     LOG_ERROR
 };
+
+namespace DG1032Spec
+{
+const double MIN_FREQ = 0.001;          // kHz
+const double MAX_FREQ = 30000;
+
+const double MIN_AMP = 0.001;           // V
+const double MAX_AMP = 20.0;
+
+const double MIN_TIME = 0.001;          // s
+const double MAX_TIME = 500.0;
+
+const int MIN_STEP = 2;
+const int MAX_STEP = 65535;
+
+// ========================
+// ARB 模式限制
+// ========================
+const double MIN_ARB_SAMPLE = 0.001;     // kSa/s
+const double MAX_ARB_SAMPLE = 200000;    // kSa/s
+
+const double MIN_ARB_AMP = 0.001;        // V
+const double MAX_ARB_AMP = 10.0;         // V
+}
 
 //编写public函数MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -49,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 在构造函数中对信号源频率范围进行设定
     QDoubleValidator *freqValidator = new QDoubleValidator(0.001, 30000, 6, this);
-    freqValidator->setNotation(QDoubleValidator::StandardNotation);
+    freqValidator->setNotation(QDoubleValidator::ScientificNotation);
 
     ui->editSweepFreqStart->setValidator(freqValidator);
     ui->editSweepFreqEnd->setValidator(freqValidator);
@@ -229,58 +256,322 @@ bool MainWindow::checkInstrument(RigolDriver* dev, QString addr, QString name)
 }
 
 // ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+/// \brief MainWindow::on_btnSweepConfig_clicked
+/// 槽函数仅对逻辑流程进行定义，具体驱动实现与控制再次进行封装
 void MainWindow::on_btnSweepConfig_clicked()
 {
-    QString startStr = ui->editSweepFreqStart->text();
-    QString stopStr  = ui->editSweepFreqEnd->text();
+    double startFreq;
+    double stopFreq;
+    double amplitude;
+    double sweepTime;
+    int stepCount;
 
-    if(startStr.isEmpty() || stopStr.isEmpty())
+    QString errorMsg;
+
+     rigol->sendCmd(":SOUR1:SWE:STAT ON");
+
+    if(!validateSweepConfig(startFreq,stopFreq,amplitude,sweepTime,stepCount,errorMsg))
     {
-        QMessageBox::warning(this,"输入错误","请输入扫频范围！");
+        QMessageBox::warning(this,"输入错误",errorMsg);
         return;
+    }
+
+    rigol->setSweep(startFreq,stopFreq,amplitude,sweepTime,stepCount);
+
+    appendLog("扫频参数配置完成",1);
+}
+
+bool MainWindow::validateSweepConfig(double &startFreq,
+                                     double &stopFreq,
+                                     double &amplitude,
+                                     double &sweepTime,
+                                     int &stepCount,
+                                     QString &errorMsg)
+{
+    QString startStr = ui->editSweepFreqStart->text().trimmed();
+    QString stopStr  = ui->editSweepFreqEnd->text().trimmed();
+    QString ampStr   = ui->spinSweepAmp->text().trimmed();
+    QString timeStr  = ui->spinSweepTime->text().trimmed();
+    QString stepStr  = ui->spinSweepCount->text().trimmed();
+
+    if(startStr.isEmpty() || stopStr.isEmpty()
+        || ampStr.isEmpty() || timeStr.isEmpty() || stepStr.isEmpty())
+    {
+        errorMsg = "所有参数必须填写";
+        return false;
+    }
+
+    bool ok1,ok2,ok3,ok4,ok5;
+
+    startFreq = startStr.toDouble(&ok1);
+    stopFreq  = stopStr.toDouble(&ok2);
+    amplitude = ampStr.toDouble(&ok3);
+    sweepTime = timeStr.toDouble(&ok4);
+    stepCount = stepStr.toInt(&ok5);
+
+    if(!ok1||!ok2||!ok3||!ok4||!ok5)
+    {
+        errorMsg="请输入合法数字";
+        return false;
+    }
+
+    if(startFreq < DG1032Spec::MIN_FREQ || stopFreq > DG1032Spec::MAX_FREQ)
+    {
+        errorMsg="频率范围错误:0.001kHz - 30000kHz";
+        return false;
+    }
+
+    if(startFreq > stopFreq)
+    {
+        errorMsg="起始频率不能大于截止频率";
+        return false;
+    }
+
+    if(amplitude < DG1032Spec::MIN_AMP || amplitude > DG1032Spec::MAX_AMP)
+    {
+        errorMsg="幅度范围:0.001-20Vpp";
+        return false;
+    }
+
+    if(sweepTime < DG1032Spec::MIN_TIME || sweepTime > DG1032Spec::MAX_TIME)
+    {
+        errorMsg="扫频时间范围:0.001-500s";
+        return false;
+    }
+
+    if(stepCount < DG1032Spec::MIN_STEP || stepCount > DG1032Spec::MAX_STEP)
+    {
+        errorMsg="步进数范围:2-65535";
+        return false;
+    }
+
+    return true;
+}
+// ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+// ------------------------------------------------------------------------------------
+
+// ///////////////////////////////////////自定义信号配置页面逻辑实现/////////////////////////
+bool MainWindow::validateArbConfig(QString &filePath,
+                                   double &sampleRate,
+                                   double &amplitude,
+                                   QString &errorMsg)
+{
+    filePath = ui->lineFileName->text().trimmed();
+    QString rateStr = ui->spinArbSampleRate->text().trimmed();
+    QString ampStr  = ui->spinArbAmp->text().trimmed();
+
+    if(filePath.isEmpty())
+    {
+        errorMsg = "请选择波形文件";
+        return false;
+    }
+
+    if(!filePath.endsWith(".raf", Qt::CaseInsensitive))
+    {
+        errorMsg = "波形文件必须为 .raf 格式";
+        return false;
     }
 
     bool ok1, ok2;
 
-    double startFreq = startStr.toDouble(&ok1);
-    double stopFreq  = stopStr.toDouble(&ok2);
+    sampleRate = rateStr.toDouble(&ok1);
+    amplitude  = ampStr.toDouble(&ok2);
 
     if(!ok1 || !ok2)
     {
-        QMessageBox::warning(this,"输入错误","请输入正确的数字！");
-        return;
+        errorMsg = "采样率或幅度输入错误";
+        return false;
     }
 
-    // DG1032 频率范围限制
-    if(startFreq < 0.001 || stopFreq > 30000)
+    if(sampleRate < DG1032Spec::MIN_ARB_SAMPLE ||
+        sampleRate > DG1032Spec::MAX_ARB_SAMPLE)
     {
-        QMessageBox::warning(this,
-                             "超出范围",
-                             "DG1032频率范围为 0.001kHz - 30MHz");
-        return;
+        errorMsg = "采样率范围: 0.001kSa/s - 200000kSa/s";
+        return false;
     }
 
-    // 起始 <= 结束
-    if(startFreq > stopFreq)
+    if(amplitude < DG1032Spec::MIN_ARB_AMP ||
+        amplitude > DG1032Spec::MAX_ARB_AMP)
     {
-        QMessageBox::warning(this,
-                             "逻辑错误",
-                             "起始频率不能大于截止频率！");
-        return;
+        errorMsg = "幅度范围: 0.001V - 10V";
+        return false;
     }
 
-    // // 设置扫频模式
-    // rigol->sendCmd(":SOUR1:SWE:STAT ON");
-
-    // // 设置起始频率
-    // rigol->sendCmd(QString(":SOUR1:FREQ:STAR %1KHZ").arg(startFreq));
-
-    // // 设置截止频率
-    // rigol->sendCmd(QString(":SOUR1:FREQ:STOP %1KHZ").arg(stopFreq));
-
-    // QMessageBox::information(this,"成功","扫频参数设置成功");
+    return true;
 }
 
+void MainWindow::on_btnSelectArb_clicked()
+{
+    // 1 打开文件选择框
+    QString filePath = QFileDialog::getOpenFileName(
+        this,
+        "选择ARB波形文件",
+        "",
+        "ARB File (*.raf);;All Files (*)");
+
+    // 2 用户取消
+    if(filePath.isEmpty())
+    {
+        appendLog("用户取消选择ARB文件",0);
+        return;
+    }
+
+    // 3 检查文件是否存在
+    QFileInfo fileInfo(filePath);
+
+    if(!fileInfo.exists())
+    {
+        QMessageBox::warning(this,"文件错误","文件不存在");
+        return;
+    }
+
+    // 4 检查文件扩展名
+    if(fileInfo.suffix().toLower() != "raf")
+    {
+        QMessageBox::warning(this,"文件类型错误","请选择 .raf 波形文件");
+        return;
+    }
+
+    // 5 保存路径（成员变量）
+    arbFilePath = filePath;
+
+    // 6 UI显示文件名
+    ui->lineFileName->setText(fileInfo.fileName());
+
+    // 7 日志
+    appendLog("ARB文件加载: " + fileInfo.fileName(),1);
+}
+
+
+void MainWindow::on_btnArbConfig_clicked()
+{
+    QString filePath;
+    double sampleRate;
+    double amplitude;
+    QString errorMsg;
+
+    if(!validateArbConfig(filePath,sampleRate,amplitude,errorMsg))
+    {
+        QMessageBox::warning(this,"输入错误",errorMsg);
+        return;
+    }
+
+    rigol->setArbWave(filePath,sampleRate,amplitude);
+
+    appendLog("ARB波形配置完成",1);
+}
+
+// ///////////////////////////////////////自定义信号配置页面逻辑实现/////////////////////////
+// ------------------------------------------------------------------------------------
+
+
+
+// ////////////////////////////输入验证函数20260306v1////////////////////////////////
+// bool MainWindow::validateSweepConfig(double &startFreq,
+//                                      double &stopFreq,
+//                                      double &amplitude,
+//                                      double &sweepTime,
+//                                      int &stepCount)
+// {
+//     QString startStr = ui->editSweepFreqStart->text().trimmed();
+//     QString stopStr  = ui->editSweepFreqEnd->text().trimmed();
+//     QString ampStr   = ui->spinSweepAmp->text().trimmed();
+//     QString timeStr  = ui->spinSweepTime->text().trimmed();
+//     QString stepStr  = ui->spinSweepCount->text().trimmed();
+
+//     // 1 输入为空
+//     if(startStr.isEmpty() || stopStr.isEmpty()
+//         || ampStr.isEmpty() || timeStr.isEmpty() || stepStr.isEmpty())
+//     {
+//         QMessageBox::warning(this,"输入错误","所有参数必须填写！");
+//         return false;
+//     }
+
+//     // 2 字符串转数字
+//     bool startOk=false, stopOk=false, ampOk=false, timeOk=false, stepOk=false;
+
+//     startFreq = startStr.toDouble(&startOk);
+//     stopFreq  = stopStr.toDouble(&stopOk);
+//     amplitude = ampStr.toDouble(&ampOk);
+//     sweepTime = timeStr.toDouble(&timeOk);
+//     stepCount = stepStr.toInt(&stepOk);
+
+//     if(!startOk || !stopOk || !ampOk || !timeOk || !stepOk)
+//     {
+//         QMessageBox::warning(this,"输入错误","请输入合法数字！");
+//         return false;
+//     }
+
+//     // ===============================
+//     // 3 频率范围限制
+//     // ===============================
+//     const double MIN_FREQ = 0.001;   // kHz
+//     const double MAX_FREQ = 30000;   // kHz
+
+//     if(startFreq < MIN_FREQ || stopFreq > MAX_FREQ)
+//     {
+//         QMessageBox::warning(this,
+//                              "频率超出范围",
+//                              "DG1032频率范围: 0.001kHz - 30000kHz");
+//         return false;
+//     }
+
+//     // 起始 <= 结束
+//     if(startFreq > stopFreq)
+//     {
+//         QMessageBox::warning(this,
+//                              "逻辑错误",
+//                              "起始频率不能大于截止频率！");
+//         return false;
+//     }
+
+//     // ===============================
+//     // 4 幅度范围限制
+//     // ===============================
+//     const double MIN_AMP = 0.001;   // Vpp
+//     const double MAX_AMP = 20.0;    // Vpp
+
+//     if(amplitude < MIN_AMP || amplitude > MAX_AMP)
+//     {
+//         QMessageBox::warning(this,
+//                              "幅度超出范围",
+//                              "DG1032幅度范围: 0.001 - 20 Vpp");
+//         return false;
+//     }
+
+//     // ===============================
+//     // 5 扫频时间
+//     // ===============================
+//     const double MIN_TIME = 0.001;  // 1ms
+//     const double MAX_TIME = 500.0;  // 500s
+
+//     if(sweepTime < MIN_TIME || sweepTime > MAX_TIME)
+//     {
+//         QMessageBox::warning(this,
+//                              "扫频时间错误",
+//                              "扫频时间范围: 0.001s - 500s");
+//         return false;
+//     }
+
+//     // ===============================
+//     // 6 步进数
+//     // ===============================
+//     const int MIN_STEP = 2;
+//     const int MAX_STEP = 65535;
+
+//     if(stepCount < MIN_STEP || stepCount > MAX_STEP)
+//     {
+//         QMessageBox::warning(this,
+//                              "步进数错误",
+//                              "步进数范围: 2 - 65535");
+//         return false;
+//     }
+
+//     return true;
+// }
+
+// ///////////////////////////////////////扫频信号配置页面逻辑实现/////////////////////////
+// -------------------------------------------------------------------------------------
 
 
 // ////////////////////////////////////////自检功能实现/////////////////////////////

@@ -22,8 +22,22 @@ public:
 
     // --- 核心 SCPI 发送与读取 ---
     bool sendCmd(QString scpi);            // 只发送，不读回 (设置参数用)
+
     QString queryCmd(QString scpi);        // 发送并等待读取 (查询参数用)
-    QString findRigolGen();                    //查找visa设备并将其填入地址
+
+    QString findRigolGen();
+
+    void setSweep(double startFreq,        // 设置扫频参数
+                               double stopFreq,
+                               double amplitude,
+                               double sweepTime,
+                               int stepCount);
+
+    void setArbWave(QString filePath,     //设置自定义信号参数
+                    double sampleRate,
+                    double amplitude);
+
+
 
     // --- 普源信号源专用功能封装 ---
     // 设置通道1频率

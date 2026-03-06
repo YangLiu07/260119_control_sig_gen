@@ -77,7 +77,7 @@
                  <item>
                   <widget class="QLineEdit" name="lineEditDGAddress">
                    <property name="text">
-                    <string>TCPIP0::169.254.96.22::INSTR</string>
+                    <string>TCPIP0::169.254.96.21::INSTR</string>
                    </property>
                   </widget>
                  </item>
@@ -406,7 +406,11 @@
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QDoubleSpinBox" name="spinSweepAmp"/>
+                    <widget class="QDoubleSpinBox" name="spinSweepAmp">
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <widget class="QLabel" name="labelAmpUnit">
@@ -446,6 +450,9 @@
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -551,14 +558,14 @@
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_18">
                     <item>
-                     <widget class="QLabel" name="label_31">
+                     <widget class="QLabel" name="labelWaveFile">
                       <property name="text">
                        <string>波形文件：</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_2">
+                     <widget class="QLineEdit" name="lineFileName">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -574,7 +581,7 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pushButton_2">
+                     <widget class="QPushButton" name="btnSelectArb">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -604,14 +611,14 @@
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_19">
                     <item>
-                     <widget class="QLabel" name="label_9">
+                     <widget class="QLabel" name="labelArbSampleRate">
                       <property name="text">
                        <string>采样率（kHz）</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QDoubleSpinBox" name="doubleSpinBoxFreq_7">
+                     <widget class="QDoubleSpinBox" name="spinArbSampleRate">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -654,14 +661,14 @@
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_20">
                     <item>
-                     <widget class="QLabel" name="label_8">
+                     <widget class="QLabel" name="labelArbAmp">
                       <property name="text">
                        <string>幅 度（V）</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QDoubleSpinBox" name="doubleSpinBoxFreq_8">
+                     <widget class="QDoubleSpinBox" name="spinArbAmp">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -701,7 +708,7 @@
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pushButton_3">
+                     <widget class="QPushButton" name="btnArbConfig">
                       <property name="text">
                        <string>配置</string>
                       </property>

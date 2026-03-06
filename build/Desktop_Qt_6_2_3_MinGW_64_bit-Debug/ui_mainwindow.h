@@ -112,22 +112,22 @@ public:
     QHBoxLayout *horizontalLayout_21;
     QSpacerItem *verticalSpacer_3;
     QHBoxLayout *horizontalLayout_18;
-    QLabel *label_31;
-    QLineEdit *lineEdit_2;
-    QPushButton *pushButton_2;
+    QLabel *labelWaveFile;
+    QLineEdit *lineFileName;
+    QPushButton *btnSelectArb;
     QSpacerItem *verticalSpacer_2;
     QHBoxLayout *horizontalLayout_19;
-    QLabel *label_9;
-    QDoubleSpinBox *doubleSpinBoxFreq_7;
+    QLabel *labelArbSampleRate;
+    QDoubleSpinBox *spinArbSampleRate;
     QSpacerItem *horizontalSpacer_7;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_20;
-    QLabel *label_8;
-    QDoubleSpinBox *doubleSpinBoxFreq_8;
+    QLabel *labelArbAmp;
+    QDoubleSpinBox *spinArbAmp;
     QSpacerItem *horizontalSpacer_8;
     QHBoxLayout *horizontalLayout_22;
     QSpacerItem *horizontalSpacer_6;
-    QPushButton *pushButton_3;
+    QPushButton *btnArbConfig;
     QGroupBox *groupBox_13;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_9;
@@ -424,6 +424,7 @@ public:
 
         spinSweepAmp = new QDoubleSpinBox(layoutWidget);
         spinSweepAmp->setObjectName(QString::fromUtf8("spinSweepAmp"));
+        spinSweepAmp->setValue(1.000000000000000);
 
         horizontalLayout_15->addWidget(spinSweepAmp);
 
@@ -453,6 +454,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(spinSweepTime->sizePolicy().hasHeightForWidth());
         spinSweepTime->setSizePolicy(sizePolicy2);
+        spinSweepTime->setValue(1.000000000000000);
 
         horizontalLayout_16->addWidget(spinSweepTime);
 
@@ -519,25 +521,25 @@ public:
 
         horizontalLayout_18 = new QHBoxLayout();
         horizontalLayout_18->setObjectName(QString::fromUtf8("horizontalLayout_18"));
-        label_31 = new QLabel(page_4);
-        label_31->setObjectName(QString::fromUtf8("label_31"));
+        labelWaveFile = new QLabel(page_4);
+        labelWaveFile->setObjectName(QString::fromUtf8("labelWaveFile"));
 
-        horizontalLayout_18->addWidget(label_31);
+        horizontalLayout_18->addWidget(labelWaveFile);
 
-        lineEdit_2 = new QLineEdit(page_4);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-        sizePolicy.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
-        lineEdit_2->setSizePolicy(sizePolicy);
-        lineEdit_2->setReadOnly(true);
+        lineFileName = new QLineEdit(page_4);
+        lineFileName->setObjectName(QString::fromUtf8("lineFileName"));
+        sizePolicy.setHeightForWidth(lineFileName->sizePolicy().hasHeightForWidth());
+        lineFileName->setSizePolicy(sizePolicy);
+        lineFileName->setReadOnly(true);
 
-        horizontalLayout_18->addWidget(lineEdit_2);
+        horizontalLayout_18->addWidget(lineFileName);
 
-        pushButton_2 = new QPushButton(page_4);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        sizePolicy.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy);
+        btnSelectArb = new QPushButton(page_4);
+        btnSelectArb->setObjectName(QString::fromUtf8("btnSelectArb"));
+        sizePolicy.setHeightForWidth(btnSelectArb->sizePolicy().hasHeightForWidth());
+        btnSelectArb->setSizePolicy(sizePolicy);
 
-        horizontalLayout_18->addWidget(pushButton_2);
+        horizontalLayout_18->addWidget(btnSelectArb);
 
 
         verticalLayout_7->addLayout(horizontalLayout_18);
@@ -548,18 +550,18 @@ public:
 
         horizontalLayout_19 = new QHBoxLayout();
         horizontalLayout_19->setObjectName(QString::fromUtf8("horizontalLayout_19"));
-        label_9 = new QLabel(page_4);
-        label_9->setObjectName(QString::fromUtf8("label_9"));
+        labelArbSampleRate = new QLabel(page_4);
+        labelArbSampleRate->setObjectName(QString::fromUtf8("labelArbSampleRate"));
 
-        horizontalLayout_19->addWidget(label_9);
+        horizontalLayout_19->addWidget(labelArbSampleRate);
 
-        doubleSpinBoxFreq_7 = new QDoubleSpinBox(page_4);
-        doubleSpinBoxFreq_7->setObjectName(QString::fromUtf8("doubleSpinBoxFreq_7"));
-        sizePolicy.setHeightForWidth(doubleSpinBoxFreq_7->sizePolicy().hasHeightForWidth());
-        doubleSpinBoxFreq_7->setSizePolicy(sizePolicy);
-        doubleSpinBoxFreq_7->setDecimals(0);
+        spinArbSampleRate = new QDoubleSpinBox(page_4);
+        spinArbSampleRate->setObjectName(QString::fromUtf8("spinArbSampleRate"));
+        sizePolicy.setHeightForWidth(spinArbSampleRate->sizePolicy().hasHeightForWidth());
+        spinArbSampleRate->setSizePolicy(sizePolicy);
+        spinArbSampleRate->setDecimals(0);
 
-        horizontalLayout_19->addWidget(doubleSpinBoxFreq_7);
+        horizontalLayout_19->addWidget(spinArbSampleRate);
 
         horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -574,17 +576,17 @@ public:
 
         horizontalLayout_20 = new QHBoxLayout();
         horizontalLayout_20->setObjectName(QString::fromUtf8("horizontalLayout_20"));
-        label_8 = new QLabel(page_4);
-        label_8->setObjectName(QString::fromUtf8("label_8"));
+        labelArbAmp = new QLabel(page_4);
+        labelArbAmp->setObjectName(QString::fromUtf8("labelArbAmp"));
 
-        horizontalLayout_20->addWidget(label_8);
+        horizontalLayout_20->addWidget(labelArbAmp);
 
-        doubleSpinBoxFreq_8 = new QDoubleSpinBox(page_4);
-        doubleSpinBoxFreq_8->setObjectName(QString::fromUtf8("doubleSpinBoxFreq_8"));
-        sizePolicy.setHeightForWidth(doubleSpinBoxFreq_8->sizePolicy().hasHeightForWidth());
-        doubleSpinBoxFreq_8->setSizePolicy(sizePolicy);
+        spinArbAmp = new QDoubleSpinBox(page_4);
+        spinArbAmp->setObjectName(QString::fromUtf8("spinArbAmp"));
+        sizePolicy.setHeightForWidth(spinArbAmp->sizePolicy().hasHeightForWidth());
+        spinArbAmp->setSizePolicy(sizePolicy);
 
-        horizontalLayout_20->addWidget(doubleSpinBoxFreq_8);
+        horizontalLayout_20->addWidget(spinArbAmp);
 
         horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -599,10 +601,10 @@ public:
 
         horizontalLayout_22->addItem(horizontalSpacer_6);
 
-        pushButton_3 = new QPushButton(page_4);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        btnArbConfig = new QPushButton(page_4);
+        btnArbConfig->setObjectName(QString::fromUtf8("btnArbConfig"));
 
-        horizontalLayout_22->addWidget(pushButton_3);
+        horizontalLayout_22->addWidget(btnArbConfig);
 
 
         verticalLayout_7->addLayout(horizontalLayout_22);
@@ -843,7 +845,7 @@ public:
         actionexpOutput->setText(QCoreApplication::translate("MainWindow", "expOutput", nullptr));
         groupBox_11->setTitle(QCoreApplication::translate("MainWindow", "\344\273\252\345\231\250\350\207\252\346\243\200", nullptr));
         label_25->setText(QCoreApplication::translate("MainWindow", "\344\277\241\345\217\267\346\272\220VISA\345\234\260\345\235\200\357\274\232", nullptr));
-        lineEditDGAddress->setText(QCoreApplication::translate("MainWindow", "TCPIP0::169.254.96.22::INSTR", nullptr));
+        lineEditDGAddress->setText(QCoreApplication::translate("MainWindow", "TCPIP0::169.254.96.21::INSTR", nullptr));
         label_26->setText(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\351\207\207\351\233\206\344\273\252VISA\345\234\260\345\235\200\357\274\232", nullptr));
         lineEditMRAddress->setText(QCoreApplication::translate("MainWindow", "TCPIP0::169.254.96.21::INSTR", nullptr));
         label_27->setText(QCoreApplication::translate("MainWindow", "\350\241\214\350\275\246IP\345\234\260\345\235\200\357\274\232", nullptr));
@@ -871,12 +873,12 @@ public:
         labelSweepCount->setText(QCoreApplication::translate("MainWindow", "\346\255\245\350\277\233\346\225\260\357\274\232", nullptr));
         btnAdvanced->setText(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\350\256\276\347\275\256", nullptr));
         btnSweepConfig->setText(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256", nullptr));
-        label_31->setText(QCoreApplication::translate("MainWindow", "\346\263\242\345\275\242\346\226\207\344\273\266\357\274\232", nullptr));
-        lineEdit_2->setText(QCoreApplication::translate("MainWindow", "\346\234\252\351\200\211\346\213\251\346\226\207\344\273\266", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "\351\207\207\346\240\267\347\216\207\357\274\210kHz\357\274\211", nullptr));
-        label_8->setText(QCoreApplication::translate("MainWindow", "\345\271\205 \345\272\246\357\274\210V\357\274\211", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256", nullptr));
+        labelWaveFile->setText(QCoreApplication::translate("MainWindow", "\346\263\242\345\275\242\346\226\207\344\273\266\357\274\232", nullptr));
+        lineFileName->setText(QCoreApplication::translate("MainWindow", "\346\234\252\351\200\211\346\213\251\346\226\207\344\273\266", nullptr));
+        btnSelectArb->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
+        labelArbSampleRate->setText(QCoreApplication::translate("MainWindow", "\351\207\207\346\240\267\347\216\207\357\274\210kHz\357\274\211", nullptr));
+        labelArbAmp->setText(QCoreApplication::translate("MainWindow", "\345\271\205 \345\272\246\357\274\210V\357\274\211", nullptr));
+        btnArbConfig->setText(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256", nullptr));
         groupBox_13->setTitle(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\351\207\207\351\233\206\344\273\252", nullptr));
         label_32->setText(QCoreApplication::translate("MainWindow", "\351\207\207\346\240\267\347\216\207\357\274\232", nullptr));
         comboBox_9->setItemText(0, QCoreApplication::translate("MainWindow", "\351\200\232\351\201\223A\347\273\204", nullptr));
