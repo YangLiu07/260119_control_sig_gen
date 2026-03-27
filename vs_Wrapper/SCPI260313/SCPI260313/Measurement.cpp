@@ -431,15 +431,15 @@ int main() {
      * 配置频率扫描参数
      ******************************************************/
 
-    sendCommand(vi, ":SENS:FREQ:STAR" + startfreq + "\n");
+    sendCommand(vi, ":SENS:FREQ:STAR " + startfreq + "\n");
 
-    sendCommand(vi, ":SENS:FREQ:STOP" + stopfreq + "\n");
+    sendCommand(vi, ":SENS:FREQ:STOP " + stopfreq + "\n");
 
     sendCommand(vi, ":SENS:SWE:POIN " + to_string(numOfPoints) + "\n");
 
     sendCommand(vi, ":SENS:SWE:TYPE LOG\n");
 
-    sendCommand(vi, ":SENS:BAND" + bandwidth + "\n");
+    sendCommand(vi, ":SENS:BAND " + bandwidth + "\n");
 
     checkError(vi, "After freq definition:");
 

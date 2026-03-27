@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Measurement/Measurement.vcxproj" />
+  <Project Path="Measurement/Measurement.vcxproj" Id="164381d9-3f97-4b6f-89de-ae2dfc9386af" />
 </Solution>

@@ -1342,6 +1342,9 @@
           <height>22</height>
          </rect>
         </property>
+        <property name="value">
+         <number>10</number>
+        </property>
        </widget>
        <widget class="QSpinBox" name="spinStartFreq">
         <property name="geometry">
@@ -1352,6 +1355,9 @@
           <height>22</height>
          </rect>
         </property>
+        <property name="value">
+         <number>10</number>
+        </property>
        </widget>
        <widget class="QSpinBox" name="spinStopFreq">
         <property name="geometry">
@@ -1361,6 +1367,9 @@
           <width>42</width>
           <height>22</height>
          </rect>
+        </property>
+        <property name="value">
+         <number>20</number>
         </property>
        </widget>
        <widget class="QComboBox" name="boxSweepMode">

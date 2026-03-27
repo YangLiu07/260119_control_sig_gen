@@ -70,6 +70,10 @@ MainWindow::MainWindow(QWidget *parent)
     rigol = new RigolDriver(this);
 
     bode = new BodeDrive();
+    bode->setLogHandler([this](const QString& msg) {
+        this->appendLog(msg,LOG_INFO);
+        });
+    //connect(bode, &BodeDrive::logAvailable, this, &MainWindow::appendLog);
 
     //初始化菜单连接
     initMenuConnections();
@@ -104,8 +108,21 @@ MainWindow::MainWindow(QWidget *parent)
 //析构函数
 MainWindow::~MainWindow()
 {
+    if (bode) {
+        // 第一步：初始化/复位设备（发送 SCPI 命令）
+        // 建议在断开前发送，因为断开后就发不了了
+        bode->sendCommand(vi,"* RST\n");
+
+        // 第二步：关闭 VISA 会话 (viClose)
+        bode->disconnect();
+
+        // 第三步：强制杀掉服务器进程并清空句柄
+        bode->stopScpiRunner();
+
+        delete bode;
+        bode = nullptr;
+    }
     delete ui;
-    // rigol 对象会随父对象自动析构，也会自动断开连接
 }
 
 // /////////////////////////////////////////日志管理////////////////////////////
@@ -537,7 +554,7 @@ void MainWindow::on_btnBodeVisaConnect_clicked()
     PROCESS_INFORMATION pi{};
 
     bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
-
+    QThread::msleep(1500);
     if (!runnerOK)
     {
         appendLog("ERROR: Failed to start SCPI Runner.", LOG_ERROR);
@@ -558,7 +575,8 @@ void MainWindow::on_btnBodeVisaConnect_clicked()
     }
     appendLog("VISA connected.", LOG_INFO);
 
-    QString idn = bode->queryIDN();
+    QString idn = bode->queryCommandv3("*IDN?\n");
+    //QString idn = bode->queryIDN();
     appendLog("Device ID: " + idn, LOG_INFO);
 }
 // ///////////////////连接服务器实现/////////////////////
@@ -572,7 +590,7 @@ void MainWindow::on_btnOpenCali_clicked()
         // ==========================================
         // 1. 申请仪器控制权 (加锁)
         // ==========================================
-        QString lockStatus = bode->queryCommand( ":SYST:LOCK:REQ?\n");
+        QString lockStatus = bode->queryCommand( vi,":SYST:LOCK:REQ?\n");
 
         // 可选：检查是否成功拿到锁（如果返回不是 1 或 OK，说明被别的软件占用了）
         if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
@@ -599,7 +617,7 @@ void MainWindow::on_btnOpenCali_clicked()
         // ==========================================
         // 3. 释放仪器控制权 (解锁) - 【非常重要】
         // ==========================================
-        QString relok = bode->queryCommand( ":SYST:LOCK:REL?\n");
+        QString relok = bode->queryCommand(vi, ":SYST:LOCK:REL?\n");
         appendLog("仪器控制权已释放", LOG_INFO);
         QString com=bode->bodeCalibrationCom(vi);
         appendLog(com, LOG_INFO);
@@ -626,6 +644,7 @@ void MainWindow::on_btnOpenCali_clicked()
 
 void MainWindow::on_btnShortCali_clicked()
 {
+
     if (vi != 0) { // 简单检查句柄是否有效
 
         QString shor = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
@@ -672,8 +691,8 @@ void MainWindow::on_btnStartMeasurement_clicked()
 
     // 因为你是 SpinBox，通过 value() 获取数字，并转换为字符串发给仪器
     // 假设你的 SpinBox 单位默认是 Hz
-    params.startFreq = QString::number(ui->spinStartFreq->value());
-    params.stopFreq = QString::number(ui->spinStopFreq->value());
+    params.startFreq = std::to_string(ui->spinStartFreq->value());
+    params.stopFreq = std::to_string(ui->spinStopFreq->value());
     params.points = ui->spinSweepPoint->value();
 
     // 判断扫频模式 (假设 ComboBox 第1项是线性，第2项是对数)
@@ -691,7 +710,7 @@ void MainWindow::on_btnStartMeasurement_clicked()
     // ==========================================
     ui->btnStartMeasurement->setEnabled(false);
     appendLog(QString(">>> 开始自动测量 | 范围: %1Hz - %2Hz | 点数: %3")
-        .arg(params.startFreq).arg(params.stopFreq).arg(params.points), LOG_INFO);
+        .arg(QString::fromStdString(params.startFreq)).arg(QString::fromStdString(params.stopFreq)).arg(QString::number(params.points)), LOG_INFO);
 
     // ==========================================
     // 3. 开启子线程执行测量 (防卡死)
@@ -709,7 +728,7 @@ void MainWindow::on_btnStartMeasurement_clicked()
                 appendLog("✅ " + result.message, LOG_INFO);
 
                 // 仅作演示：打印拿到的第一个点的数据，证明数据真的抓回来了
-                if (!result.frequencies.isEmpty()) {
+                if (!result.frequencies.empty()) {
                     QString pointInfo = QString("样本数据 [1] -> 频率: %1 Hz, 阻抗: %2 欧姆, 相位: %3 度")
                         .arg(result.frequencies[0])
                         .arg(result.magnitudes[0])
