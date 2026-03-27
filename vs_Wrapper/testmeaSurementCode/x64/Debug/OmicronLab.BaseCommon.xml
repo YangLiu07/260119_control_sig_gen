@@ -1,0 +1,1654 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.BaseCommon</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.BaseCommon.BackgroundTaskIdentifier">
+            <summary>Identifies an async task running in the background.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.BackgroundTaskIdentifier.MethodName">
+            <summary>Gets the name of the method the task is executing.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.BackgroundTaskIdentifier.TaskRunner">
+            <summary>Gets the task runner, which is executing the async method.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskIdentifier.#ctor(System.Object,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.BaseCommon.BackgroundTaskIdentifier"/> class.</summary>
+            <param name="taskRunner">The task runner executing the async method.</param>
+            <param name="methodName">Name of the method the task is executing.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.BackgroundTaskTokenSource">
+            <summary>Extended cancellation token source, which is able to monitor background tasks.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.BackgroundTaskTokenSource.IsCancellationRequested">
+            <summary>Gets a value indicating whether cancellation has been requested for this System.Threading.CancellationTokenSource.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Token">
+            <summary>Gets the System.Threading.CancellationToken associated with this System.Threading.CancellationTokenSource.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.BackgroundTaskTokenSource.BackgroundOperationNotCompletedFunc">
+            <summary>Gets the function which is called when a background operation did not complete.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.#ctor(System.Action{System.Runtime.ExceptionServices.ExceptionDispatchInfo})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.BaseCommon.BackgroundTaskTokenSource" /> class.</summary>
+            <param name="backgroundOperationNotCompletedFunc">The function which is called when a background operation did not complete.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.RegisterBackgroundTask(System.Object,System.String)">
+            <summary>Registers a background task.</summary>
+            <param name="runner">The runner, which executes the task.</param>
+            <param name="method">The method, which started the task.</param>
+            <returns>The id of the background task (needed for marking the task completed).</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.CompleteBackgroundTask(System.Int32)">
+            <summary>Marks a background task as completed.</summary>
+            <param name="id">The task id.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Reset">
+            <summary>Resets this token source.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.ResetCancel">
+            <summary>Resets a pending cancellation if there is one pending.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Cancel">
+            <summary>Communicates a request for cancellation. Synchronously waits for all background tasks to complete.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Cancel(System.Boolean)">
+            <summary>Communicates a request for cancellation, and specifies whether remaining
+            callbacks and cancelable operations should be processed.</summary>
+            <param name="throwOnFirstException"><c>true</c> if exceptions should immediately propagate; otherwise, <c>false</c>.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.CancelAfter(System.Int32)">
+            <summary>Schedules a cancel operation on this System.Threading.CancellationTokenSource after the specified number of milliseconds.</summary>
+            <param name="millisecondsDelay">The time span to wait before canceling this System.Threading.CancellationTokenSource.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.CancelAfter(System.TimeSpan)">
+            <summary>Schedules a cancel operation on this System.Threading.CancellationTokenSource after the specified time span.</summary>
+            <param name="delay">The time span to wait before canceling this System.Threading.CancellationTokenSource.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundTaskTokenSource.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.BackgroundOperationNotCompleteException">
+            <summary>Exception thrown when background tasks did not complete.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.BackgroundOperationNotCompleteException.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.BaseCommon.BackgroundOperationNotCompleteException"/> class.</summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Bode500ProcessNames">
+            <summary>Values that represent omicron lab process names.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.ProcessWatcher">
+            <summary>(Immutable) the process watcher process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.SystemConfiguration">
+            <summary>(Immutable) the system configuration process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.UpdateWatcher">
+            <summary>(Immutable) the update watcher process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.ScpiRunner">
+            <summary>(Immutable) the scpi runner process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.WebInterface">
+            <summary>(Immutable) the web interface process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.ManagementHost">
+            <summary>(Immutable) the management host process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.MeasurementHost">
+            <summary>(Immutable) the measurement host process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.FactoryResetHandler">
+            <summary>(Immutable) the factory reset handler process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.BoardInit">
+            <summary>(Immutable) the board initialize process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.Rauc">
+            <summary>(Immutable) the rauc service process name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Bode500ProcessNames.LogBackup">
+            <summary>(Immutable) the log backup.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonBode100R1Definitions">
+            <summary>Common definitions used throughout the engine and mid-layer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.DefaultUsbDelay">
+            <summary>The default USB delay. This is the time waited between USB commands.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.ExtendedUsbDelay">
+            <summary>The extended USB delay. This is the time waited before e.g. read commands.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.DefaultUsbReconnectDelay">
+            <summary>The default USB reconnect delay. This is the time waited for a reconnected device after programming.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MaxInputPipeTransferSize">
+            <summary>The configuration transfer size.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.EEPROMSize">
+            <summary>The EEPROM size.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.CheckFirmwareDownload">
+            <summary>The check firmware download after the download is complete.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MinFrequency">
+            <summary>The minimum frequency of Bode 100 R1.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MaxFrequency">
+            <summary>The maximum frequency of Bode 100 R1.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.OutputLevelMin">
+            <summary>The minimum output level in dBm.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MinCommandTimeR1">
+            <summary>The minimum length of a command for the old HW.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MaxCommandTime">
+            <summary>The maximum valid command time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.IntermediateFrequencyLow">
+            <summary>The lower intermediate frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.IntermediateFrequencyMedium">
+            <summary>The medium intermediate frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.IntermediateFrequencyHigh">
+            <summary>The higher intermediate frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.SwitchOverFrequencyLow">
+            <summary>The switch over frequency from AF- RF mode for the low IF. Exactly at that frequency AF mode is used.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.SwitchOverFrequencyMedium">
+            <summary>The switch over frequency from AF->RF mode for the medium IF. Exactly at that frequency AF mode is used.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.SwitchOverFrequencyHigh">
+            <summary>The switch over frequency from AF->RF mode for the high IF. Exactly at that frequency AF mode is used.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MaxAFFrequency">
+            <summary>The maximum frequency for AF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MinRFFrequency">
+            <summary>The minimum frequency for RF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R1Definitions.MaxSwitchoverRangeBandwidth">
+            <summary>The maximum bandwidth in the switch-over range in Milli Hz.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonBode100R2Definitions">
+            <summary>Common definitions for Bode 100 Revision 2 used throughout the engine and mid-layer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.CalibrationBufferSize">
+            <summary>The calibration buffer size in bytes.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.MaxCommandTime">
+            <summary>The maximum valid command time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.IntermediateFrequency">
+            <summary>The intermediate frequency IF 10K.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.MaxAFFrequency">
+            <summary>The maximum frequency for AF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.MinRFFrequency">
+            <summary>The minimum frequency for RF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode100R2Definitions.MaxSwitchoverRangeBandwidth">
+            <summary>The maximum bandwidth in the switch-over range.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonBode500Definitions">
+            <summary>Common definitions for the Bode 500.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.Bode500DeviceType">
+            <summary>(Immutable) type of the bode 500 device.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MinimalBode500FirmwareVersion">
+            <summary>The minimal Bode 500 firmware version required to connect to the current BAS.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MinimalBASVersion">
+            <summary>The minimal BAS version which is compatible with this device.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.DefaultPort">
+            <summary>Gets the default port of the management host.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.LowerTempSensor1Limit">
+            <summary>The lower temporary sensor1 limit.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.LowerTempSensor2Limit">
+            <summary>The lower temporary sensor2 limit.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.UpperTempSensor1Limit">
+            <summary>The upper temporary sensor1 limit.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.UpperTempSensor2Limit">
+            <summary>The upper temporary sensor2 limit.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.CalibrationBufferSize">
+            <summary>Gets the calibration buffer size in bytes.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MinCommandTime">
+            <summary>Gets the minimum length of a command.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MaxCommandTime">
+            <summary>Gets the maximum execution time (i.e. ADC cycles) supported by this command.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MeasurementBlockSize">
+            <summary>Gets the size of a measurement block.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MeasurementDataReadBufferSize">
+            <summary>Gets the size of a measurement data read buffer size.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.IntermediateFrequency">
+            <summary>The intermediate frequency fIF.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.UsbPdChipNvMemorySize">
+            <summary>The size of the USB pd chip nv memory in bytes.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.PathSwitchSettlingTime">
+            <summary>The path switch settling time in milliseconds needed due to the gate-lag in the RF-switches CHx_RFLIN and IMP_ON/IMP_REF_ON.</summary>
+            <remarks>50 ms was detected by trial-and-error to be a good value to prevent peaks during sweeps. PIO tests this value to be sufficient.</remarks>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.GetStatusCommandSize">
+            <summary>The get-status command size.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MeasurementQueueSize">
+            <summary>The measurement queue size.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MeasurementQueueCommandType">
+            <summary>The measurement queue command type.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.TempSensorI2CBusId">
+            <summary>The temporary sensor i2c bus identifier (new RTC - RV8803).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.TempSensorI2CDeviceAddress">
+            <summary>The temporary sensor i2c device address (new RTC - RV8803).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NtpSynchronizationTimeout">
+            <summary>The NTP synchronization timeout.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.OmicronNtpServer">
+            <summary>The omicron NTP server connection string. ONLY FOR INTERNAL/DEBUG USE.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.DateToCompare">
+            <summary>The date to check if RTC and System time is OK. Start/Init date of RTC.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.FreeSpaceLimit">
+            <summary>(Immutable) The limit of free space to start restricting some actions or performing cleanups.</summary>
+            <remarks>E.g. clean up old hosts or prevent SCPI calibration files from being saved if less than 256 MB available.</remarks>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.MaxCachedHosts">
+            <summary>(Immutable) the maximum cached hosts.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SerialNumberPcrValue">
+            <summary>The PCR value required to read the serial number .</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SerialNumberNvDataLength">
+            <summary>The serial number nv data length.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SerialNumberNvIndex">
+            <summary>The NV index of the TPM to read the serial number.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SerialNumberNvSize">
+            <summary>The size of the serial number stored in the NV index in the TPM.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SerialNumberPcrIndex">
+            <summary>The PCR index used to read the serial number.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.InitializationSerialNumber">
+            <summary>(Immutable) the initialization serial number.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.InitializationBoardSerialNumber">
+            <summary>(Immutable) the initialization board serial number.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.BoardSerialNumberFile">
+            <summary>(Immutable) the board serial number file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.ProductionDatePcrIndex">
+            <summary>(Immutable) zero-based index of the production date PCR.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.ProductionDateNvIndex">
+            <summary>(Immutable) zero-based index of the production date NV space.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.ProductionDateNvSize">
+            <summary>The size of the production date stored in the NV index in the TPM.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.DeviceKeyPersistentIndex">
+            <summary>Persistent index of the device private ECC key.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoWatchdogFile">
+            <summary>If this file exist the processWatcher does not start the watchdog.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoProcessWatcherFile">
+            <summary>If this file exist the processWatcher does not start - AND NONE of the other process start by the processWatcher.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoWebInterfaceFile">
+            <summary>If this file exist the processWatcher does not start the webInterface.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoManagementHostFile">
+            <summary>If this file exist the processWatcher does not start the consoleCore.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoFactoryResetHandlerFile">
+            <summary>If this file exist the processWatcher does not start the factoryResetHandlerService.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoSystemConfigurationFile">
+            <summary>If this file exist the processWatcher does not start the system configuration service.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoUpdateWatcherFile">
+            <summary>(Immutable) If this file exist the processWatcher does not start the update watcher service.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoScpiRunnerFile">
+            <summary>(Immutable) the no scpi runner file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.NoLogBackupFile">
+            <summary>(Immutable) the no log backup file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RunDemoConsoleServiceFile">
+            <summary>If this file exist the processWatcher starts the demoConsoleService.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RunOneTimeDemoConsoleServiceFile">
+            <summary>If this file exist the processWatcher starts the oneTimeDemoConsoleService.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SystemLogFileNameLogViewer">
+            <summary>(Immutable) the system log file name for the log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SystemErrorLogFileNameLogViewer">
+            <summary>(Immutable) the system error log file name for the log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.BoardInitResultsFileNameLogViewerPart1">
+            <summary>(Immutable) the first board initialize results file name log viewer part.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.BoardInitResultsFileNameLogViewerPart2">
+            <summary>(Immutable) the second board initialize results file name log viewer part.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RemoteMeasurementFileNameLogViewer">
+            <summary>(Immutable) the remote measurement file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.LocalMeasurementFileNameLogViewer">
+            <summary>(Immutable) the local measurement file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.WebInterfaceFileNameLogViewer">
+            <summary>(Immutable) the web interface file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SystemConfigurationFileNameLogViewer">
+            <summary>(Immutable) the system configuration file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.ProcessWatcherFileNameLogViewer">
+            <summary>(Immutable) the process watcher file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.ManagementHostFileNameLogViewer">
+            <summary>(Immutable) the management host file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.LogBackupFileNameLogViewer">
+            <summary>(Immutable) the log backup file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.UpdateWatcherFileNameLogViewer">
+            <summary>(Immutable) the update watcher file name log viewer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.UdhcpCompareString">
+            <summary>(Immutable) the udhcp compare string.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucNotFound">
+            <summary>The rauc not found.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucAppFs0">
+            <summary>The rauc application file system 0.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucAppFs1">
+            <summary>The first rauc application file system.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucBundleVersion">
+            <summary>The rauc bundle version.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucBootedMarker">
+            <summary>The rauc booted marker.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucInstallationTimestamp">
+            <summary>The slot installation timestamp marker.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.RaucSlotstate">
+            <summary>The slot installation timestamp marker.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.BlazoriseProductToken">
+            <summary>The blazorise product token.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBode500Definitions.SshCertificateCaPublicKeyFile">
+            <summary>The path to the CA public key which created SSH certificates to access the device.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonBodeDefinitions">
+            <summary>Common definitions used throughout the programs.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.InternalDeviceCalibrationVersion">
+            <summary>The internal device calibrations version.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogOutputToConsole">
+            <summary>Default for the log output to console.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CertificateWebUiPassword">
+            <summary>The certificate password.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CertificateWebUiKeyLength">
+            <summary>(Immutable) length of the web interface self-signed certificate rsa key.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CertificateWebUiKeyValidPeriod">
+            <summary>(Immutable) the certificate web user interface key valid period in days.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.FactoryResetAfterMSeconds">
+            <summary>(Immutable) the factory reset after xx milliseconds.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.TimedServiceInterval">
+            <summary> Timer in Timed Service (ProcessWatcher) runs for xx seconds. This is also the WATCHDOG trigger time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WaitingTimeConfigSyncProcess">
+            <summary>(Immutable) the waiting time configuration synchronize process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WaitingTimeSystemConfigurationProcess">
+            <summary>(Immutable) the waiting time system configuration process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WaitingTimeWebInterfaceAfterFactoryReset">
+            <summary>(Immutable) the waiting time web interface after factory reset.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WaitingTimeNetworkSettingsChangedConfigSync">
+            <summary>The delay time after a network setting change (to DHCP) a signal is sent to the WebUI.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WaitingTimeNetworkSettingsChangedWebUi">
+            <summary>The delay time after the WebUI try to reloads (after a network setting change).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebinterfaceRebootDelay">
+            <summary>The webinterface reboot delay in ms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.RemoteDeviceStatusTimeout">
+            <summary>The remote device status timeout.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessRestartCount">
+            <summary>Number of restart attempts after the (unexpected) termination of a process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameWebInterface">
+            <summary>The user to start the web interface process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameConfigSync">
+            <summary>The user to start the configuration sync process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameManagementHost">
+            <summary>The user to start the 'management host' process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameScpiRunner">
+            <summary>(Immutable) the username scpi runner.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameFactoryReset">
+            <summary>The user to start the 'factory reset handler' process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameSystemConfiguration">
+            <summary>The user to start the 'system configuration' process.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsernameLogBackup">
+            <summary>(Immutable) the username log b ackup.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UploadBundleFileFilter">
+            <summary>(Immutable) a filter specifying the upload file extension.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UploadCertificateFileFilter">
+            <summary>(Immutable) a filter specifying the upload certificate file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SerialConsoleFileName">
+            <summary>Filename of the serial console. Can be used to write directly to the serial console. Only available in Dev-Images.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemConfigurationLogName">
+            <summary>(Immutable) name of the system configuration log.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LocalMeasurementLogName">
+            <summary>(Immutable) name of the local measurement log.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.MeasurementHostXmlKeyForCompability">
+            <summary>(Immutable) the measurement host XML key for compability.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.RemoteMeasurementLogFileName">
+            <summary>(Immutable) filename of the remote measurement log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogBackupLogFileName">
+            <summary>(Immutable) filename of the log backup log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ManagementHostLogFileName">
+            <summary>(Immutable) filename of the management host log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherLogFileName">
+            <summary>(Immutable) filename of the process watcher log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemConfigurationLogFileName">
+            <summary>(Immutable) filename of the system configuration log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherLogFileName">
+            <summary>(Immutable) filename of the update watcher log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceLogFileName">
+            <summary>(Immutable) filename of the web interface log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LocalMeasurementLogFileName">
+            <summary>(Immutable) filename of the local measurement log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PidFileName">
+            <summary>(Immutable) filename of the PID file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitPidFile">
+            <summary>The board initialize pid file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToDnsFile">
+            <summary>The path to DNS file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.InternalDeviceCalibrationFileName">
+            <summary>The internal device calibration file name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.AutoStartHostsFile">
+            <summary>The file to save the auto-start hosts..</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToEtcFolder">
+            <summary>The path to the etc folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToVariablesFolder">
+            <summary>The pathname of the path to variables folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToLogFiles">
+            <summary>The path to log folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToTempLogFiles">
+            <summary>The path to temporary log folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToZippedLogFile">
+            <summary>The path to zipped log folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToSharedUser">
+            <summary>The path for shared content.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToLogFileBackup">
+            <summary>(Immutable) the path to log file backup.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserDataFolderName">
+            <summary>(Immutable) pathname of the user data folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserSettingFolderName">
+            <summary>(Immutable) pathname of the user setting folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToSharedUserCalibration">
+            <summary>(Immutable) the path to shared user calibration.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserDataFileExtension">
+            <summary>(Immutable) the user calibration file extension.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserSettingsFileExtension">
+            <summary>(Immutable) the user settings file extension.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserDataFileName">
+            <summary>(Immutable) filename of the user calibration file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UserSettingsFileName">
+            <summary>(Immutable) filename of the user settings file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.DeviceSettingsFileName">
+            <summary>(Immutable) filename of the device settings file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.OldDeviceSettingsFileName">
+            <summary>(Immutable) the old device settings file name.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CalibrationFileExtension">
+            <summary>The calibration file extension for user and full range calibration.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemLogFileName">
+            <summary>(Immutable) filename of the system log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemErrorLogFileName">
+            <summary>(Immutable) filename of the system error log file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitLogFileName">
+            <summary>(Immutable) filename of the log output of the board initialization.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitLogFileNameStartup">
+            <summary>(Immutable) the board initialize log file name startup.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToDataFlash">
+            <summary>The calibration json filename and path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToOmicronLabTools">
+            <summary>The root path of the omicron lab tools.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceWorkingDirectory">
+            <summary>The pathname of the web interface working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsbPortDirectory">
+            <summary>The path of the dev-directory of the USB-A port.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebRootFolder">
+            <summary>The web root folder. DO NOT CHANGE.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebKeyFolder">
+            <summary>The web data folder. DO NOT CHANGE.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherWorkingDirectory">
+            <summary>The pathname of the process watcher working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitWorkingDirectory">
+            <summary>The pathname of the board initialize working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ManagementHostWorkingDirectory">
+            <summary>The pathname of the management host working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.FactoryResetHandlerWorkingDirectory">
+            <summary>The pathname of the factory reset handler working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemConfigurationWorkingDirectory">
+            <summary>The pathname of the system configuration service working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherWorkingDirectory">
+            <summary>(Immutable) pathname of the update watcher working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ScpiRunnerWorkingDirectory">
+            <summary>(Immutable) pathname of the scpi server working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogBackupWorkingDirectory">
+            <summary>(Immutable) pathname of the log backup working directory.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CalibrationFile">
+            <summary>The calibration xml filename and path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UsbMacAddressFile">
+            <summary>The USB mac address file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.Eth0MacAddressFile">
+            <summary>The ETH0 mac address file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.HostPackagesFolder">
+            <summary>The path to save the remote-device hosts.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.DefaultUsbNetworkFile">
+            <summary>Gets the default USB network file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitLogFile">
+            <summary>Gets the board initialize results file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.IfUpDownConfigFile">
+            <summary>Gets the path and filename of the ifupdown.conf file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ResolvConfigFile">
+            <summary>Gets the path and filename of the ifupdown.conf file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.FwPrintenvLockFile">
+            <summary>Gets the path and filename of the fw_setenv.lock-file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToUdhcpdConfigFile">
+            <summary>Gets the path to udhcpd configuration file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToUsbNetSerialnumber">
+            <summary>Gets the path to USB net serial number.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToTempFolder">
+            <summary>Gets the path to the Temp Folder.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToUploadFolder">
+            <summary>Gets the path to the Upload folder.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.WebContentRootPath">
+            <summary>Gets the content root path.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.DeviceSettingsFile">
+            <summary>Gets the device settings file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.OldDeviceSettingsFile">
+            <summary>Gets the old device settings file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.UsbIp4DefaultSettingsFile">
+            <summary>Gets the USB-IP4 default settings file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemLogFile">
+            <summary>Gets the system log file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToLog">
+            <summary>Gets the path to log folder.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToLogTemp">
+            <summary>Gets the path to log folder.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToLogZip">
+            <summary>Gets the path to log zip archive.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ImageVersionFile">
+            <summary>Gets the path to image version file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ImageVersionFileAfterBuild">
+            <summary>Gets the path to image version file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.SerialNumberFile">
+            <summary>Gets the path to serial number file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ManagementPortFile">
+            <summary>Gets the path to serial number file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.DeviceTypeFile">
+            <summary>Gets the path to the device type file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.DemoConsoleExecutable">
+            <summary>Gets the path to the demoConsole executable file. Windows 'version' relative to 'ProcessWatcher' executable.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.BoardInitBuildDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemConfigurationDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ManagementHostDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.FactoryResetHandlerDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherDateFile">
+            <summary>Gets the path to the BuildDate.txt file. Windows 'version' relative to Webinterface project folder.</summary>
+            <remarks>Windows 'version' for Debugging only.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.ScpiRunnerDateFile">
+            <summary>Gets the scpi runner date file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.DeviceCertificateFilePem">
+            <summary>Gets the official OMICRON device certificate file as .pem-file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.CertificateWebUiFile">
+            <summary>Gets the certificate web user interface file.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.UserCertificateWebUiFile">
+            <summary>Gets the user certificate web user interface file.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ManagementHostStartLockId">
+            <summary>The start lock id for the management host.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ConsoleCoreStartLockId">
+            <summary>The start lock identifier console core.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherStartLockId">
+            <summary>The start lock identifier for process watcher.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.GetCurrentUserEventId">
+            <summary>(Immutable) identifier for the get current user event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.CurrentUserEventId">
+            <summary>(Immutable) identifier for the current user event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.DeviceStatusChangedEventId">
+            <summary>(Immutable) identifier for the device status changed event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdatePermissionOfUserDataEventId">
+            <summary>(Immutable) identifier for the update permission of user data event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceSaveSettingsEventId">
+            <summary>The web interface save settings event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceSaveDateTimeEventId">
+            <summary>The web interface save date time event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceClearLogFileEventId">
+            <summary>The web interface clear log file event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceResetToFactoryDefaultEventId">
+            <summary>(Immutable) identifier for the web interface reset to factory default event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceLoadSettingsEventId">
+            <summary>The web interface save settings event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceChangeSettingsStartEventId">
+            <summary>(Immutable) identifier for the web interface change settings start event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceChangeSettingsEndEventId">
+            <summary>(Immutable) identifier for the web interface change settings end event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceRebootDeviceResetEventId">
+            <summary>The web interface reboot device reset event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceChangeLedSettingsEventId">
+            <summary>The web interface has changed the LED settings event identifier.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.GetNetworkInterfaceDataEventId">
+            <summary>(Immutable) identifier for the get network interface data event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceActualIpv4Eth0NetworkSettingsEventId">
+            <summary>(Immutable) identifier for the web interface actual IPv4 eth0 network settings event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceActualIpv4Usb0NetworkSettingsEventId">
+            <summary>(Immutable) identifier for the web interface actual IPv4 USB0 network settings event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceActualIpv6Eth0NetworkSettingsEventId">
+            <summary>(Immutable) identifier for the web interface actual IPv6 eth0 network settings event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceActualIpv6Usb0NetworkSettingsEventId">
+            <summary>(Immutable) identifier for the web interface actual IPv6 USB0 network settings event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogSettingsChangedEventIdTemplate">
+            <summary>Identifier template for the process specific log-settings changed event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.SystemLogSettingsChangedEventId">
+            <summary>Identifier for the system processes log settings changed event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LocalMeasurementLogSettingsChangedEventId">
+            <summary>Identifier for the measurement host log settings changed event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ChangeDateAndTimeAsRootEventId">
+            <summary>(Immutable) identifier for the change date and time as root event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherInstallationStartEventId">
+            <summary>Identifier for the update watcher installation start event. </summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherInstallationDoneEventId">
+            <summary>Identifier for the update watcher installation done event. </summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherInstallationStepEventId">
+            <summary>Identifier for the update watcher installation step event. </summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherGetSlotStatesEvent">
+            <summary>Identifier for the update watcher get slot state event. </summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.UpdateWatcherGetSlotStatesResponseEvent">
+            <summary>Identifier for the update watcher get slot state response event. </summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherRestartServiceEventId">
+            <summary>(Immutable) identifier for the process watcher restart service event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherStopServiceEventId">
+            <summary>(Immutable) identifier for the process watcher stop service event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.ProcessWatcherStartServiceEventId">
+            <summary>(Immutable) identifier for the process watcher start service event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogFilesBackupDoneEventId">
+            <summary>(Immutable) identifier for the log files backup done event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.LogFilesBackupTriggerEventId">
+            <summary>(Immutable) identifier for the log files backup trigger event.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.AllowPort80ToNonRootProcess">
+            <summary>Allow non-root users to bind the port 80 (used for WebInterface).</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceHttpPort">
+            <summary>Gets the web interface HTTP port.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonBodeDefinitions.WebInterfaceHttpsPort">
+            <summary>Gets the web interface HTTPS port.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonBodeDefinitions.DefaultManagementPort">
+            <summary>TODO@HKA change to another port (e.g. 8444) + also in pkg/bode_extra/usbnet.init + /bode/rootfs.olk/etc/init.d/usbnet.</summary>
+            <summary>The default management port.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonBodeDefinitions.IsDeviceType(OmicronLab.Tools.Common.Devices.DeviceType)">
+            <summary>Check if the current device is of the given device type.</summary>
+            <param name="type">The type.</param>
+            <returns>If NULL the type could not be checked.</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonBodeDefinitions.SetDeviceType(OmicronLab.Tools.Common.Devices.DeviceType)">
+            <summary>Sets device type of the current device.</summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonBodeDefinitions.PathToUserDefinedScpiCalibrationFiles(System.Boolean)">
+            <summary>Reads the path to user defined scpi calibration files.</summary>
+            <param name="isEmbedded">True if SCPI runner is directly running on an embedded device (Bode 500), false if not.</param>
+            <returns>The default path pointing to the user defined calibration files.</returns>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonDefinitions">
+            <summary>Common definitions used throughout the engine and mid-layer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.UsbTimeout">
+            <summary>The timeout for USB transfers.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.UsbEepromTimeout">
+            <summary>The timeout for USB transfers of the EEPROM data.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinFSC">
+            <summary>The minimum DAC value of the DDS siganl level for Bode 500 (Full scale current).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxFSC">
+            <summary>The maximum DAC value of the DDS siganl level for Bode 500 (Full scale current).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.CommandTransferCount">
+            <summary>The command transfer count. This is the amount of commands which are sent as a batch.</summary>
+            <remarks>This is a constant so it can be used as a default parameter. The amount was used for a good relation between transfer amount and reality loss prevention.</remarks>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.RemoteDeviceConnectionTimeout">
+            <summary>The remote device connection timeout. This is the time a remote device is waiting for connections.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.CommandLength">
+            <summary>The command length in bytes.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.InvalidCommandIndex">
+            <summary>The invalid command bit-mask.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.SourceOffCommandIndex">
+            <summary>The source off command bit-mask.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.GroundLoopCommandIndex">
+            <summary>The ground loop command bit-mask.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.CommandFiFoSize">
+            <summary>The command FIFO size. This is the count of commands which can be queued in the HW.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MeasurementBlockSize">
+            <summary>The size of a measurement block.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MeasurementBufferSize">
+            <summary>The buffer size for a normal measurement.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.AuxiliaryMeasurementBufferSize">
+            <summary>The buffer size for an auxiliary measurement.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxDdsAdcValue">
+            <summary>The maximum ADC value of the DDS.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinCommandTime">
+            <summary>The minimum length of a command.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxCommandIndex">
+            <summary>The maximum command index.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinSpan">
+            <summary>The minimum sweep step in Hz. This is the minimum between start and stop frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxFrequencyPrecision">
+            <summary>The maximum frequency precision.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaximumNumberOfRetries">
+            <summary>The maximum number of retries which will be performed when something during execution went wrong.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxErrorCount">
+            <summary>The maximum consecutive error count to try to recover from.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.HardwareTimeout">
+            <summary>The default watchdog timer interval in milliseconds.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultIntermediateFrequency">
+            <summary>The default intermediate frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultSwitchoverFrequency">
+            <summary>The default switchover frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DdsMultiplierSwitchoverFrequency">
+            <summary>The DDS multiplier switchover frequency. Above this frequency the x6 multiplier will be used.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.RShortNominal">
+            <summary>The nominal short resistance.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.LowFrequencyCalibrationCutoffFrequency">
+            <summary>The low frequency calibration cut-off frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.CalibrationVersion">
+            <summary>The calibration version.</summary>
+            <remarks>Major and minor numbers are required to match for a calibration to be loaded.</remarks>
+            <remarks>Build number update marks a compatible version change. NOTE: This was introduced in BAS 3.21 / v1.3.1 => BAS 3.20 or older can't load v1.3.1 or newer.</remarks>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxNominalImpedanceZ0">
+            <summary>The maximum nominal impedance Z0 in ohms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinNominalImpedanceZ0">
+            <summary>The minimum nominal impedance Z0 in ohms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultLoadResistor">
+            <summary>The default load resistor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultNominalImpedanceZ0">
+            <summary>The default nominal impedance Z0 in ohms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultShortDelayTime">
+            <summary>The default short delay time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultLoadResistorImpedanceAdapter">
+            <summary>The default load resistor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultShortDelayTimeImpedanceAdapter">
+            <summary>The default short delay time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxPathSwitchSettlingTime">
+            <summary>The maximum PathSwitching delay time in ms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinPathSwitchSettlingTime">
+            <summary>The minimum PathSwitching delay time in ms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxDutDelayTime">
+            <summary>The maximum DUT delay time in ms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinDutDelayTime">
+            <summary>The minimum DUT delay time in ms.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxLoadResistor">
+            <summary>The maximum load resistor value in ohms (calibration).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinLoadResistor">
+            <summary>The minimum load resistor value in ohms (calibration).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxShortDelayTime">
+            <summary>The maximum short delay time in seconds (calibration).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinShortDelayTime">
+            <summary>The minimum short delay time in seconds (calibration).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxNumberOfAverageCycles">
+            <summary>The maximum number of average cycles.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinNumberOfAverageCycles">
+            <summary>The minimum number of average cycles.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaxNumberOfPoints">
+            <summary>The maximum number of points for a sweep.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.ResetDeviceTimeout">
+            <summary> The reset device timeout in milliseconds.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultHyperspaceFactor">
+            <summary>(Immutable) the default hyperspace factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinimumHyperspaceFactor">
+            <summary>(Immutable) the minimum hyperspace factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaximumHyperspaceFactor">
+            <summary>(Immutable) the maximum hyperspace factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultSlipstreamFactor">
+            <summary>(Immutable) the default slipstream factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinimumSlipstreamFactor">
+            <summary>(Immutable) the minimum slipstream factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaximumSlipstreamFactor">
+            <summary>(Immutable) the maximum slipstream factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.DefaultWarpFactor">
+            <summary>(Immutable) the default warp factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MinimumWarpFactor">
+            <summary>(Immutable) the minimum warp factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.MaximumWarpFactor">
+            <summary>(Immutable) the maximum warp factor.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter">
+            <summary>The test engine name splitter. Use to arrange test engine names.</summary>
+            <remarks>
+            Attention: Do not use '-' because this is reservered for splitting device typpes with serial numbers.
+            </remarks>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.GenericTestDeviceSerialNumber">
+            <summary>The generic test device serial number <seealso cref="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter"/>.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.Bode100TestDeviceSerialNumber">
+            <summary>The bode 100 test device serial number <seealso cref="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter"/>.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.Bode500TestDeviceSerialNumber">
+            <summary>The bode 500 test device serial number <seealso cref="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter"/>.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonDefinitions.FraneoTestDeviceSerialNumber">
+            <summary>The franeo test device serial number <seealso cref="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter"/>.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonDefinitions.EnableSIMD">
+            <summary>Gets or sets a value indicating whether to enable SIMD calculations.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonDefinitions.UseSIMD">
+            <summary>Gets a value indicating whether to use SIMD calculations.</summary>
+            <remarks>By default they are used if supported and the high-performance settings are enabled.</remarks>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonDefinitions.EnableParallelFiltering">
+            <summary>Gets or sets a value indicating whether to enable filtering on multiple threads in parallel.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonDefinitions.UseParallelFiltering">
+            <summary>Gets a value indicating whether to use filtering on multiple threads in parallel.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.CommonDefinitions.JsonSerializeOptions">
+            <summary>Gets the default options for controlling the JSON serialize.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.ActionIn`1">
+            <summary>Action delegate with one in parameter.</summary>
+            <typeparam name="T">Type of the in parameter.</typeparam>
+            <param name="item">The item.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonExtensions">
+            <summary>Collection of common extensions.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.BitReverse(System.UInt16)">
+            <summary>Reverses the bit order of the value.</summary>
+            <param name="value">The value to be reverted.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.IsBitSet(System.Byte,System.Int32)">
+            <summary>Determines whether a bit is set in the specified byte.</summary>
+            <param name="b">The byte.</param>
+            <param name="position">The position of the bit.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.SetBit(System.UInt16,System.Int32)">
+            <summary>Sets the bit (true) at specified position.</summary>
+            <param name="value">The value to be manipulated.</param>
+            <param name="position">The position.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.SetBit(System.Byte,System.Boolean,System.Byte)">
+            <summary>Sets the bit flag at a specified position.</summary>
+            <param name="b">The value to be manipulated.</param>
+            <param name="value">If set to <c>true</c> the value will be masked with <c>true</c>; otherwise <c>false</c>.</param>
+            <param name="position">The position.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.GetShort(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Gets the signed short at the given offset. The MSD will be read from the next byte.</summary>
+            <param name="data">The data.</param>
+            <param name="offset">The offset.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.IsAdministrator">
+            <summary>Determines whether the current process runs with administrative rights.</summary>
+            <returns><c>true</c> if the current process runs with administrative rights; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.AsAsyncDisposable``1(``0,``0@)">
+            <summary>Helper for using 'await using'.</summary>
+            <typeparam name="T">Type of the object.</typeparam>
+            <param name="source">The async disposable.</param>
+            <param name="disposableOut">The initial object.</param>
+            <returns>The async disposable (same object as source).</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.Sha256CheckSum(System.String)">
+            <summary>Get the SHA256 check-sum of a file or folder.</summary>
+            <param name="filePath">Full pathname of the file or folder.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.Ticked(System.String,System.String,System.Nullable{System.Int64})">
+            <summary>A string extension method that appends ticks using the defined delimiter.</summary>
+            <param name="value">The value to be changed.</param>
+            <param name="delimiter">(Optional) The delimiter.</param>
+            <param name="tick">(Optional) The tick (identifier) to be added; if null 'DateTime.Now.Ticks' will be used.</param>
+            <returns>The ticked value ($"{<paramref name="value"/>}{<paramref name="delimiter"/>}{<paramref name="tick"/>}").</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.CommonExtensions.TestEngineTicked(System.String,System.Nullable{System.Int64})">
+            <summary>A string extension method that ticks a test engine.</summary>
+            <param name="engineName">The engine name to be changed.</param>
+            <param name="tick">(Optional) The tick (identifier) to be added; if null 'DateTime.Now.Ticks' will be used.</param>
+            <returns>The ticked engine string ($"{<paramref name="engineName"/>}{<see cref="F:OmicronLab.BaseCommon.CommonDefinitions.TestEngineNameSplitter"/>}{<paramref name="tick"/>}").</returns>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions">
+            <summary>Common definitions for FRAnalyzer used throughout the engine and mid-layer.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions.CalibrationBufferSize">
+            <summary>The calibration buffer size in bytes.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions.MaxCommandTime">
+            <summary>The maximum valid command time.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions.MaxAFFrequency">
+            <summary>The maximum frequency for AF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions.MinRFFrequency">
+            <summary>The minimum frequency for RF measurements.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.CommonFRAnalyzerDefinitions.MaxSwitchoverRangeBandwidth">
+            <summary>The maximum bandwidth in the switch-over range.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.DeviceInformation">
+            <summary>Holds the information about the devices.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Type">
+            <summary>Gets the device type.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Group">
+            <summary>Gets the group.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Capabilities">
+            <summary>Gets the capabilities.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Connection">
+            <summary>Gets the connection used by this device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.SerialNumber">
+            <summary>Gets the serial number of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.BoardSerialNumber">
+            <summary>Gets the serial number of the board.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Name">
+            <summary>Gets the name of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.VendorId">
+            <summary>Gets the vendor identifier.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.ProductId">
+            <summary>Gets the product identifier.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.FirmwareVersion">
+            <summary>Gets the firmware version.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.MinimalBodeAnalyzerSuiteVersion">
+            <summary>Gets the minimal BAS version which is compatible with the device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.AdditionalInformation">
+            <summary>Gets additional information values of this device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.AdditionalData">
+            <summary>Gets the additional data of this device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.DeviceInformation.Created">
+            <summary>Gets the date/time this device information was created.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.DeviceInformation.#ctor(System.String,System.String,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseCommon.Enumerations.DeviceConnectionType,System.UInt32,System.UInt32,System.Version,System.Version,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.BaseCommon.DeviceInformation" /> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+            <param name="name">The name.</param>
+            <param name="type">The type.</param>
+            <param name="connection">The connection used by this device.</param>
+            <param name="vendorId">The vendor identifier.</param>
+            <param name="productId">The product identifier.</param>
+            <param name="firmwareVersion">The firmware version.</param>
+            <param name="minimalBodeAnalyzerSuiteVersion">The minimal BAS version which is required for the device.</param>
+            <param name="boardSerialNumber">The serial number of the board.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.DeviceInformation.Equals(System.Object)">
+            <summary>Determines whether the specified object is equal to the current object.</summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns><see langword="true" /> if the specified object  is equal to the current object; otherwise, <see langword="false" />.</returns>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.DeviceInformation.GetHashCode">
+            <summary>Serves as the default hash function.</summary>
+            <returns>A hash code for the current object.</returns>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities">
+            <summary>Lists all capabilities a device can have.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.None">
+            <summary>The device has no capabilities.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.MeasureGainPhase">
+            <summary>The device can measure gain and phase.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalReferenceReceiver1">
+            <summary>The device can switch the channel 1 receiver to an internal reference.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.SwitchReceiver2ToOutput">
+            <summary>The device can switch the channel 2 receiver to the output signal.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.MeasureAudioFrequencyRange">
+            <summary>The device can measure in the AF range.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.MeasureRadioFrequencyRange">
+            <summary>The device can measure in the RF range.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalGainPhaseCalibration">
+            <summary>The device can calibrate the internal gain and phase.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalImpedanceCalibration">
+            <summary>The device can internally calibrate the impedance measurement (open, short, load).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalHighImpedanceInputs">
+            <summary>The device has high impedance inputs.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalOhm50Inputs">
+            <summary>The device has 50Ω inputs.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.LinearHighImpedanceInputs">
+            <summary>The device has high impedance inputs.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.LinearOhm50Inputs">
+            <summary>The device has 50Ω inputs.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalDcCoupling">
+            <summary>The device has DC coupled inputs on the external path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAcCoupling">
+            <summary>The device has AC coupled inputs on the external path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.MeasureInputVoltage">
+            <summary>The device can measure the input voltage.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAttenuation0dB">
+            <summary>The device can switch of input attenuation for the external path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAttenuation10dB">
+            <summary>The device can set the receivers for the external path to 10dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAttenuation20dB">
+            <summary>The device can set the receivers for the external path to 20dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAttenuation30dB">
+            <summary>The device can set the receivers for the external path to 30dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalAttenuation40dB">
+            <summary>The device can set the receivers for the external path to 40dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalAttenuation0dB">
+            <summary>The device can switch of input attenuation for the internal path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalAttenuation10dB">
+            <summary>The device can set the receivers for the internal path to 10dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalAttenuation20dB">
+            <summary>The device can set the receivers for the internal path to 20dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalAttenuation30dB">
+            <summary>The device can set the receivers for the internal path to 30dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.InternalAttenuation40dB">
+            <summary>The device can set the receivers for the internal path to 40dB attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.LinearAttenuation0dB">
+            <summary>The device can switch of input attenuation for the linear path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.AuxiliaryMeasurement">
+            <summary>The device can perform an auxiliary measurement.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.HardwareStatus">
+            <summary>A hardware-status can be read from the device.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.DeviceColor">
+            <summary>The device can set a color visible e.g. via a RGB-LED.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.LinearPath">
+            <summary>The device can measure using the linear path.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.MeasureOverloadDirectly">
+            <summary>The device can directly measure overload values without making a special measurement.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalTriggerIn">
+            <summary>The device can be triggered via an external trigger input.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalTriggerOut">
+            <summary>The device can trigger an external trigger output.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.ExternalReferenceFrequency">
+            <summary>The device can be synchronized via an external reference frequency.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.TemperatureSensorCpu">
+            <summary>The device can measure the temperature of the embedded CPU.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.TemperatureSensorSource">
+            <summary>The device can measure the temperature of the source.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.TemperatureSensorLocalOscillator">
+            <summary>The device can measure the temperature of the local oscillator.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.UsbPdStatus">
+            <summary>The device can read the status of the USB-PD source.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.RealTimeClock">
+            <summary>The device has an embedded RTC.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.EmbeddedScpiServer">
+            <summary>The device has an embedded SCPI server.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.CanMeasureImpedanceOnePort">
+            <summary>The device can measure impedance at the output port.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.HasInternalCalibration">
+            <summary>The device has internal calibration capabilities (reference, gain/phase, open/short/load).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.HasInputImpedanceSwitch">
+            <summary>The device has switchable input impedance.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.HasExternalAcDcCoupling">
+            <summary>The device can switch between AC and DC coupling.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.Bode100">
+            <summary>The capabilities of the Bode 100.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.Bode500">
+            <summary>The capabilities of the Bode 500.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceCapabilities.Franeo800">
+            <summary>The capabilities of the FRANEO 800.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType">
+            <summary>The connection type of a device.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.Unknown">
+            <summary>An enum constant representing the unknown option.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.Usb">
+            <summary>The device is connected via USB.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.Internal">
+            <summary>The device is connected via an internal connection (e.g. SPI).</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.Ethernet">
+            <summary>The device is connected via ethernet.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.EthernetViaUsb">
+            <summary>The device is connected via USB and can be access via a virtual ethernet connection.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.Virtual">
+            <summary>The device is a virtual device without any real connection.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.LocalConnection">
+            <summary>The device is using a local connection option.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceConnectionType.RealDeviceConnection">
+            <summary>Any connection type a real device can use.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Enumerations.DeviceGroup">
+            <summary>Defines a group which devices can belong to.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceGroup.Unknown">
+            <summary>The device is unknown.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceGroup.Bode100">
+            <summary>The device is a Bode 100 (i.e. Bode 100 R1 and R2) or compatible.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceGroup.Bode500">
+            <summary>The device is a Bode 500 or compatible.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceGroup.Franeo">
+            <summary>The device is a FRANEO.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceGroup.All">
+            <summary>All devices.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Enumerations.DeviceStatus">
+            <summary>Status of an embedded device to determine if it is ready to connect or not.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceStatus.Unknown">
+            <summary>Per default, Status is unknown. It could mean that the Device is booting up and not yet ready to connect or the device type does not support the Status property.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceStatus.Booted">
+            <summary>Device is now booted. SSH and Web-interface are available, but BAS is not yet allowed to connect.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceStatus.Ready">
+            <summary>The device is now ready to be connected by BAS.</summary>
+        </member>
+        <member name="F:OmicronLab.BaseCommon.Enumerations.DeviceStatus.InUse">
+            <summary>Device is currently in use.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.ErrorDetectionStrategy">
+            <summary>Helper class to get error detection strategies.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ErrorDetectionStrategy.On``1">
+            <summary>Returns a strategy which retries on the given exception.</summary>
+            <typeparam name="T">The type of exception to retry on.</typeparam>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ErrorDetectionStrategy.On``2">
+            <summary>Returns a strategy which retries on the given exceptions.</summary>
+            <typeparam name="T1">The first type of exception to retry on.</typeparam>
+            <typeparam name="T2">The second type of exception to retry on.</typeparam>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.ExceptionTypeErrorDetectionStrategy`1">
+            <summary>Strategy to detect one exception type.</summary>
+            <typeparam name="T">Type of the exception.</typeparam>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ExceptionTypeErrorDetectionStrategy`1.IsTransient(System.Exception)">
+            <summary>Determines whether the specified exception represents a transient failure that can be compensated by a retry.</summary>
+            <param name="ex">The exception object to be verified.</param>
+            <returns>True if the specified exception is considered as transient, otherwise false.</returns>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.TwoExceptionTypeErrorDetectionStrategy`2">
+            <summary>Strategy to detect two exception types.</summary>
+            <typeparam name="T1">Type of the first exception.</typeparam>
+            <typeparam name="T2">Type of the second exception.</typeparam>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.TwoExceptionTypeErrorDetectionStrategy`2.IsTransient(System.Exception)">
+            <summary>Determines whether the specified exception represents a transient failure that can be compensated by a retry.</summary>
+            <param name="ex">The exception object to be verified.</param>
+            <returns>True if the specified exception is considered as transient, otherwise false.</returns>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.FlashDataCheck">
+            <summary>
+            Class for generating the control sum of the flash data.
+            </summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.FlashDataCheck.ApplyCheckSum(System.Byte[])">
+            <summary>Applies the check sum to the flash data.</summary>
+            <param name="flash">The flash data byte array.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.FlashDataCheck.ApplyCheckSum(System.Collections.ObjectModel.ObservableCollection{OmicronLab.BaseCommon.MemoryValue})">
+            <summary>Applies the check sum to the flash data.</summary>
+            <param name="flash">The flash data ObservableCollection.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.FlashDataCheckBase">
+            <summary>Base class for checking the flash data.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.FlashDataCheckBase.FlashMemorySize">
+            <summary>Gets the length of the flash memory byte array.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.FlashDataCheckBase.CheckFlashData(System.ReadOnlySpan{System.Byte})">
+            <summary>Checks the flash data.</summary>
+            <param name="flash">The flash.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">The flash byte array contains too less items.</exception>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.FlashDataCheckBase.CalculateControlValue(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Calculates the control value.</summary>
+            <param name="buffer">The buffer.</param>
+            <param name="lengthToCheck">The length to check.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.FlashDataCheckBase.Crc16(System.Int32,System.Int32,System.Int32)">
+            <summary>Calculates the specified CRC 16 value.</summary>
+            <param name="crc">The CRC.</param>
+            <param name="data">The data.</param>
+            <param name="crc8Poly">The CRC 8.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Interfaces.IDevice">
+            <summary>Base interface for HW devices.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.Interfaces.IDevice.DeviceType">
+            <summary>Gets the type of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.Interfaces.IDevice.VendorId">
+            <summary>Gets the vendor Id.</summary>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.Interfaces.IDevice.ProductId">
+            <summary>Gets the product Id.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IDevice.EnumerateDevices">
+            <summary>Enumerates the devices.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IDevice.Init(System.String)">
+            <summary>Initializes this device.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IDevice.LogDeviceStatus(OmicronLab.Tools.Common.Logging.LogLevel)">
+            <summary>Logs the current device status.</summary>
+            <param name="logLevel">The log level to use for logging.</param>
+            <remarks>Used for debugging purposes.</remarks>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IDevice.ResetDevice">
+            <summary>Resets the device.</summary>
+            <remarks>This can trigger an USB re-enumeration => >1s needed.</remarks>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IDevice.Close">
+            <summary>Closes this device.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Interfaces.IOnPropertyChanged">
+            <summary>Interface for classes implementing an OnPropertyChanged method.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IOnPropertyChanged.OnPropertyChanged(System.String)">
+            <summary>Called when a property changed.</summary>
+            <param name="name">The name of the property.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Interfaces.IStartable">
+            <summary>Defines a method that allows to start a process.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IStartable.Start">
+            <summary>Starts this instance.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Interfaces.IStartStopable">
+            <summary>Defines methods that allows to start and stop a process.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.Interfaces.IStopable">
+            <summary>Defines a method that allows to stop a process.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.Interfaces.IStopable.Stop">
+            <summary>Stops this instance.</summary>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.MemoryValue">
+            <summary>This class defines a single value in the memory.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.MemoryValue.#ctor(System.Int32,System.Byte)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.BaseCommon.MemoryValue" /> class.</summary>
+            <param name="address">The address.</param>
+            <param name="content">The content.</param>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.MemoryValue.Address">
+            <summary>Gets or sets the address.</summary>
+            <value>The address.</value>
+        </member>
+        <member name="P:OmicronLab.BaseCommon.MemoryValue.Content">
+            <summary>Gets or sets the content.</summary>
+            <value>The content.</value>
+        </member>
+        <member name="E:OmicronLab.BaseCommon.MemoryValue.PropertyChanged">
+            <summary>Occurs when a property value changes.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.MemoryValue.OnPropertyChanged(System.String)">
+            <summary> Called when a property has been changed. </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.ResourceHelper">
+            <summary>Helper methods for resource files.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ResourceHelper.GetBytes``1(System.String)">
+            <summary>Gets the given resources as a byte[].</summary>
+            <typeparam name="T">The type from which assembly to read the resources from.</typeparam>
+            <param name="name">The name of the resource.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ResourceHelper.GetString``1(System.String)">
+            <summary>Gets the given resources as a string.</summary>
+            <typeparam name="T">The type from which assembly to read the resources from.</typeparam>
+            <param name="name">The name of the resource.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.ResourceHelper.GetResourceLookup``1(System.Type,System.String)">
+            <summary>Gets the resource value with the related property <paramref name="resourceName"/> from the resource <paramref name="resourceType"/>.</summary>
+            <typeparam name="T">The property type.</typeparam>
+            <param name="resourceType">Type of the resource.</param>
+            <param name="resourceName">Name of the resource key.</param>
+        </member>
+        <member name="T:OmicronLab.BaseCommon.VnaErrorHandler">
+            <summary>This class collects all VNA errors and gives the possibility to react.</summary>
+        </member>
+        <member name="E:OmicronLab.BaseCommon.VnaErrorHandler.EngineException">
+            <summary>Occurs when an engine exception was thrown. This means everything will be canceled and shut down.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.VnaErrorHandler.OnEngineException(System.Object,System.Runtime.ExceptionServices.ExceptionDispatchInfo)">
+            <summary>Called when a engine exception occurred.</summary>
+            <param name="sender">The sender.</param>
+            <param name="expInfo">The exception information.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.VnaErrorHandler.ClearEngineExceptionHandlers">
+            <summary>Clears the engine exception handlers.</summary>
+        </member>
+        <member name="E:OmicronLab.BaseCommon.VnaErrorHandler.MidLayerException">
+            <summary>Occurs when a mid-layer exception was thrown.
+            This means everything will be canceled and the mid-layer (e.g. measurement task handler) will be shut down.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.VnaErrorHandler.OnMidLayerException(System.Object,System.Runtime.ExceptionServices.ExceptionDispatchInfo)">
+            <summary>Called when a mid-layer exception occurred.</summary>
+            <param name="sender">The sender.</param>
+            <param name="expInfo">The exception information.</param>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.VnaErrorHandler.ClearMidLayerExceptionHandlers">
+            <summary>Clears the mid-layer exception handlers.</summary>
+        </member>
+        <member name="M:OmicronLab.BaseCommon.VnaErrorHandler.OnException(System.EventHandler{System.HandleableEventArgs{System.Exception}},System.Object,System.Runtime.ExceptionServices.ExceptionDispatchInfo)">
+            <summary>Called when an exception was thrown.</summary>
+            <param name="theEvent">The event.</param>
+            <param name="sender">The sender.</param>
+            <param name="expInfo">The exception information.</param>
+        </member>
+    </members>
+</doc>

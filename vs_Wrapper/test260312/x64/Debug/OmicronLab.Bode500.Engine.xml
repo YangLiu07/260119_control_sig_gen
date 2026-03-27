@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.Bode500.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.Bode500.Engine.Bode500CommandDefinition">
+            <summary>Device configuration for the Bode 500.</summary>
+            <remarks>See https://confluence.omicron.at/x/2ICC for details.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.CommandIndex">
+            <summary>Gets or sets the command number.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.CommandTime">
+            <summary>Gets or sets the execution time (i. e. ADC cycles).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.MaxCommandTime">
+            <summary>Gets the maximum execution time (i.e. ADC cycles) supported by this command.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.DataMask">
+            <summary>Gets or sets the data mask.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.SourceDeviceFrequency">
+            <summary>Gets or sets the source frequency rounded like it is sent to the device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency used for the RF measurement.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.OmicronLab#BaseEngine#Engine#Interfaces#ICommandDefinition#SourceAttenuator">
+            <summary>Gets or sets the source attenuator. This is a bit-mask - see remarks for details.</summary>
+            <remarks>
+            <para>
+            For the Bode 100 and the FRAnalyzer / FRANEO 800 the first 3 bit are used only:
+            - SourceAttenuator[0] = HWConfig[9] -&gt; S(source-0) -&gt; SOURCE_5_DB.
+            - SourceAttenuator[1] = HWConfig[9] -&gt; S(source-1) -&gt; SOURCE_10_DB.
+            - SourceAttenuator[2] = HWConfig[9] -&gt; S(source-2) -&gt; SOURCE_20_DB.
+            </para>
+            <para>
+            For the Bode 500 the first 12 bits are used.
+            - SourceAttenuator[0-5] = attenuator 1.
+            - SourceAttenuator[6-11] = attenuator 2.
+            </para>
+            See implementation for details.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Channel1Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 1 set.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Channel2Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 1 set.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Channel1Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 2 set.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Channel2Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 2 set.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.SourceAttenuator">
+            <summary>Gets or sets the source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.PathSwitchSettlingTime">
+            <summary>Gets or sets the path switch settling time in milliseconds needed due to the gate-lag in the RF-switches CHx_RFLIN and IMP_ON/IMP_REF_ON.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.PathSwitchingDelayIndex">
+            <summary>Gets the index of the path-switching delay. If different between this index and the last index, the PathSwitchSettlingTime will be added before the actual measurement.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500CommandDefinition.HardwareDelayIndex">
+            <summary>Gets the index of the hardware delay. If different between this index and the last index sent, a delay will be added before the actual measurement.</summary>
+            <remarks>
+            The hardware delay index is (mainly) needed when attenuator shaping will be done, because when switching the 20dB channel attenuators (CH1 and CH2) during a sweep measurement
+            the involved HF relays need some settling time. The settling time is 0.5 milliseconds per relay which sums up to 1.0 milliseconds because two relays are affected.
+            </remarks>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Clone">
+            <summary>Clones this configuration.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500CommandDefinition.Clone(System.UInt16)">
+            <summary>Clones this configuration.</summary>
+            <param name="newCommandTime">The command time.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500CommandDefinition.CalculateRequiredDelay(OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition,System.Nullable{System.Double})">
+            <summary>Calculates the required delay when switching from the given previous command to this command.</summary>
+            <param name="previousCommand">The previous command.</param>
+            <param name="minDelay">(Optional) The minimum delay (e.g. DuT-delay).</param>
+            <returns>The required delay.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500CommandDefinition.PrepareCommand(System.Span{System.Byte})">
+            <summary>Prepares the command for sending it to the hardware by filling it into the supplied buffer.</summary>
+            <param name="buffer">The buffer.</param>
+            <returns>The count of bytes written (=size of the command).</returns>
+        </member>
+        <member name="T:OmicronLab.Bode500.Engine.Bode500Engine`1">
+            <summary>The engine for the Bode 500.</summary>
+            <typeparam name="TDevice">The type of the device.</typeparam>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500Engine`1.IsCalibrationAllowed">
+            <summary>Gets a value indicating whether the device calibration is allowed.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500Engine`1.ProductId">
+            <summary>Gets the product Id.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500Engine`1.MeasurementSamplesMask">
+            <summary>Gets the measurement samples mask.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500Engine`1.DefaultCalibrationData">
+            <summary>Gets the default calibration data.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500Engine`1.FlashDataChecker">
+            <summary>Gets the flash data checker.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500Engine`1.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.Engine.Bode500Engine`1"/> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500Engine`1.PerformAuxiliaryMeasurement(System.Boolean)">
+            <summary>Initializes the auxiliary measurement.</summary>
+            <param name="performGroundLoopCheck">If set to <c>true</c> a ground loop check will be performed.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500Engine`1.GetMeasurementCompletedConfig(System.Boolean)">
+            <summary>Gets the configuration for a measurement completed command.</summary>
+            <param name="powerDown">If set to <c>true</c> the engine will be powered down.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500Engine`1.CheckIfCalibrationIsAllowed">
+            <summary>Determine if calibration is allowed.</summary>
+            <returns>True if allowed, false if NOT allowed.</returns>
+        </member>
+        <member name="T:OmicronLab.Bode500.Engine.Bode500FlashDataChecker">
+            <summary>Flash daa checker for the Bode 500.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500FlashDataChecker.FlashMemorySize">
+            <summary>Gets the length of the flash memory byte array.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500FlashDataChecker.CheckFlashData(System.ReadOnlySpan{System.Byte})">
+            <summary>Checks the flash data.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="T:OmicronLab.Bode500.Engine.Bode500SamplesMask">
+            <summary>Samples mask for Bode 500 samples blocks.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.CurrentCommandNumber">
+            <summary>Gets the current command number located at position 62 and 61.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.BlockError">
+            <summary>Gets the error of the current samples block. NULL if no error (or only phase shift error).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.PhaseShiftError">
+            <summary>Gets a value indicating whether the samples signaled a phase shift error.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.CurrentCommandAdcValues">
+            <summary>Gets the ADC values for the <see cref="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.CurrentCommandNumber" /> starting with a value for CH1 followed by a value for CH2, then CH1 again and so forth.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.PreviousCommandAdcValues">
+            <summary>Gets the ADC values for the previous command starting with a value for CH1 followed by a value for CH2, then CH1 again and so forth.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Bode500SamplesMask.DetectorValues">
+            <summary>Gets the detector values of CH1 followed by a value for CH2.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500SamplesMask.Reset">
+            <summary>Resets this samples mask.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.Engine.Bode500SamplesMask.LoadSamplesBlock(System.Buffers.ReadOnlySequence{System.Byte}@)">
+            <summary>Loads the given samples block.</summary>
+            <param name="samplesBlock">The samples block to load.</param>
+            <returns>Returns FALSE if the block does not contain any useful data.</returns>
+            <exception cref="T:System.ArgumentException">Invalid package length.</exception>
+        </member>
+        <member name="T:OmicronLab.Bode500.Engine.Bode500SourceAttenuator">
+            <summary>Source attenuator of a Bode 500 device.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.NoAttenuation">
+            <summary>The is no attenuation.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_0P5dB">
+            <summary>0.5 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_1dB">
+            <summary>1 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_2dB">
+            <summary>2 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_4dB">
+            <summary>4 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_8dB">
+            <summary>8 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator1_16dB">
+            <summary>16 dB of attenuator 1.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_0P5dB">
+            <summary>0.5 dB of attenuator 2.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_1dB">
+            <summary>1 dB of attenuator 2.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_2dB">
+            <summary>2 dB of attenuator 2.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_4dB">
+            <summary>4 dB of attenuator 2.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_8dB">
+            <summary>8 dB of attenuator 2.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.Engine.Bode500SourceAttenuator.Attenuator2_16dB">
+            <summary>16 dB of attenuator 2.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.Engine.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_0P5dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 0.5dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_16dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 16dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_1dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 1dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_2dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 2dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_4dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 4dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator1_8dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 1 - 8dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_0P5dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 0.5dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_16dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 16dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_1dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 1dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_2dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 2dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_4dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 4dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.Attenuator2_8dB">
+            <summary>
+              Looks up a localized string similar to Attenuator 2 - 8dB.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.Engine.Properties.Resources.NoAttenuation">
+            <summary>
+              Looks up a localized string similar to No Attenuation.
+            </summary>
+        </member>
+    </members>
+</doc>

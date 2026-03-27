@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.Bode.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition">
+            <summary>Device configuration for a Bode 100 device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.Channel1On">
+            <summary>Gets or sets a value indicating whether the CH1 is enabled.</summary>
+            <value><c>true</c> if CH1 is enabled; otherwise, <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-0) -&gt; CH1_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.Channel2On">
+            <summary>Gets or sets a value indicating whether the CH2 is enabled.</summary>
+            <value><c>true</c> if CH2 is enabled; otherwise, <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-1) -&gt; CH2_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.Calibration50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm calibration is set.</summary>
+            <value><c>true</c> if the 50 Ohm calibration is set; otherwise, <c>false</c>.</value>
+            <remarks>CTR[22] -&gt; S(source-5) -&gt; CAL_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.CalibrationShort">
+            <summary>Gets or sets a value indicating whether the short calibration is set.</summary>
+            <value><c>true</c> if the short calibration is set; otherwise, <c>false</c>.</value>
+            <remarks>CTR[22] -&gt; S(source-6) -&gt; CAL_SHORT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.CalibrationOpen">
+            <summary>Gets or sets a value indicating whether the open calibration is set.</summary>
+            <value><c>true</c> if the open calibration is set; otherwise, <c>false</c>.</value>
+            <remarks>CTR[22] -&gt; S(source-7) -&gt; CAL_OPEN# - this bit needs to be inverted.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.CalibrationDC">
+            <summary>Gets or sets a value indicating whether the DC calibration is enabled.</summary>
+            <value><c>true</c> if the DC calibration is enabled; otherwise <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-7) -&gt; CAL_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.CommonIn">
+            <summary>Gets or sets a value indicating whether both channels are set to the same input signal.</summary>
+            <value><c>true</c> if both channels have the same input signal; otherwise <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-6) -&gt; COMMON_IN.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBode100CommandDefinition.HardwareDelayIndex">
+            <summary>
+            Gets the index of the hardware delay.
+            If different between this index and the last index sent, a delay will be added before the actual measurement.
+            </summary>
+            <value>The index of the hardware delay.</value>
+            <remarks>
+            The hardware delay index is (mainly) needed when attenuator shaping will be done, because when switching the 20dB channel
+            attenuators (CH1 and CH2) during a sweep measurement the involved HF relays need some settling time. The settling time is
+            0.5 milliseconds per relay which sums up to 1.0 milliseconds because two relays are affected.
+            </remarks>
+        </member>
+        <member name="T:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition">
+            <summary>Device configuration for a Bode device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel1Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH1.</summary>
+            <value><c>true</c> if CH1 resistor 50 Ohm; High impedance in case of <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-2) -&gt; CH1_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel2Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH2.</summary>
+            <value><c>true</c> if CH2 resistor 50 Ohm; High impedance in case of <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-3) -&gt; CH2_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel1ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH1.</summary>
+            <value><c>true</c> if the impedance bridge for CH1 is set; otherwise <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-5) -&gt; IMP_REF_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel2ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH2.</summary>
+            <value><c>true</c> if the impedance bridge for CH2 is set; otherwise <c>false</c>.</value>
+            <remarks>CTR[23] -&gt; S(input-4) -&gt; IMP_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel1DC">
+            <summary>Gets or sets a value indicating whether CH1 has DC coupling set.</summary>
+            <value><c>true</c> if CH1 DC coupling is set; otherwise, <c>false</c>.</value>
+            <remarks>CTR[24] -&gt; S(PROC-0) -&gt; CH1_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode.Engine.Interfaces.IBodeCommandDefinition.Channel2DC">
+            <summary>Gets or sets a value indicating whether CH2 has DC coupling set.</summary>
+            <value><c>true</c> if CH2 DC coupling is set; otherwise, <c>false</c>.</value>
+            <remarks>CTR[24] -&gt; S(PROC-1) -&gt; CH2_DC.</remarks>
+        </member>
+    </members>
+</doc>

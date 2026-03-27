@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.FRAnalyzer.MidLayer</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice">
+            <summary>Helper and factory class to connect and access FRAnalyzer devices.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.IsTestEngineAvailable">
+            <summary>Gets or sets a value indicating whether the test engine is available.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.UseSourceSettling">
+            <summary>Gets or sets a value indicating whether to use source settling.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.ActiveDevicesCount">
+            <summary>Gets the active devices count.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.DeviceAdded">
+            <summary>Gets the device added event.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.DeviceRemoved">
+            <summary>Gets the device removed event.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.ConnectedDevices">
+            <summary>Gets a list of all connected FRAnalyzer devices.</summary>
+            <value>The connected FRAnalyzer devices.</value>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.#cctor">
+            <summary>Initializes static members of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.QueryConnectedDevices">
+            <summary>Gets a list of all connected FRAnalyzer (FRANEO 800) devices.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.Open(OmicronLab.BaseCommon.DeviceInformation,System.Action{System.Double},System.String,System.Boolean,System.Boolean,OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline)">
+            <summary>Opens the device with the specified identifier asynchronous or returns an already opened handler.</summary>
+            <param name="device">The device.</param>
+            <param name="statusCallback">(Optional) The status callback which is called to update the status of the device programming.</param>
+            <param name="firmwarePath">(Optional) The firmware path.</param>
+            <param name="enforceProgramming">(Optional) If set to <c>true</c> the programming will be enforced.</param>
+            <param name="initializeInBackground">(Optional) Set to <c>true</c> to perform the initialization in the background.</param>
+            <param name="pipeline">(Optional) The task pipeline. Null to use the default pipeline.</param>
+            <returns>A MeasurementTaskHandler.</returns>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.GetEngine(System.String)">
+            <summary>Gets the engine from the device with the given ID.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.CreateMeasurementTaskHandler(OmicronLab.BaseCommon.DeviceInformation,OmicronLab.BaseEngine.Engine.Interfaces.IInternalEngine{OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition},OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline)">
+            <summary>Creates the measurement task handler.</summary>
+            <param name="device">The device.</param>
+            <param name="engine">The engine.</param>
+            <param name="pipeline">(Optional) The task pipeline. Null to use the default pipeline.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.InitializeFraneo(OmicronLab.BaseMidLayer.Measurement.MeasurementTaskHandler)">
+            <summary>Initializes the FRANEO device.</summary>
+            <param name="taskHandler">The task handler.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDevice.CheckIsFRAnalyzer(System.UInt32,System.UInt32)">
+            <summary>Checks the supplied vendor and product ID belongs to a FRAnalyzer.</summary>
+            <param name="vendorId">The vendor identifier.</param>
+            <param name="productId">The product identifier.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration">
+            <summary>The device specific calibrations for a FRAnalyzer III device.</summary>
+        </member>
+        <member name="F:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.FRAnalyzerCalibrationFrequenciesList">
+            <summary>The FRAnalyzer calibration frequencies list.</summary>
+        </member>
+        <member name="F:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.attenuatorFrequencies">
+            <summary>The attenuator frequencies needed for the attenuator calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.PhaseShiftFrequencyForRFAttenuators">
+            <summary>Gets the phase shift frequency calibration point for RF attenuators.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.PhaseShiftFrequencyForAFAttenuators">
+            <summary>Gets the phase shift frequency calibration point for AF attenuators.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ReadHardwareRevision(System.ReadOnlySpan{System.Byte})">
+            <summary>Reads hardware revision from the FLASH.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.HardwareRevision">
+            <summary>Gets or sets the hardware revision.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.CalibrationFrequencies">
+            <summary>Gets the gain/phase calibration frequencies.</summary>
+            <remarks>These values are defined in the FLASH memory allocation document.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.fQ">
+            <summary>Gets or sets the quartz frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.MaxAFFrequency">
+            <summary>Gets the maximum frequency for AF measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.MinRFFrequency">
+            <summary>Gets the minimum frequency for RF measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.MaxSwitchoverRangeBandwidth">
+            <summary>Gets the maximum bandwidth in the switch-over range.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.MaxBandwidth">
+            <summary>Gets the maximum bandwidth this HW is capable of measuring at.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.SerialNumber">
+            <summary>Gets or sets the serial number of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.fDds">
+            <summary>Gets or sets the DDS frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.fSAdc">
+            <summary>Gets or sets the sampling frequency of the ADC.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ACInputTimeChannel1">
+            <summary>Gets or sets the ac input time channel1.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ACInputTimeChannel2">
+            <summary>Gets or sets the ac input time channel2.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.DefineAttenuatorFrequencies">
+            <summary>Defines the attenuator calibration frequencies.</summary>
+            <remarks>See flash specification for more details.</remarks>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.DefineGainPhaseCalibrationFrequencies">
+            <summary>Defines the gain-phase calibration frequencies.</summary>
+            <remarks>See flash specification of the device for more details.</remarks>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.CreateFrequencyConfiguration(OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,System.Collections.Generic.IEnumerable{OmicronLab.BaseMidLayer.Interfaces.ISamplesFilter})">
+            <summary>Creates the frequency configuration.</summary>
+            <param name="setup">The setup.</param>
+            <param name="filterQueue">The filter queue.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.PrepareBaseValues">
+            <summary>Prepares the base values for further calculations after reading the flash.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration"/> class.</summary>
+            <remarks>LoadFromFlashImage must be called manually before usage.</remarks>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.#ctor(System.ReadOnlySpan{System.Byte})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration"/> class.</summary>
+            <param name="flash">The flash.</param>
+            <exception cref="T:System.ArgumentException">Invalid flash data.</exception>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.LoadFromFlashImage(System.ReadOnlySpan{System.Byte})">
+            <summary>Loads the calibration/correction values from a flash image.</summary>
+            <param name="flash">The flash image.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ReadMinMaxValues(System.ReadOnlySpan{System.Byte})">
+            <summary>Reads the maximum and minimum values.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ReadAttenuatorDeviations(System.ReadOnlySpan{System.Byte})">
+            <summary>Reads the attenuator deviations.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ReadAdcValues(System.ReadOnlySpan{System.Byte})">
+            <summary>Reads the ADC values.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ReadSourceDeviationValues(System.ReadOnlySpan{System.Byte})">
+            <summary>Reads the deviation values.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.GetGainPhaseValues(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Gets the gain/phase values.</summary>
+            <param name="flash">The flash.</param>
+            <param name="offset">The offset for the first value in the flash.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.CalibrateSource(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Calibrates the source.</summary>
+            <param name="task">The task.</param>
+            <exception cref="T:System.ArgumentException">Measurement task is not a FRAnalyzer measurement task.</exception>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ValidateOutputPower(System.Double)">
+            <summary>Validates the output power.</summary>
+            <param name="pOut">The output power.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.SetDdsFrequency(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTask,OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,OmicronLab.BaseEngine.Engine.Interfaces.IUsbChipCommandDefinition)">
+            <summary>Sets the DDS frequency.</summary>
+            <param name="task">The task.</param>
+            <param name="setup">The setup.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ApplyDeviceCalibration(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Applies the device calibration.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceCalibration.ApplyDeviceCalibration(OmicronLab.BaseMidLayer.Measurement.MeasurementTask,OmicronLab.BaseMidLayer.Enumerations.CalibrationType)">
+            <summary>Applies the device calibration for the given calibration type.</summary>
+            <param name="task">The task.</param>
+            <param name="calibrationType">Type of the calibration.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration">
+            <summary>The FRAnalyzer device settings containing FRAnalyzer specific properties required for measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.DdsPowerOn">
+            <summary>Gets or sets a value indicating whether the source is on.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.#ctor(System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration" /> class.</summary>
+            <param name="channelTermination">Each channels termination.</param>
+            <param name="channelAttenuation">Each channels attenuation.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.AsReadOnly(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Clones this instance into a read-only version.</summary>
+            <param name="frequency">The frequency to set in the clone.</param>
+            <param name="sourceLevel">The source level to set in the clone.</param>
+            <param name="bandwidth">The bandwidth to set in the clone.</param>
+            <param name="attenuation">The attenuation to set in the clone.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.Clone(System.Nullable{System.Double})">
+            <summary>Clones this instance.</summary>
+            <param name="frequency">The frequency to set in the clone.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration.GetNewInstance(System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Gets a new instance.</summary>
+            <param name="channelTermination">Each channels termination.</param>
+            <param name="channelAttenuation">Each channels attenuation.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration">
+            <summary>Adapted frequency configuration for Bode 100 Revision 2.</summary>
+            <remarks>Mainly the hardware settling time needs to be adapted due to different hardware components.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency for the DDS local oscillator.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.SwitchoverFrequency">
+            <summary>Gets or sets the frequency where the AF->RF switch happens.</summary>
+            <remarks>See the FRAnalyzer algorithms document for more information on these value.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.HardwareSettlingTime">
+            <summary>Gets or sets the hardware settling time, which is needed for e.g. the ADC.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.DetectorTime">
+            <summary>Gets or sets the detector measurement time not including the hardware settling time.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.DetectorMeasurementInterval">
+            <summary>Gets or sets the detector measurement interval.</summary>
+            <remarks>~10ms interval - the exact value was chosen to get a detector measurement after 3 instead of two measurements at 1kHz bandwidth.</remarks>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration.#ctor(OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,System.Collections.Generic.IEnumerable{OmicronLab.BaseMidLayer.Interfaces.ISamplesFilter},System.Double)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerFrequencyConfiguration" /> class.</summary>
+            <param name="setup">The device setup.</param>
+            <param name="filters">The filters applied to the samples measured.</param>
+            <param name="fSAdc">The sampling frequency of the ADC.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite">
+            <summary>FRAnalyzer measurement suite base class.</summary>
+            <example>
+            Test example illustrates the usage of the measurement suite and all other involved components.
+            <code>
+            @include Program.cs
+            </code>
+            </example>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.#ctor(OmicronLab.BaseMidLayer.Measurement.MeasurementTaskHandler)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite"/> class.</summary>
+            <param name="measurementTaskHandler">The measurement task handler.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.GetComplexResults">
+            <summary>Gets the complex results.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.DeviceOption">
+            <summary>Gets the device option.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.GetResult(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Gets the result from the given task.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.CreateClonedSuite">
+            <summary>Creates a cloned (but not configured) suite.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.PrepareCalibrations">
+            <summary>Prepares the calibrations.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.PreparePreProcessors">
+            <summary>Prepares the pre processors.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.PreparePostProcessors">
+            <summary>Prepares the post processors.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementSuite.CreateDefaultDeviceConfiguration">
+            <summary>Gets the default device setup.</summary>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTask">
+            <summary>FRAnalyzer measurement task implementation.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTask.UpdateCommandDefinition(System.Int32)">
+            <summary>Updates the device configuration based on the current device setup and frequency configuration.</summary>
+            <param name="hardwareRevision">The hardware revision.</param>
+            <remarks>
+            Command index and time is not set in this method.
+            The channel attenuators should be switched regarding this table:
+            Attenuation         Attenuator 20dB              Attenuator 10dB#1		   Attenuator 10dB#2
+            0dB                 Off                          Off                       Off
+            10dB                Off                          Off                       On
+            20dB                Off                          On                        On
+            30dB                On                           Off                       On
+            40dB                On                           On                        On
+            ----------------------------------------------------------------------------------------------
+            20					On							 Off					   Off (only flash calibration)
+            11				    Off							 On						   Off (only flash calibration)
+            12					Off							 Off					   On  (only flash calibration)
+            For setting the channel attenuators the current bode 100 was used as a template.
+            </remarks>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler">
+            <summary>The measurement task handler for FRAnalyzer measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler.HardwareRevision">
+            <summary>Gets the hardware revision of the connected FRAnalyzer device.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler.DeviceOption">
+            <summary>Gets the device option ('0' for FRANEO devices which is the default and '1' for PQualyzer devices).</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler.#ctor(OmicronLab.BaseCommon.DeviceInformation,OmicronLab.BaseEngine.Engine.Interfaces.IInternalEngine{OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition},OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler" /> class.</summary>
+            <param name="device">The information about the device used by this task-handler.</param>
+            <param name="engine">The engine.</param>
+            <param name="pipeline">The task pipeline. Null to use the default pipeline.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerMeasurementTaskHandler.GetDeviceCalibration(OmicronLab.BaseEngine.Engine.Interfaces.IEngine)">
+            <summary>Gets the internal calibration.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration">
+            <summary>The FRAnalyzer read-only device settings containing FRAnalyzer specific properties required for measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.DdsPowerOn">
+            <summary>Gets a value indicating whether the source is on.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.Type">
+            <summary>Gets the type name.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.#ctor(OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerDeviceConfiguration,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration" /> class.</summary>
+            <param name="configuration">The configuration.</param>
+            <param name="frequency">The frequency to use.</param>
+            <param name="sourceLevel">The source level to use.</param>
+            <param name="bandwidth">The bandwidth to use.</param>
+            <param name="attenuation">The attenuation to use.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.#ctor(OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration"/> class.</summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.#ctor(System.Double,System.Double,OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth,System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation},System.Double,System.Boolean,OmicronLab.BaseMidLayer.Enumerations.CalibrationMeasurement,System.Nullable{OmicronLab.BaseMidLayer.Enumerations.CalibrationType},System.Boolean,System.Double,System.Double,System.Double)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration" /> class.</summary>
+            <param name="sourceLevel">The source level.</param>
+            <param name="frequency">The frequency.</param>
+            <param name="bandwidth">The bandwidth.</param>
+            <param name="termination">The termination.</param>
+            <param name="attenuation">The attenuation.</param>
+            <param name="dutDelay">The dut delay.</param>
+            <param name="disableOverflowDetection">Set to <c>true</c> to disable overflow detection.</param>
+            <param name="calibrationMeasurement">The calibration measurement.</param>
+            <param name="calibrationType">Type of the calibration.</param>
+            <param name="ddsPowerOn">Set to <c>true</c> to power on the source.</param>
+            <param name="warpFactor">The warp factor.</param>
+            <param name="hyperspaceFactor">The hyperspace factor.</param>
+            <param name="slipstreamFactor">The slipstream factor.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.MidLayer.FRAnalyzerReadOnlyDeviceConfiguration.Clone">
+            <summary>Clones this instance.</summary>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.MidLayer.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.MidLayer.Properties.Resources.Calibration">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+    </members>
+</doc>

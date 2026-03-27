@@ -1,0 +1,644 @@
+[2026-03-19 10:32:33] [INFO] Starting SCPI Runner...
+[2026-03-19 10:32:33] [INFO] SCPI Runner started.
+[2026-03-19 10:32:33] [INFO] Connecting VISA...
+[2026-03-19 10:32:33] [INFO] VISA connected.
+[2026-03-19 10:32:33] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 10:32:33] [INFO] Starting SCPI Runner...
+[2026-03-19 10:32:34] [INFO] SCPI Runner started.
+[2026-03-19 10:32:34] [INFO] Connecting VISA...
+[2026-03-19 10:32:34] [INFO] VISA connected.
+[2026-03-19 10:32:34] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 10:32:40] [ERROR] 开路校准失败
+[2026-03-19 10:32:42] [ERROR] 开路校准失败
+[2026-03-19 10:32:42] [INFO] 开路校准成功
+[2026-03-19 10:32:42] [ERROR] 开路校准失败
+[2026-03-19 10:32:44] [ERROR] 开路校准失败
+[2026-03-19 10:32:44] [INFO] 开路校准成功
+[2026-03-19 10:32:44] [ERROR] 开路校准失败
+[2026-03-19 10:32:54] [ERROR] 开路校准失败
+[2026-03-19 10:32:54] [INFO] 负载校准成功
+[2026-03-19 10:32:54] [ERROR] 负载校准失败
+[2026-03-19 10:32:55] [ERROR] 开路校准失败
+[2026-03-19 10:32:55] [INFO] 负载校准成功
+[2026-03-19 10:32:55] [ERROR] 负载校准失败
+[2026-03-19 11:04:30] [INFO] Starting SCPI Runner...
+[2026-03-19 11:04:30] [INFO] SCPI Runner started.
+[2026-03-19 11:04:30] [INFO] Connecting VISA...
+[2026-03-19 11:04:30] [INFO] VISA connected.
+[2026-03-19 11:04:30] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:04:40] [ERROR] 开路校准失败
+[2026-03-19 11:34:43] [INFO] Starting SCPI Runner...
+[2026-03-19 11:34:43] [INFO] SCPI Runner started.
+[2026-03-19 11:34:43] [INFO] Connecting VISA...
+[2026-03-19 11:34:43] [INFO] VISA connected.
+[2026-03-19 11:34:43] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:34:48] [ERROR] 开路校准失败
+[2026-03-19 11:34:50] [ERROR] 开路校准失败
+[2026-03-19 11:34:50] [INFO] 负载校准成功
+[2026-03-19 11:34:50] [INFO] 
+[2026-03-19 11:34:50] [ERROR] 负载校准失败
+[2026-03-19 11:35:01] [ERROR] 开路校准失败
+[2026-03-19 11:35:01] [INFO] 负载校准成功
+[2026-03-19 11:35:01] [INFO] 
+[2026-03-19 11:35:01] [ERROR] 负载校准失败
+[2026-03-19 11:35:02] [ERROR] 开路校准失败
+[2026-03-19 11:35:02] [INFO] 开路校准成功
+[2026-03-19 11:35:02] [ERROR] 开路校准失败
+[2026-03-19 11:35:03] [ERROR] 开路校准失败
+[2026-03-19 11:35:03] [INFO] 开路校准成功
+[2026-03-19 11:35:03] [ERROR] 开路校准失败
+[2026-03-19 11:35:03] [ERROR] 开路校准失败
+[2026-03-19 11:35:03] [INFO] 开路校准成功
+[2026-03-19 11:35:03] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [INFO] 开路校准成功
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [INFO] 开路校准成功
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [INFO] 开路校准成功
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:04] [INFO] 开路校准成功
+[2026-03-19 11:35:04] [ERROR] 开路校准失败
+[2026-03-19 11:35:05] [ERROR] 开路校准失败
+[2026-03-19 11:35:05] [INFO] 负载校准成功
+[2026-03-19 11:35:05] [INFO] 
+[2026-03-19 11:35:05] [ERROR] 负载校准失败
+[2026-03-19 11:35:05] [ERROR] 开路校准失败
+[2026-03-19 11:35:05] [INFO] 负载校准成功
+[2026-03-19 11:35:06] [INFO] 
+[2026-03-19 11:35:06] [ERROR] 负载校准失败
+[2026-03-19 11:35:06] [ERROR] 开路校准失败
+[2026-03-19 11:35:06] [INFO] 负载校准成功
+[2026-03-19 11:35:06] [INFO] 
+[2026-03-19 11:35:06] [ERROR] 负载校准失败
+[2026-03-19 11:35:06] [ERROR] 开路校准失败
+[2026-03-19 11:35:06] [INFO] 负载校准成功
+[2026-03-19 11:35:06] [INFO] 
+[2026-03-19 11:35:06] [ERROR] 负载校准失败
+[2026-03-19 11:35:06] [ERROR] 开路校准失败
+[2026-03-19 11:35:06] [INFO] 负载校准成功
+[2026-03-19 11:35:06] [INFO] 
+[2026-03-19 11:35:06] [ERROR] 负载校准失败
+[2026-03-19 11:37:31] [ERROR] 开路校准失败
+[2026-03-19 11:37:31] [INFO] 负载校准成功
+[2026-03-19 11:37:31] [INFO] 
+[2026-03-19 11:37:31] [ERROR] 负载校准失败
+[2026-03-19 11:37:32] [ERROR] 开路校准失败
+[2026-03-19 11:37:32] [INFO] 开路校准成功
+[2026-03-19 11:37:32] [ERROR] 开路校准失败
+[2026-03-19 11:37:34] [ERROR] 开路校准失败
+[2026-03-19 11:37:34] [INFO] 负载校准成功
+[2026-03-19 11:37:34] [INFO] 
+[2026-03-19 11:37:34] [ERROR] 负载校准失败
+[2026-03-19 11:42:25] [INFO] Starting SCPI Runner...
+[2026-03-19 11:42:25] [INFO] SCPI Runner started.
+[2026-03-19 11:42:25] [INFO] Connecting VISA...
+[2026-03-19 11:42:25] [INFO] VISA connected.
+[2026-03-19 11:42:25] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:42:29] [ERROR] 开路校准失败
+[2026-03-19 11:42:29] [INFO] ss 是空或全是空格
+[2026-03-19 11:42:29] [INFO] 负载校准成功
+[2026-03-19 11:42:29] [INFO] 
+[2026-03-19 11:42:29] [ERROR] 负载校准失败
+[2026-03-19 11:51:07] [INFO] Starting SCPI Runner...
+[2026-03-19 11:51:07] [INFO] SCPI Runner started.
+[2026-03-19 11:51:07] [INFO] Connecting VISA...
+[2026-03-19 11:51:07] [INFO] VISA connected.
+[2026-03-19 11:51:07] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:51:11] [ERROR] 开路校准失败
+[2026-03-19 11:51:12] [ERROR] 开路校准失败
+[2026-03-19 11:51:12] [INFO] 开路校准成功
+[2026-03-19 11:51:12] [ERROR] 开路校准失败
+[2026-03-19 11:51:16] [ERROR] 开路校准失败
+[2026-03-19 11:51:16] [INFO] ss 是空或全是空格
+[2026-03-19 11:51:16] [INFO] 负载校准成功
+[2026-03-19 11:51:16] [INFO] 
+[2026-03-19 11:51:16] [ERROR] 负载校准失败
+[2026-03-19 11:53:45] [INFO] Starting SCPI Runner...
+[2026-03-19 11:53:45] [INFO] SCPI Runner started.
+[2026-03-19 11:53:45] [INFO] Connecting VISA...
+[2026-03-19 11:53:45] [INFO] VISA connected.
+[2026-03-19 11:53:45] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:53:47] [ERROR] 开路校准失败
+[2026-03-19 11:53:48] [ERROR] 开路校准失败
+[2026-03-19 11:53:48] [INFO] 开路校准成功
+[2026-03-19 11:53:48] [ERROR] 开路校准失败
+[2026-03-19 11:53:49] [ERROR] 开路校准失败
+[2026-03-19 11:53:49] [INFO] ss 是空或全是空格
+[2026-03-19 11:53:49] [INFO] 负载校准成功
+[2026-03-19 11:53:49] [INFO] 
+[2026-03-19 11:53:49] [ERROR] 负载校准失败
+[2026-03-19 11:54:52] [INFO] Starting SCPI Runner...
+[2026-03-19 11:54:52] [INFO] SCPI Runner started.
+[2026-03-19 11:54:52] [INFO] Connecting VISA...
+[2026-03-19 11:54:52] [INFO] VISA connected.
+[2026-03-19 11:54:52] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 11:54:53] [ERROR] 开路校准失败
+[2026-03-19 11:54:55] [ERROR] 开路校准失败
+[2026-03-19 11:54:55] [INFO] 负载校准成功
+[2026-03-19 11:54:55] [INFO] 直接输出
+[2026-03-19 11:54:55] [ERROR] 负载校准失败
+[2026-03-19 12:03:22] [INFO] Starting SCPI Runner...
+[2026-03-19 12:03:22] [INFO] SCPI Runner started.
+[2026-03-19 12:03:22] [INFO] Connecting VISA...
+[2026-03-19 12:03:22] [INFO] VISA connected.
+[2026-03-19 12:03:22] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 12:03:24] [ERROR] 开路校准失败
+[2026-03-19 12:03:25] [ERROR] 开路校准失败
+[2026-03-19 12:03:25] [INFO] 负载校准成功
+[2026-03-19 12:03:25] [INFO] 直接输出
+[2026-03-19 12:03:25] [ERROR] 负载校准失败
+[2026-03-19 12:04:19] [INFO] Starting SCPI Runner...
+[2026-03-19 12:04:19] [INFO] SCPI Runner started.
+[2026-03-19 12:04:19] [INFO] Connecting VISA...
+[2026-03-19 12:04:19] [INFO] VISA connected.
+[2026-03-19 12:04:19] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 12:04:20] [ERROR] 开路校准失败
+[2026-03-19 12:04:21] [ERROR] 开路校准失败
+[2026-03-19 12:04:21] [INFO] 负载校准成功
+[2026-03-19 12:04:21] [INFO] 仪器返回值没东西
+[2026-03-19 12:04:21] [ERROR] 负载校准失败
+[2026-03-19 14:21:39] [INFO] Starting SCPI Runner...
+[2026-03-19 14:21:39] [INFO] SCPI Runner started.
+[2026-03-19 14:21:39] [INFO] Connecting VISA...
+[2026-03-19 14:21:39] [INFO] VISA connected.
+[2026-03-19 14:21:39] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:21:44] [ERROR] 开路校准失败
+[2026-03-19 14:21:45] [ERROR] 开路校准失败
+[2026-03-19 14:21:45] [INFO] 负载校准成功
+[2026-03-19 14:21:45] [INFO] OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:21:45] [ERROR] 负载校准失败
+[2026-03-19 14:22:43] [INFO] Starting SCPI Runner...
+[2026-03-19 14:22:43] [INFO] SCPI Runner started.
+[2026-03-19 14:22:43] [INFO] Connecting VISA...
+[2026-03-19 14:22:43] [INFO] VISA connected.
+[2026-03-19 14:22:43] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:22:45] [ERROR] 开路校准失败
+[2026-03-19 14:22:45] [INFO] 负载校准成功
+[2026-03-19 14:22:45] [INFO] 1
+
+[2026-03-19 14:22:45] [ERROR] 负载校准失败
+[2026-03-19 14:22:47] [ERROR] 开路校准失败
+[2026-03-19 14:22:48] [ERROR] 开路校准失败
+[2026-03-19 14:22:49] [ERROR] 开路校准失败
+[2026-03-19 14:22:49] [INFO] 负载校准成功
+[2026-03-19 14:22:49] [INFO] 1
+
+[2026-03-19 14:22:49] [ERROR] 负载校准失败
+[2026-03-19 14:22:49] [ERROR] 开路校准失败
+[2026-03-19 14:22:50] [ERROR] 开路校准失败
+[2026-03-19 14:22:50] [INFO] 开路校准成功
+[2026-03-19 14:22:50] [ERROR] 开路校准失败
+[2026-03-19 14:22:51] [ERROR] 开路校准失败
+[2026-03-19 14:22:52] [ERROR] 开路校准失败
+[2026-03-19 14:22:52] [INFO] 开路校准成功
+[2026-03-19 14:22:52] [ERROR] 开路校准失败
+[2026-03-19 14:27:03] [INFO] Starting SCPI Runner...
+[2026-03-19 14:27:03] [INFO] SCPI Runner started.
+[2026-03-19 14:27:03] [INFO] Connecting VISA...
+[2026-03-19 14:27:03] [INFO] VISA connected.
+[2026-03-19 14:27:03] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:27:05] [ERROR] 开路校准失败
+[2026-03-19 14:27:07] [INFO] 负载校准成功
+[2026-03-19 14:27:07] [INFO] 0
+
+[2026-03-19 14:27:07] [ERROR] 负载校准失败
+[2026-03-19 14:27:14] [ERROR] 开路校准失败
+[2026-03-19 14:27:14] [INFO] 负载校准成功
+[2026-03-19 14:27:14] [INFO] 0
+
+[2026-03-19 14:27:14] [ERROR] 负载校准失败
+[2026-03-19 14:27:15] [ERROR] 开路校准失败
+[2026-03-19 14:27:15] [INFO] 开路校准成功
+[2026-03-19 14:27:15] [ERROR] 开路校准失败
+[2026-03-19 14:27:28] [ERROR] 开路校准失败
+[2026-03-19 14:27:28] [INFO] 开路校准成功
+[2026-03-19 14:27:28] [ERROR] 开路校准失败
+[2026-03-19 14:33:58] [INFO] Starting SCPI Runner...
+[2026-03-19 14:33:59] [INFO] SCPI Runner started.
+[2026-03-19 14:33:59] [INFO] Connecting VISA...
+[2026-03-19 14:33:59] [INFO] VISA connected.
+[2026-03-19 14:33:59] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:34:03] [INFO] 开路校准成功
+[2026-03-19 14:34:03] [ERROR] 开路校准失败
+[2026-03-19 14:36:46] [INFO] 负载校准成功
+[2026-03-19 14:36:46] [INFO] 0
+
+[2026-03-19 14:36:46] [ERROR] 负载校准失败
+[2026-03-19 14:45:41] [INFO] Starting SCPI Runner...
+[2026-03-19 14:45:41] [INFO] SCPI Runner started.
+[2026-03-19 14:45:41] [INFO] Connecting VISA...
+[2026-03-19 14:45:41] [INFO] VISA connected.
+[2026-03-19 14:45:41] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:45:52] [INFO] 负载校准成功
+[2026-03-19 14:45:52] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+
+[2026-03-19 14:45:52] [ERROR] 负载校准失败
+[2026-03-19 14:46:13] [INFO] 开路校准成功
+[2026-03-19 14:53:58] [INFO] Starting SCPI Runner...
+[2026-03-19 14:53:59] [INFO] SCPI Runner started.
+[2026-03-19 14:53:59] [INFO] Connecting VISA...
+[2026-03-19 14:53:59] [INFO] VISA connected.
+[2026-03-19 14:53:59] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 14:54:06] [INFO] 负载校准成功
+[2026-03-19 14:54:06] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 14:54:06] [ERROR] 负载校准失败
+[2026-03-19 14:54:39] [INFO] 负载校准成功
+[2026-03-19 14:54:39] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 14:54:39] [ERROR] 负载校准失败
+[2026-03-19 14:54:56] [INFO] 负载校准成功
+[2026-03-19 14:54:56] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 14:54:56] [ERROR] 负载校准失败
+[2026-03-19 15:15:09] [INFO] 负载校准成功
+[2026-03-19 15:15:09] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 15:15:09] [ERROR] 负载校准失败
+[2026-03-19 15:26:24] [INFO] Starting SCPI Runner...
+[2026-03-19 15:26:24] [INFO] SCPI Runner started.
+[2026-03-19 15:26:24] [INFO] Connecting VISA...
+[2026-03-19 15:26:24] [INFO] VISA connected.
+[2026-03-19 15:26:24] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 15:26:32] [INFO] 开路校准成功
+[2026-03-19 15:26:32] [INFO] 0
+:SENS:CORR:FULL:OPEN
+1
+0
+0
+[2026-03-19 15:26:40] [INFO] 短路校准成功
+[2026-03-19 15:26:40] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0
+[2026-03-19 15:26:46] [INFO] 负载校准成功
+[2026-03-19 15:26:46] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 15:26:46] [INFO] 0
+0
+0
+
+[2026-03-19 20:55:49] [INFO] 开路校准成功
+[2026-03-19 20:55:49] [INFO] Not connected:SENS:CORR:FULL:OPEN
+Not connectedNot connected0
+[2026-03-19 20:55:54] [INFO] Starting SCPI Runner...
+[2026-03-19 20:55:54] [INFO] SCPI Runner started.
+[2026-03-19 20:55:54] [INFO] Connecting VISA...
+[2026-03-19 20:55:54] [INFO] VISA connected.
+[2026-03-19 20:55:54] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 20:56:21] [INFO] 开路校准成功
+[2026-03-19 20:56:21] [INFO] 0
+:SENS:CORR:FULL:OPEN
+1
+0
+0
+[2026-03-19 20:56:50] [INFO] 短路校准成功
+[2026-03-19 20:56:50] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0
+[2026-03-19 20:56:57] [INFO] 负载校准成功
+[2026-03-19 20:56:57] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0
+[2026-03-19 20:56:57] [INFO] 0
+0
+0
+
+[2026-03-19 20:59:45] [INFO] 短路校准成功
+[2026-03-19 20:59:45] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0
+[2026-03-19 21:15:49] [INFO] Starting SCPI Runner...
+[2026-03-19 21:15:49] [INFO] SCPI Runner started.
+[2026-03-19 21:15:49] [INFO] Connecting VISA...
+[2026-03-19 21:15:49] [INFO] VISA connected.
+[2026-03-19 21:15:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:15:58] [INFO] 开路校准成功
+[2026-03-19 21:15:58] [INFO] 0
+:SENS:CORR:FULL:OPEN
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:18:52] [INFO] 短路校准成功
+[2026-03-19 21:18:52] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:19:37] [INFO] 负载校准成功
+[2026-03-19 21:19:37] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:19:41] [INFO] 0
+0
+
+[2026-03-19 21:21:43] [INFO] 开路校准成功
+[2026-03-19 21:21:43] [INFO] Not connected:SENS:CORR:FULL:OPEN
+Not connectedNot connected0Not connected
+[2026-03-19 21:21:47] [INFO] Starting SCPI Runner...
+[2026-03-19 21:21:47] [INFO] SCPI Runner started.
+[2026-03-19 21:21:47] [INFO] Connecting VISA...
+[2026-03-19 21:21:47] [INFO] VISA connected.
+[2026-03-19 21:21:47] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:21:55] [INFO] 开路校准成功
+[2026-03-19 21:21:55] [INFO] 0
+:SENS:CORR:FULL:OPEN
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:22:04] [INFO] 短路校准成功
+[2026-03-19 21:22:04] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:22:10] [INFO] 负载校准成功
+[2026-03-19 21:22:10] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:22:14] [INFO] 0
+0
+
+[2026-03-19 21:24:44] [INFO] Starting SCPI Runner...
+[2026-03-19 21:24:44] [INFO] SCPI Runner started.
+[2026-03-19 21:24:44] [INFO] Connecting VISA...
+[2026-03-19 21:24:44] [INFO] VISA connected.
+[2026-03-19 21:24:44] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:24:49] [INFO] 开路校准成功
+[2026-03-19 21:24:49] [INFO] 0
+:SENS:CORR:FULL:OPEN
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:24:58] [INFO] 短路校准成功
+[2026-03-19 21:24:58] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:02] [INFO] 负载校准成功
+[2026-03-19 21:25:02] [INFO] 0
+:SENS:CORR:FULL:LOAD
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:06] [INFO] 0
+0
+
+[2026-03-19 21:25:18] [INFO] 短路校准成功
+[2026-03-19 21:25:18] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:18] [INFO] 短路校准成功
+[2026-03-19 21:25:18] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:20] [INFO] 短路校准成功
+[2026-03-19 21:25:20] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:22] [INFO] 短路校准成功
+[2026-03-19 21:25:22] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+0-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:25:24] [INFO] 短路校准成功
+[2026-03-19 21:25:24] [INFO] 0
+:SENS:CORR:FULL:SHOR
+1
+0
+1-113,"Undefined header;command: *WAI?"
+
+[2026-03-19 21:27:31] [INFO] Starting SCPI Runner...
+[2026-03-19 21:27:31] [INFO] SCPI Runner started.
+[2026-03-19 21:27:31] [INFO] Connecting VISA...
+[2026-03-19 21:27:31] [INFO] VISA connected.
+[2026-03-19 21:27:31] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:27:39] [INFO] 开路校准成功
+[2026-03-19 21:27:39] [INFO] 0,"No error"
+
+[2026-03-19 21:27:48] [INFO] 短路校准成功
+[2026-03-19 21:27:48] [INFO] 0,"No error"
+
+[2026-03-19 21:27:50] [INFO] 负载校准成功
+[2026-03-19 21:27:50] [INFO] 0,"No error"
+
+[2026-03-19 21:27:54] [INFO] 0
+0
+
+[2026-03-19 21:29:52] [INFO] Starting SCPI Runner...
+[2026-03-19 21:29:52] [INFO] SCPI Runner started.
+[2026-03-19 21:29:52] [INFO] Connecting VISA...
+[2026-03-19 21:29:52] [INFO] VISA connected.
+[2026-03-19 21:29:52] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:29:56] [INFO] 开路校准成功
+[2026-03-19 21:29:56] [INFO] 0,"No error"
+
+[2026-03-19 21:30:00] [INFO] 短路校准成功
+[2026-03-19 21:30:00] [INFO] 0,"No error"
+
+[2026-03-19 21:30:02] [INFO] 负载校准成功
+[2026-03-19 21:30:02] [INFO] 0,"No error"
+
+[2026-03-19 21:30:06] [INFO] 0
+0
+
+[2026-03-19 21:38:10] [INFO] Starting SCPI Runner...
+[2026-03-19 21:38:10] [INFO] SCPI Runner started.
+[2026-03-19 21:38:10] [INFO] Connecting VISA...
+[2026-03-19 21:38:10] [INFO] VISA connected.
+[2026-03-19 21:38:10] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:38:16] [INFO] 校准成功
+[2026-03-19 21:38:16] [INFO] 0,"No error"
+1
+0,"No error"
+1
+0,"No error"
+1
+
+[2026-03-19 21:38:28] [INFO] 
+[2026-03-19 21:39:42] [INFO] 校准成功
+[2026-03-19 21:39:42] [INFO] 514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+
+[2026-03-19 21:39:54] [INFO] 
+[2026-03-19 21:40:12] [INFO] 校准成功
+[2026-03-19 21:40:12] [INFO] 514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+
+[2026-03-19 21:40:24] [INFO] 
+[2026-03-19 21:44:59] [INFO] Starting SCPI Runner...
+[2026-03-19 21:44:59] [INFO] SCPI Runner started.
+[2026-03-19 21:44:59] [INFO] Connecting VISA...
+[2026-03-19 21:44:59] [INFO] VISA connected.
+[2026-03-19 21:45:00] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:45:01] [ERROR] 获取仪器控制权失败，仪器可能正被官方软件占用！
+[2026-03-19 21:45:15] [INFO] 成功获取仪器控制权，开始校准...
+[2026-03-19 21:45:15] [INFO] 校准指令发送完毕
+[2026-03-19 21:45:15] [INFO] 514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+514,"Not allowed;Instrument is locked by another I/O session."
+1
+
+[2026-03-19 21:45:15] [INFO] 仪器控制权已释放
+[2026-03-19 21:46:07] [INFO] Starting SCPI Runner...
+[2026-03-19 21:46:07] [INFO] SCPI Runner started.
+[2026-03-19 21:46:07] [INFO] Connecting VISA...
+[2026-03-19 21:46:07] [INFO] VISA connected.
+[2026-03-19 21:46:07] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:46:11] [INFO] 成功获取仪器控制权，开始校准...
+[2026-03-19 21:46:11] [INFO] 校准指令发送完毕
+[2026-03-19 21:46:11] [INFO] 514,"Not allowed;Instrument is locked by another I/O session."
+1
+0,"No error"
+1
+0,"No error"
+1
+
+[2026-03-19 21:46:11] [INFO] 仪器控制权已释放
+[2026-03-19 21:48:37] [INFO] Starting SCPI Runner...
+[2026-03-19 21:48:37] [INFO] SCPI Runner started.
+[2026-03-19 21:48:37] [INFO] Connecting VISA...
+[2026-03-19 21:48:37] [INFO] VISA connected.
+[2026-03-19 21:48:37] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:48:41] [INFO] 短路校准成功
+[2026-03-19 21:48:41] [INFO] 0,"No error"
+1
+
+[2026-03-19 21:48:43] [INFO] 负载校准成功
+[2026-03-19 21:48:43] [INFO] 0,"No error"
+1
+
+[2026-03-19 21:48:49] [INFO] 0
+0
+
+[2026-03-19 21:48:54] [INFO] 成功获取仪器控制权，开始校准...
+[2026-03-19 21:48:54] [INFO] 校准指令发送完毕
+[2026-03-19 21:48:54] [INFO] 0,"No error"
+1
+0,"No error"
+1
+0,"No error"
+1
+
+[2026-03-19 21:48:54] [INFO] 仪器控制权已释放
+[2026-03-19 21:50:02] [INFO] 成功获取仪器控制权，开始校准...
+[2026-03-19 21:50:02] [INFO] 校准指令发送完毕
+[2026-03-19 21:50:02] [INFO] 0,"No error"
+1
+0,"No error"
+1
+0,"No error"
+1
+
+[2026-03-19 21:50:02] [INFO] 仪器控制权已释放
+[2026-03-19 21:51:11] [INFO] Starting SCPI Runner...
+[2026-03-19 21:51:11] [INFO] SCPI Runner started.
+[2026-03-19 21:51:11] [INFO] Connecting VISA...
+[2026-03-19 21:51:11] [INFO] VISA connected.
+[2026-03-19 21:51:11] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+
+[2026-03-19 21:51:16] [INFO] 成功获取仪器控制权，开始校准...
+[2026-03-19 21:51:16] [INFO] 校准指令发送完毕
+[2026-03-19 21:51:16] [INFO] 0,"No error"
+1
+0,"No error"
+1
+0,"No error"
+1
+
+[2026-03-19 21:51:16] [INFO] 仪器控制权已释放
+[2026-03-19 21:51:22] [INFO] 0
+0
+

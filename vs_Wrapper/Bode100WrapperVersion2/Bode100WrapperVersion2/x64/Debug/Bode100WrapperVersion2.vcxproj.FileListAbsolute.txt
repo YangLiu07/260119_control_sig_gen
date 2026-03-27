@@ -1,0 +1,2 @@
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\Bode100WrapperVersion2\Bode100WrapperVersion2\x64\Debug\Bode100WrapperVersion2.vcxproj.AssemblyReference.cache
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\Bode100WrapperVersion2\Bode100WrapperVersion2\x64\Debug\Bode100W.C786B354.Up2Date

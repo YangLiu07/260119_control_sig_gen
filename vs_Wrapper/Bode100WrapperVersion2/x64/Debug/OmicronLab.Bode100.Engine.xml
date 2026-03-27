@@ -1,0 +1,672 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.Bode100.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100DemoEngine">
+            <summary>Engine for the Bode100 DemoDevice.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100DemoEngine.#ctor(System.String,OmicronLab.BaseEngine.Engine.Interfaces.IDemoDevice{OmicronLab.DemoDevice.DemoDevices.Configurations.Bode100DemoDeviceConfiguration},System.Byte[],System.Boolean)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100DemoEngine" /> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+            <param name="device">The device.</param>
+            <param name="flash">The flash.</param>
+            <param name="isPowerOn">Set to <c>true</c> to turn the power on.</param>
+        </member>
+        <member name="E:OmicronLab.Bode100.Engine.Bode100DemoEngine.SamplesReady">
+            <summary>Occurs when [samples ready].</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100DemoEngine.SendMeasureCommand(OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition,OmicronLab.BaseEngine.Engine.Interfaces.IEngineTask)">
+            <summary>
+            Sends the measure command (Adds it to <see cref="P:OmicronLab.Bode100.Engine.DemoDeviceEngineBase`2.MeasurementQueue" /> as a <see cref="T:OmicronLab.BaseEngine.Testing.TestEngineTask" />).
+            </summary>
+            <param name="commandDefinition">The command definition.</param>
+            <param name="task">The task.</param>
+            <exception cref="T:OmicronLab.BaseEngine.Engine.EngineNotAvailableException">Engine is not active at the moment.</exception>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100DemoEngine.SimulateMeasurement(OmicronLab.BaseEngine.Testing.TestEngineTask)">
+            <summary>Simulates the measurement.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition">
+            <summary>Device configuration for the Bode 100 R1.</summary>
+            <remarks>See the "Protocol for the data transfer between PC and Bode 100" document for details.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.#ctor(OmicronLab.Bode100.Engine.Bode100R1CommandDefinition)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition"/> class.</summary>
+            <param name="source">The source to copy all values from.</param>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CommandIndex">
+            <summary>Gets or sets the command number.</summary>
+            <remarks>See CTR[0-1].</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CommandTime">
+            <summary>Gets or sets the execution time (i. e. ADC cycles).</summary>
+            <remarks>See CTR[2-3].</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.MaxCommandTime">
+            <summary>Gets the maximum execution time (i.e. ADC cycles) supported by this command.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SourceDdsDacSignalLevel">
+            <summary>Gets or sets the signal level of the DDS as DAC value.</summary>
+            <remarks>See CTR[8-9] - L(1L4-7) and L(1H0-7).</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SourceDdsFrequency">
+            <summary>Gets or sets the value for DDS adjustment.</summary>
+            <remarks>See CTR[4-7].</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SourceDeviceFrequency">
+            <summary>Gets or sets the source frequency rounded like it is sent to the device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SourceDdsMultiplier">
+            <summary>Gets or sets a value indicating whether the DDS x6 multiplier will be used.</summary>
+            <remarks>This is not used in the old Bode 100 HW.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.DdsPowerOn">
+            <summary>Gets or sets a value indicating whether the source is on.</summary>
+            <remarks>See CTR[8] - L(1L0).</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.LocalOscillatorDdsFrequency">
+            <summary>Gets or sets the frequency local oscillator DDS.</summary>
+            <remarks>See CTR[16-19] - called demodulator source DDS or DDS 3.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.LocalOscillatorDdsPhaseShift">
+            <summary>Gets or sets the local oscillator DDS phase shift.</summary>
+            <remarks>See CTR[20] - P(DDS3-3) - P(DDS3-7) - called demodulator source DDS or DDS 3.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SourceAttenuator">
+            <summary>Gets or sets the source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.OmicronLab#BaseEngine#Engine#Interfaces#ICommandDefinition#SourceAttenuator">
+            <summary>Gets or sets the source attenuator. This is a bit-mask - see remarks for details.</summary>
+            <remarks>
+            <para>
+            For the Bode 100 and the FRAnalyzer / FRANEO 800 the first 3 bit are used only:
+            - SourceAttenuator[0] = HWConfig[9] -&gt; S(source-0) -&gt; SOURCE_5_DB.
+            - SourceAttenuator[1] = HWConfig[9] -&gt; S(source-1) -&gt; SOURCE_10_DB.
+            - SourceAttenuator[2] = HWConfig[9] -&gt; S(source-2) -&gt; SOURCE_20_DB.
+            </para>
+            <para>
+            For the Bode 500 the first 12 bits are used.
+            - SourceAttenuator[0-5] = attenuator 1.
+            - SourceAttenuator[6-11] = attenuator 2.
+            </para>
+            See implementation for details.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.MeasureRFSignals">
+            <summary>Gets or sets a value indicating whether to measure RF signals.</summary>
+            <remarks>CTR[21] -&gt; S(ADC-2) -&gt; Measure signals.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency used for the RF measurement.</summary>
+            <value>The intermediate frequency.</value>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.MeasureDetectorSignals">
+            <summary>Gets or sets a value indicating whether to measure detector signals.</summary>
+            <remarks>CTR[21] -&gt; S(ADC-3) -&gt; Measure detector signals.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Calibration50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm calibration is set.</summary>
+            <remarks>CTR[22] -&gt; S(source-5) -&gt; CAL_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CalibrationShort">
+            <summary>Gets or sets a value indicating whether the short calibration is set.</summary>
+            <remarks>CTR[22] -&gt; S(source-6) -&gt; CAL_SHORT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CalibrationOpen">
+            <summary>Gets or sets a value indicating whether the open calibration is set.</summary>
+            <remarks>CTR[22] -&gt; S(source-7) -&gt; CAL_OPEN# - this bit needs to be inverted.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CalibrationDC">
+            <summary>Gets or sets a value indicating whether the DC calibration is enabled.</summary>
+            <remarks>CTR[23] -&gt; S(input-7) -&gt; CAL_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CommonIn">
+            <summary>Gets or sets a value indicating whether both channels are set to the same input signal.</summary>
+            <remarks>CTR[23] -&gt; S(input-6) -&gt; COMMON_IN.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1On">
+            <summary>Gets or sets a value indicating whether the CH1 is enabled.</summary>
+            <remarks>CTR[23] -&gt; S(input-0) -&gt; CH1_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2On">
+            <summary>Gets or sets a value indicating whether the CH2 is enabled.</summary>
+            <remarks>CTR[23] -&gt; S(input-1) -&gt; CH2_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH1.</summary>
+            <remarks>CTR[23] -&gt; S(input-2) -&gt; CH1_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH2.</summary>
+            <remarks>CTR[23] -&gt; S(input-3) -&gt; CH2_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH1.</summary>
+            <remarks>CTR[23] -&gt; S(input-5) -&gt; IMP_REF_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH2.</summary>
+            <remarks>CTR[23] -&gt; S(input-4) -&gt; IMP_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1DC">
+            <summary>Gets or sets a value indicating whether CH1 has DC coupling set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-0) -&gt; CH1_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2DC">
+            <summary>Gets or sets a value indicating whether CH2 has DC coupling set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-1) -&gt; CH2_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 1 set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-4) -&gt; G1_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 2 set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-6) -&gt; G2_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel1Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH1 has the 20dB attenuator set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-2) -&gt; CH1_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 1 set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-5) -&gt; G1_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 2 set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-7) -&gt; G2_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Channel2Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH2 has the 20dB attenuator set.</summary>
+            <remarks>CTR[24] -&gt; S(PROC-3) -&gt; CH2_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.HardwareDelayIndex">
+            <summary>
+            Gets the index of the hardware delay.
+            If different between this index and the last sent index sent, a delay will be added before the actual measurement.
+            </summary>
+            <value>The index of the hardware delay.</value>
+            <remarks>
+            The hardware delay index is (mainly) needed when attenuator shaping will be done, because when switching the 20dB channel
+            attenuators (CH1 and CH2) during a sweep measurement the involved HF relays need some settling time. The settling time is
+            0.5 milliseconds per relay which sums up to 1.0 milliseconds because two relays are affected.
+            </remarks>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Clone">
+            <summary>Clones this configuration.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.Clone(System.UInt16)">
+            <summary>Clones this configuration.</summary>
+            <param name="newCommandTime">The command time.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CopyTo(OmicronLab.Bode100.Engine.Bode100R1CommandDefinition)">
+            <summary>Copies all values to the target.</summary>
+            <param name="target">The target.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CalculateRequiredDelay(OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition,System.Nullable{System.Double})">
+            <summary>Calculates the required delay in milliseconds when switching from the given previous command to this command.</summary>
+            <param name="previousCommand">The previous command.</param>
+            <param name="minDelay">(Optional) The minimum delay (e.g. DuT-delay).</param>
+            <returns>The required delay.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.PrepareCommand(System.Span{System.Byte})">
+            <summary>Prepares the command for sending it to the hardware by filling it into the supplied buffer.</summary>
+            <param name="buffer">The buffer.</param>
+            <returns>The count of bytes written (=size of the command).</returns>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.BitReverse(System.UInt16)">
+            <summary>Reverses the bit order of the value.</summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.CopyValuesFrom(OmicronLab.Bode100.Engine.Bode100R1CommandDefinition)">
+            <summary>Copies all values from the source.</summary>
+            <param name="source">The source.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.GetConfigBit(System.Int32)">
+            <summary>Gets the configuration bit.</summary>
+            <param name="bit">The bit.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1CommandDefinition.SetConfigBit(System.Boolean,System.Int32)">
+            <summary>Sets the configuration bit.</summary>
+            <param name="val">If set to <c>true</c> the bit will be set.</param>
+            <param name="bit">The bit.</param>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1">
+            <summary>Encapsulates all possible commands for the Bode100R1 engine.</summary>
+            <typeparam name="TDevice">The type of the device.</typeparam>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.Device">
+            <summary>Gets the device.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.#ctor(OmicronLab.Bode100.Engine.Bode100R1Engine{`0})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1"/> class.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.Engine">
+            <summary>Gets the engine.</summary>
+            <value>The engine.</value>
+        </member>
+        <member name="E:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.ProgrammingStatusUpdate">
+            <summary>Occurs during programming the hardware.</summary>
+            <remarks>The progress will be reported in percent.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.WriteMeasurementCommand(System.ReadOnlySpan{System.Byte})">
+            <summary>Writes the measurement command asynchronously to the hardware device.</summary>
+            <param name="command">The command.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.WriteCalibrationData(System.ReadOnlySpan{System.Byte})">
+            <summary>Writes the calibration data asynchronously to the flash memory of the hardware device.</summary>
+            <param name="data">The calibration data as byte array.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.ReadCalibrationData">
+            <summary>Reads the calibration data asynchronously from the flash memory of the hardware device.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.ProgramEngine(System.String,System.Boolean)">
+            <summary>Programs the hardware asynchronously.</summary>
+            <param name="fileName">Name of the file.</param>
+            <param name="enforceProgramming">If set to <c>true</c> the programming will be enforced.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.CheckFirmwareDownload">
+            <summary>Checks the firmware download by waiting for the correct USB device.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.Reset">
+            <summary>Performs a command reset asynchronously of the hardware device.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.ResetDevice">
+            <summary>Resets the device to a clean state.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.PerformAuxiliaryMeasurement(System.Boolean,OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition)">
+            <summary>Reads the auxiliary measurement asynchronous.</summary>
+            <param name="performGroundLoopCheck">Set to <c>true</c> to perform a ground loop check.</param>
+            <param name="commandDefinition">The command definition.</param>
+            <remarks>
+            The main purpose of <paramref name="commandDefinition" /> is to switch off the source so that the ground loop check can be performed
+            avoiding measurement disturbing influences.
+            </remarks>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.SendCommandStopCommand">
+            <summary>Sends the command stop command to the HW and also stops the command pool.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.SendCommandStartCommand">
+            <summary>Sends the command start command to the HW.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.SendDataStopCommand">
+            <summary>Sends the data stop command to the HW and stops all data-collectors.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1EngineCommands`1.SendDataStartCommand">
+            <summary>Sends the data start command to the HW and starts all data-collectors.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R1Engine`1">
+            <summary>Bode100R1 engine implementation.</summary>
+            <typeparam name="TDevice">The type of the device.</typeparam>
+        </member>
+        <member name="F:OmicronLab.Bode100.Engine.Bode100R1Engine`1.disposeCount">
+            <summary>The dispose count.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.ConnectedDevices">
+            <summary>Gets a list of all connected Bode 100 R1 devices.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.SupportGroundLoopMeasurement">
+            <summary>Gets a value indicating whether the ground loop measurement will be supported when performing an auxiliary measurement.</summary>
+            <remarks>Currently only supported for FRAnalyzer devices in combination with "PerformAuxiliaryMeasurement".</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.HasLedIndicators">
+            <summary>Gets a value indicating whether the device has LED indicators visualizing the measurement states.</summary>
+            <remarks>Currently only supported for FRAnalyzer devices.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.IsSourcePowerOnDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay for the source-attenuators when the source power is turned on.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.IsSourceAttenuatorChangeDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay if the source attenuators change.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.ProductId">
+            <summary>Gets the product identifier of the connected USB device.</summary>
+            <remarks>This is used to filter the USB events.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.DefaultCalibrationData">
+            <summary>Gets the default calibration data.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1Engine`1.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R1Engine`1" /> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1Engine`1.Finalize">
+            <summary>Finalizes an instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R1Engine`1"/> class.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.DeviceRevisionAddress">
+            <summary>Gets the device revision address (location in the FRAM).</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1Engine`1.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1Engine`1.CreateCommands">
+            <summary>Creates the commands.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R1Engine`1.FlashDataChecker">
+            <summary>Gets the flash data checker.</summary>
+            <value>The flash data checker.</value>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1Engine`1.ThrowIfDisposed">
+            <summary>Throws if disposed.</summary>
+            <exception cref="T:System.ObjectDisposedException">The engine is disposed.</exception>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R1FlashDataCheck">
+            <summary>Helper class for checking the devices flash memory.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1FlashDataCheck.CheckFlashData(System.ReadOnlySpan{System.Byte})">
+            <summary>Checks the flash data.</summary>
+            <param name="flash">The flash.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R1FlashDataCheck.CalculateCrc16(System.ReadOnlySpan{System.Byte})">
+            <summary>Calculates the CRC16.</summary>
+            <param name="flash">The flash to calculate the CRC for.</param>
+            <remarks>Code taken 1:1 from old bode code.</remarks>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition">
+            <summary>Bode 100 Revision 2 device configuration implementation.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.#ctor(System.Int32,OmicronLab.Bode100.Engine.Bode100R2CommandDefinition)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition" /> class.</summary>
+            <param name="revision">The hardware revision of the FRAnalyzer device.</param>
+            <param name="deviceConfig">The device configuration used for initialization.</param>
+            <remarks>
+            If the <paramref name="revision"/> parameter and the revision defined in
+            the <paramref name="deviceConfig"/> differ then the <paramref name="revision"/> will
+            will be taken.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceAttenuator">
+            <summary>Gets or sets the source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.OmicronLab#BaseEngine#Engine#Interfaces#ICommandDefinition#SourceAttenuator">
+            <summary>Gets or sets the source attenuator. This is a bit-mask - see remarks for details.</summary>
+            <remarks>
+            <para>
+            For the Bode 100 and the FRAnalyzer / FRANEO 800 the first 3 bit are used only:
+            - SourceAttenuator[0] = HWConfig[9] -&gt; S(source-0) -&gt; SOURCE_5_DB.
+            - SourceAttenuator[1] = HWConfig[9] -&gt; S(source-1) -&gt; SOURCE_10_DB.
+            - SourceAttenuator[2] = HWConfig[9] -&gt; S(source-2) -&gt; SOURCE_20_DB.
+            </para>
+            <para>
+            For the Bode 500 the first 12 bits are used.
+            - SourceAttenuator[0-5] = attenuator 1.
+            - SourceAttenuator[6-11] = attenuator 2.
+            </para>
+            See implementation for details.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Calibration50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm calibration is set.</summary>
+            <remarks>HWConfig[10] -&gt; S(source-3) -&gt; CAL_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CalibrationShort">
+            <summary>Gets or sets a value indicating whether the short calibration is set.</summary>
+            <remarks>HWConfig[10] -&gt; S(source-4) -&gt; CAL_SHORT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CalibrationOpen">
+            <summary>Gets or sets a value indicating whether the open calibration is set.</summary>
+            <remarks>HWConfig[10] -&gt; S(source-5) -&gt; CAL_OPEN - this bit needs to be inverted.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1On">
+            <summary>Gets or sets a value indicating whether the CH1 is enabled.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-0) -&gt; CH1_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2On">
+            <summary>Gets or sets a value indicating whether the CH2 is enabled.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-1) -&gt; CH2_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH1.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-2) -&gt; CH1_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH2.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-3) -&gt; CH2_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH2.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-4) -&gt; IMP_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether the impedance bridge is set for CH1.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-5) -&gt; IMP_REF_ON.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CommonIn">
+            <summary>Gets or sets a value indicating whether both channels are set to the same input signal.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-6) -&gt; COMMON_IN.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CalibrationDC">
+            <summary>Gets or sets a value indicating whether the DC calibration is enabled.</summary>
+            <remarks>HWConfig[11] -&gt; S(in-7) -&gt; DC_CAL.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1DC">
+            <summary>Gets or sets a value indicating whether CH1 has DC coupling set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-0) -&gt; CH1_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2DC">
+            <summary>Gets or sets a value indicating whether CH2 has DC coupling set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-1) -&gt; CH2_DC.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH1 has the 20dB attenuator set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-2) -&gt; CH1_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH2 has the 20dB attenuator set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-3) -&gt; CH2_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 1 set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-4) -&gt; G1_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 1 set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-5) -&gt; G1_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel1Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 2 set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-6) -&gt; G2_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Channel2Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 2 set.</summary>
+            <remarks>HWConfig[12] -&gt; S(PROC-7) -&gt; G2_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.MeasureRFSignals">
+            <summary>Gets or sets a value indicating whether to measure RF signals.</summary>
+            <remarks>HWConfig[13] -&gt; S(ADC-0) -&gt; Measure RF.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.MeasureDetectorSignals">
+            <summary>Gets or sets a value indicating whether to measure detector signals.</summary>
+            <remarks>HWConfig[13] -&gt; S(ADC-1) -&gt; Measure detector.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency used for the RF measurement.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.LocalOscillatorDdsFrequency">
+            <summary>Gets or sets the frequency local oscillator DDS.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.DdsPowerOn">
+            <summary>Gets or sets a value indicating whether the source is on.</summary>
+            <remarks>HWConfig[5] -&gt; L(h-7).</remarks>
+            <remarks>
+            When switching the source from off to on the x6 multiplier has to be switched off because this is a problem of the DDS.
+            But there will be no crosscheck if afterward the x6 multiplier will be set to high again, because once the source is on
+            it will be valid to activate or deactivate the x6 multiplier. See also <seealso cref="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceDdsMultiplier"/>.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceDdsMultiplier">
+            <summary>Gets or sets a value indicating whether the DDS x6 multiplier will be used.</summary>
+            <remarks>
+            For frequencies equal or above 100Hz the PLL multiplier x6 will be activated. For frequencies below 100Hz the PLL multiplier x6
+            of the DDS will be deactivated so that the frequency is more accurate. [HWConfig[4] -&gt; L(l-1)]. See also <seealso cref="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.DdsPowerOn"/>.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceDdsDacSignalLevel">
+            <summary>Gets or sets the signal level of the DDS as DAC value.</summary>
+            <remarks>See HWConfig[4-5].</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceDdsFrequency">
+            <summary>Gets or sets the value for DDS adjustment.</summary>
+            <remarks>See HWConfig[0-3].</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SourceDeviceFrequency">
+            <summary>Gets or sets the source frequency rounded like it is sent to the device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CommandIndex">
+            <summary>Gets or sets the command index.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CommandTime">
+            <summary>Gets or sets the command time (i. e. ADC cycles).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.MaxCommandTime">
+            <summary>Gets the maximum execution time (i.e. ADC cycles) supported by this command.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.HardwareDelayIndex">
+            <summary>
+            Gets the index of the hardware delay.
+            If different between this index and the last index sent, a delay will be added before the actual measurement.
+            </summary>
+            <value>The index of the hardware delay.</value>
+            <remarks>
+            The hardware delay index is (mainly) needed when attenuator shaping will be done, because when switching the 20dB channel
+            attenuators (CH1 and CH2) during a sweep measurement the involved HF relays need some settling time. The settling time is
+            0.5 milliseconds per relay which sums up to 1 milliseconds because two relays are affected.
+            </remarks>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CalculateRequiredDelay(OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition,System.Nullable{System.Double})">
+            <summary>Calculates the required delay in milliseconds when switching from the given previous command to this command.</summary>
+            <param name="previousCommand">The previous command.</param>
+            <param name="minDelay">(Optional) The minimum delay (e.g. DuT-delay).</param>
+            <returns>The required delay.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.PrepareCommand(System.Span{System.Byte})">
+            <summary>Prepares the command for sending it to the hardware by filling it into the supplied buffer.</summary>
+            <param name="buffer">The buffer.</param>
+            <returns>The count of bytes written (=size of the command).</returns>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CopyTo(OmicronLab.Bode100.Engine.Bode100R2CommandDefinition)">
+            <summary>Copies the values.</summary>
+            <param name="deviceConfig">The device configuration.</param>
+            <exception cref="T:System.NullReferenceException">Device configuration is null.</exception>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Clone">
+            <summary>Clones this configuration.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.Clone(System.UInt16)">
+            <summary>Clones this configuration.</summary>
+            <param name="newCommandTime">The command time.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.SetConfigBit(System.UInt32@,System.Boolean,System.Byte)">
+            <summary>Sets the configuration bit to high or low dependent on the value at a specific bit position.</summary>
+            <param name="configBits">The configuration bits.</param>
+            <param name="value">If set to <c>true</c> set bit to true, false otherwise.</param>
+            <param name="bitPosition">The bit position.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.GetConfigBits">
+            <summary>
+            Corrects the Configuration bits of the hardware specification to overcome errors during hardware development and returns the correct bits.
+            </summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2CommandDefinition.CalculateSourceDdsSignalLevel">
+            <summary>Calculates the source DDS signal level including the on/off state of the DDS source and the state of the x6 PLL multiplier.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R2Engine">
+            <summary>Bode 100 R2 engine implementation.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.ConnectedDevices">
+            <summary>Gets a list of all connected FTDI devices.</summary>
+            <value>The connected FTDI devices.</value>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.SupportGroundLoopMeasurement">
+            <summary>Gets a value indicating whether the ground loop measurement will be supported when performing an auxiliary measurement.</summary>
+            <value><c>true</c> if the ground loop measurement will be supported; otherwise, <c>false</c>.</value>
+            <remarks>Currently only supported for FRAnalyzer devices in combination with "PerformAuxiliaryMeasurement".</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.HasLedIndicators">
+            <summary>Gets a value indicating whether the device has LED indicators visualizing the measurement states.</summary>
+            <value><c>true</c> if this instance has led indicators; otherwise, <c>false</c>.</value>
+            <remarks>Currently only supported for FRAnalyzer devices.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.IsSourcePowerOnDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay for the source-attenuators when the source power is turned on.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.IsSourceAttenuatorChangeDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay if the source attenuators change.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.ProductId">
+            <summary>Gets the product identifier of the connected USB device.</summary>
+            <value>The product identifier.</value>
+            <remarks>This is used to filter the USB events.</remarks>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.DefaultCalibrationData">
+            <summary>Gets the default calibration data.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.DeviceRevisionAddress">
+            <summary>Gets the device revision address (location in the FRAM).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2Engine.FlashDataChecker">
+            <summary>Gets the flash data checker.</summary>
+            <value>The flash data checker.</value>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2Engine.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R2Engine" /> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2Engine.CreateCommands">
+            <summary>Creates the commands.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R2EngineCommands">
+            <summary>Bode100R2 engine commands implementation.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2EngineCommands.FlashMemorySize">
+            <summary>Gets the size of the flash memory in bytes.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2EngineCommands.FirmwareFromResource">
+            <summary>Gets the firmware from resource.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2EngineCommands.ExpectedFirmwareVersion">
+            <summary>Gets the version of the FPGA-firmware which matches the current Engine version.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Bode100R2EngineCommands.#ctor(OmicronLab.FtdiDevice.FtdiEngine{OmicronLab.FtdiDevice.Bode100R2Device})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode100.Engine.Bode100R2EngineCommands"/> class.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Bode100R2FlashDataCheck">
+            <summary>Helper class for checking the devices flash memory.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.Bode100R2FlashDataCheck.FlashMemorySize">
+            <summary>Gets the length of the flash memory byte array.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Default.Bode100DefaultMemory">
+            <summary>This class contains the default memory for Bode 100 devices.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode100.Engine.Default.Bode100DefaultMemory.DefaultMemory(OmicronLab.BaseEngine.Engine.Interfaces.IEngine,System.Nullable{System.UInt32})">
+            <summary>Creates the default flash memory for Bode.</summary>
+            <param name="engine">The engine.</param>
+            <param name="deviceRevision">The device revision.</param>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.FileResources.Files">
+            <summary>Bode 100 file resources.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.FileResources.Files.Bode100R2">
+            <summary>Gets the Bode 100 R2 firmware.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode100.Engine.FileResources.Files.CurrentFirmwareVersion">
+            <summary>Gets the version of the FPGA-firmware which matches the current Engine version.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode100.Engine.Interfaces.IBode100R1Engine">
+            <summary>Marks a Bode 100 R1 engine.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,9 @@
+﻿  Measurement.cpp
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\Measurement\Measurement\Measurement.cpp(15,42): warning C4267: “参数”: 从“size_t”转换到“ViUInt32”，可能丢失数据
+Measurement.obj : error LNK2019: 无法解析的外部符号 viOpenDefaultRM，函数 main 中引用了该符号
+Measurement.obj : error LNK2019: 无法解析的外部符号 viOpen，函数 main 中引用了该符号
+Measurement.obj : error LNK2019: 无法解析的外部符号 viClose，函数 main 中引用了该符号
+Measurement.obj : error LNK2019: 无法解析的外部符号 viSetAttribute，函数 main 中引用了该符号
+Measurement.obj : error LNK2019: 无法解析的外部符号 viRead，函数 "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl queryCommand(unsigned long,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?queryCommand@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@KAEBV12@@Z) 中引用了该符号
+Measurement.obj : error LNK2019: 无法解析的外部符号 viWrite，函数 "void __cdecl sendCommand(unsigned long,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?sendCommand@@YAXKAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 中引用了该符号
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\Measurement\x64\Debug\Measurement.exe : fatal error LNK1120: 6 个无法解析的外部命令

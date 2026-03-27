@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.LibUsbDevice</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.LibUsbDevice.Bode100R1BufferListener">
+            <summary>Buffer listener for the Bode 100 R1.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Engine">
+            <summary>Gets the engine.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Finalize">
+            <summary>Finalizes an instance of the <see cref="T:OmicronLab.LibUsbDevice.Bode100R1BufferListener"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Initialize(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.LibUsbDevice.Bode100R1Device},OmicronLab.BaseCommon.ActionIn{System.Buffers.ReadOnlySequence{System.Byte}},System.Int32)">
+            <summary>Initializes the buffer listener.</summary>
+            <param name="engine">The engine.</param>
+            <param name="dataProcessor">The data processor.</param>
+            <param name="bufferBlockSize">Size of the buffer block.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Start">
+            <summary>Starts the listener.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Stop">
+            <summary>Stops the listening.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1BufferListener.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.Bode100R1Device">
+            <summary>A Bode 100 R1 device.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.RegisteredForMeasurement">
+            <summary>Gets a value indicating whether this device is registered for measurement.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.DeviceType">
+            <summary>Gets the type of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.VendorId">
+            <summary>Gets the vendor Id.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.ProductId">
+            <summary>Gets the product Id.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.Device">
+            <summary>Gets the device.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.CommandPipe">
+            <summary>Gets the command pipe.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.MeasurementPipe">
+            <summary>Gets the measurement pipe.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Bode100R1Device.Engine">
+            <summary>Gets or sets the engine.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.EnumerateDevices">
+            <summary>Enumerates the devices.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.Open(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.LibUsbDevice.Bode100R1Device})">
+            <summary>Opens the specified engine.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.Init(System.String)">
+            <summary>Initializes this device.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.LogDeviceStatus(OmicronLab.Tools.Common.Logging.LogLevel)">
+            <summary>Logs the current device status.</summary>
+            <param name="logLevel">The log level to use for logging.</param>
+            <remarks>Used for debugging purposes.</remarks>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.ResetDevice">
+            <summary>Resets the device.</summary>
+            <remarks>This triggers an USB re-enumeration => >1s needed.</remarks>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.CreateBufferListener">
+            <summary>Creates the buffer listener for this device.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.ControlTransfer(System.Byte[],System.Nullable{System.Int16})">
+            <summary>Performs a control transfer.</summary>
+            <param name="data">The data.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.InitializeMeasurement">
+            <summary>Initializes the measurement mode.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.WriteCommand(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Writes a command.</summary>
+            <param name="data">The data.</param>
+            <param name="timeout">The timeout.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.WriteMeasurement(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Writes a measurement.</summary>
+            <param name="data">The data.</param>
+            <param name="timeout">The timeout.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.Close">
+            <summary>Closes this device.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.ReadEEPROM">
+            <summary>Reads the EEPROM.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.InitUsbDevice">
+            <summary>Initializes the USB device.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Device.CloseDevice">
+            <summary>Closes the device.</summary>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.Bode100R1Extensions">
+            <summary>Bode 100 R1 extensions.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Extensions.Write(LibUsbDotNet.UsbEndpointWriter,System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Writes the specified data to the device.</summary>
+            <param name="writer">The writer.</param>
+            <param name="data">The data.</param>
+            <param name="timeout">
+            Maximum time to wait for the transfer to complete. If the transfer times out, the IO operation will be canceled.
+            </param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Extensions.Read(LibUsbDotNet.UsbEndpointReader,System.Int32,System.Int32)">
+            <summary>Reads the specified amount of bytes from the device.</summary>
+            <param name="reader">The reader.</param>
+            <param name="length">The amount to read.</param>
+            <param name="timeout">
+            Maximum time to wait for the transfer to complete. If the transfer times out, the IO operation will be canceled.
+            </param>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.Bode100R1Programmer">
+            <summary>Helper class to program Bode 100 R1 devices.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ProgramAllDevices">
+            <summary>Programs all R1 devices.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.EnumerateDevices">
+            <summary>Enumerates the devices.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.GetVendorId(LibUsbDotNet.UsbDevice)">
+            <summary>Gets the vendor id of an USB device.</summary>
+            <param name="usbDevice">The USB device.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.GetProductId(LibUsbDotNet.UsbDevice)">
+            <summary>Gets the product id of an USB device.</summary>
+            <param name="usbDevice">The USB device.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.GetSerialNumberFromUsbDevice(LibUsbDotNet.Main.UsbRegistry)">
+            <summary>Gets the serial number from an USB device.</summary>
+            <param name="device">The device.</param>
+            <returns>The serial number or NULL of it can'T get it.</returns>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ProgramEngine(LibUsbDotNet.UsbDevice,System.String,System.Action{System.Double},System.String,System.Boolean)">
+            <summary>Programs the hardware asynchronously.</summary>
+            <param name="usbDevice">The device to program.</param>
+            <param name="serialNumber">The serial number.</param>
+            <param name="statusUpdate">The status update action.</param>
+            <param name="fileName">Name of the file.</param>
+            <param name="enforceProgramming">If set to <c>true</c> the programming will be enforced.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.CheckFirmwareDownload(OmicronLab.BaseCommon.Interfaces.IDevice,System.String,System.Action{System.Double})">
+            <summary>Checks the firmware download by waiting for the correct USB device.</summary>
+            <param name="device">The device.</param>
+            <param name="serialNumber">The serial number.</param>
+            <param name="statusUpdate">The status update action.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.CheckFirmwareDownloadSuccessful(System.String)">
+            <summary>Checks if the firmware download was successful.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ControlTransfer(LibUsbDotNet.UsbDevice,System.Byte[],System.Nullable{System.Int16})">
+            <summary>Performs a control transfer.</summary>
+            <param name="usbDevice">The USB device.</param>
+            <param name="data">The data.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ReadEEPROM(LibUsbDotNet.UsbDevice)">
+            <summary>Reads the EEPROM of the supplied device.</summary>
+            <param name="usbDevice">The device.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.GetHexImageAsString(System.String)">
+            <summary>Gets the hex-image as a string.</summary>
+            <param name="fileName">Name of the hex file.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.LoadFirmwareInBuffer(System.String,System.String,OmicronLab.LibUsbDevice.IntelHexRecord[]@)">
+            <summary>Loads the firmware in buffer.</summary>
+            <param name="firmwareAsString">The firmware as string.</param>
+            <param name="serialNumber">The serial number.</param>
+            <param name="buffer">The buffer.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Invalid serial number.</exception>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.Open(LibUsbDotNet.UsbDevice)">
+            <summary>Opens the specified engine.</summary>
+            <param name="usbDevice">The usb device.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.UpdateSerialNumber(System.String,System.UInt16,System.Byte[])">
+            <summary>Updates the serial number on the relevant lines of the hex file.</summary>
+            <param name="currentLine">The current line.</param>
+            <param name="address">The address.</param>
+            <param name="serialBytes">The serial bytes.</param>
+            <returns>The updated line, if it was the serial line. Otherwise the unmodified parameter value.</returns>
+            <remarks>See the "Bode100R1_SerialNumberReplacement.rtf" document in the firmware folder for details.</remarks>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.SetupPacket(System.Nullable{System.Int16})">
+            <summary>Gets the default setup packet for this device.</summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ResetDevice(LibUsbDotNet.UsbDevice)">
+            <summary>Resets the device.</summary>
+            <param name="usbDevice">The USB device.</param>
+            <remarks>This triggers an USB re-enumeration =&gt; &gt;1s needed.</remarks>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ProgramAllDevices(System.Collections.Generic.ICollection{System.Threading.Tasks.Task})">
+            <summary>Programs all devices.</summary>
+            <param name="tasks">The tasks to wait for completed programming.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Bode100R1Programmer.ProgramDevice(LibUsbDotNet.UsbDevice)">
+            <summary>Programs the Bode 100 R1 hardware.</summary>
+            <param name="usbDevice">The usb device.</param>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.CommonDeviceDefinitions">
+            <summary>Common device definitions.</summary>
+        </member>
+        <member name="F:OmicronLab.LibUsbDevice.CommonDeviceDefinitions.ConfigIndex">
+            <summary> Index of the configuration to use.</summary>
+        </member>
+        <member name="F:OmicronLab.LibUsbDevice.CommonDeviceDefinitions.InterfaceIndex">
+            <summary> Index of the interface to use.</summary>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.FileResources.Files">
+            <summary>LibUSB file resources.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.FileResources.Files.Bode100R1">
+            <summary>Gets the Bode 100 R1 firmware.</summary>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.IntelHexRecord">
+            <summary>Hex record for the Bode 100 R1 device.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.op_Equality(OmicronLab.LibUsbDevice.IntelHexRecord,OmicronLab.LibUsbDevice.IntelHexRecord)">
+            <summary>Implements the operator ==.</summary>
+            <param name="a">The first item to compare.</param>
+            <param name="b">The second item to compare.</param>
+            <returns>The result of the operator.</returns>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.op_Inequality(OmicronLab.LibUsbDevice.IntelHexRecord,OmicronLab.LibUsbDevice.IntelHexRecord)">
+            <summary>Implements the operator !=.</summary>
+            <param name="a">The first item to compare.</param>
+            <param name="b">The second item to compare.</param>
+            <returns>The result of the operator.</returns>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.Equals(System.Object)">
+            <summary>Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.</summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns><c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.GetHashCode">
+            <summary>Returns a hash code for this instance.</summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. </returns>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.StoreData(System.Byte[])">
+            <summary>Stores the data.</summary>
+            <param name="data">The data.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.IntelHexRecord.GetData">
+            <summary>Gets the data.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.IntelHexRecord.Data">
+            <summary>Gets the data.</summary>
+            <value>The data.</value>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.IntelHexRecord.Length">
+            <summary>Gets the length.</summary>
+            <value>The length.</value>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.IntelHexRecord.Address">
+            <summary>Gets or sets the address.</summary>
+            <value>The address.</value>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.IntelHexRecord.Type">
+            <summary>Gets or sets the type.</summary>
+            <value>The type.</value>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.Interfaces.IBode100R1Device">
+            <summary>Interface for common Bode 100 R1 methods.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.Interfaces.IBode100R1Device.RegisteredForMeasurement">
+            <summary>Gets a value indicating whether this device is registered for measurement.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Interfaces.IBode100R1Device.InitializeMeasurement">
+            <summary>Initializes the measurement mode.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Interfaces.IBode100R1Device.WriteCommand(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Writes a command.</summary>
+            <param name="data">The data.</param>
+            <param name="timeout">The timeout.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.Interfaces.IBode100R1Device.WriteMeasurement(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>Writes a measurement.</summary>
+            <param name="data">The data.</param>
+            <param name="timeout">The timeout.</param>
+        </member>
+        <member name="T:OmicronLab.LibUsbDevice.PipeData">
+            <summary>PipeData class.</summary>
+        </member>
+        <member name="P:OmicronLab.LibUsbDevice.PipeData.PipeNumber">
+            <summary>Gets the pipe number.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.#ctor(LibUsbDotNet.Main.ReadEndpointID,System.Int32,OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.LibUsbDevice.Bode100R1Device},OmicronLab.BaseCommon.ActionIn{System.Buffers.ReadOnlySequence{System.Byte}})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.LibUsbDevice.PipeData" /> class.</summary>
+            <param name="pipeNumber">The pipe number.</param>
+            <param name="readBufferSize">Size of the read buffer.</param>
+            <param name="engine">The engine.</param>
+            <param name="dataProcessor">The data processor.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.Finalize">
+            <summary>Finalizes an instance of the <see cref="T:OmicronLab.LibUsbDevice.PipeData"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.Start">
+            <summary>Starts this reading pipe.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.Stop">
+            <summary>Stops this reading pipe.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.ReadUsbPipeAsync(System.Memory{System.Byte},System.Threading.CancellationToken)">
+            <summary>Reads from the usb pipe.</summary>
+            <param name="dataBuffer">The buffer.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:OmicronLab.LibUsbDevice.PipeData.ReadUsbPipeAsync(System.Memory{System.Byte},System.Int32)">
+            <summary>Reads from the usb pipe.</summary>
+            <param name="dataBuffer">The buffer.</param>
+            <param name="retryCount">The open retry count.</param>
+        </member>
+    </members>
+</doc>

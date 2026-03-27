@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.FRAnalyzer.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.Default.FRAnalyzerDefaultMemory">
+            <summary>This class contains the default memory for the FRAnalyzer device.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.Default.FRAnalyzerDefaultMemory.DefaultMemory(OmicronLab.BaseEngine.Engine.Interfaces.IEngine,System.Nullable{System.UInt32})">
+            <summary>Creates the default flash memory for the FRAnalyzer.</summary>
+            <param name="engine">The engine.</param>
+            <param name="deviceRevision">The device revision.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.FileResources.Files">
+            <summary>FRAnalyzer file resources.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FileResources.Files.FRAnalyzer">
+            <summary>Gets the FRAnalyzer firmware.</summary>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition">
+            <summary>FRAnalyzer device configuration implementation.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.#ctor(System.Int32,OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition" /> class.</summary>
+            <param name="revision">The hardware revision of the FRAnalyzer device.</param>
+            <param name="deviceConfig">The device configuration used for initialization.</param>
+            <remarks>
+            If the <paramref name="revision"/> parameter and the revision defined in
+            the <paramref name="deviceConfig"/> differ then the <paramref name="revision"/> will
+            will be taken.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceAttenuator">
+            <summary>Gets or sets the source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.OmicronLab#BaseEngine#Engine#Interfaces#ICommandDefinition#SourceAttenuator">
+            <summary>Gets or sets the source attenuator. This is a bit-mask - see remarks for details.</summary>
+            <remarks>
+            <para>
+            For the Bode 100 and the FRAnalyzer / FRANEO 800 the first 3 bit are used only:
+            - SourceAttenuator[0] = HWConfig[9] -&gt; S(source-0) -&gt; SOURCE_5_DB.
+            - SourceAttenuator[1] = HWConfig[9] -&gt; S(source-1) -&gt; SOURCE_10_DB.
+            - SourceAttenuator[2] = HWConfig[9] -&gt; S(source-2) -&gt; SOURCE_20_DB.
+            </para>
+            <para>
+            For the Bode 500 the first 12 bits are used.
+            - SourceAttenuator[0-5] = attenuator 1.
+            - SourceAttenuator[6-11] = attenuator 2.
+            </para>
+            See implementation for details.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel1Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH1.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-0) -&gt; CH1_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel2Resistor50Ohm">
+            <summary>Gets or sets a value indicating whether the 50 Ohm resistor is set for CH2.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-1) -&gt; CH2_50.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel1Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 1 set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-4) -&gt; G1_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel2Attenuator10dB1">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 1 set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-5) -&gt; G1_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel1Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH1 has the 10dB Attenuator 2 set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-6) -&gt; G2_CH1.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel2Attenuator10dB2">
+            <summary>Gets or sets a value indicating whether CH2 has the 10dB Attenuator 2 set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-7) -&gt; G2_CH2.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel1Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH1 has the 20dB attenuator set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-2) -&gt; CH1_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Channel2Attenuator20dB">
+            <summary>Gets or sets a value indicating whether CH2 has the 20dB attenuator set.</summary>
+            <remarks>HWConfig[10] -&gt; S(in-3) -&gt; CH2_ATT.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.MeasureRFSignals">
+            <summary>Gets or sets a value indicating whether to measure RF signals.</summary>
+            <remarks>HWConfig[11] -&gt; S(ADC-0) -&gt; Measure RF.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency used for the RF measurement.</summary>
+            <value>The intermediate frequency.</value>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.MeasureDetectorSignals">
+            <summary>Gets or sets a value indicating whether to measure detector signals.</summary>
+            <remarks>HWConfig[11] -&gt; S(ADC-1) -&gt; Measure detector.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.RedLed">
+            <summary>Gets or sets a value indicating whether red LED is on.</summary>
+            <remarks>See HWConfig[12].</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.GreenLed">
+            <summary>Gets or sets a value indicating whether the green LED is on.</summary>
+            <remarks>See HWConfig[12].</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.DdsPowerOn">
+            <summary>Gets or sets a value indicating whether the source is on.</summary>
+            <remarks>HWConfig[5] -&gt; L(h-7).</remarks>
+            <remarks>
+            When switching the source from off to on the x6 multiplier has to be switched off because this is a problem of the DDS.
+            But there will be no crosscheck if afterwards the x6 multiplier will be set to high again, because once the source is on
+            it will be valid to activate or deactivate the x6 multiplier. See also <seealso cref="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceDdsMultiplier"/>.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.LocalOscillatorDdsFrequency">
+            <summary>Gets or sets the frequency local oscillator DDS.</summary>
+            <remarks>See HWConfig[6-9].</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceDdsDacSignalLevel">
+            <summary>Gets or sets the signal level of the DDS as DAC value.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceDdsMultiplier">
+            <summary>Gets or sets a value indicating whether the DDS x6 multiplier will be used.</summary>
+            <remarks>
+            For frequencies equal or above 100Hz the PLL multiplier x6 will be activated. For frequencies below 100Hz the PLL multiplier x6
+            of the DDS will be deactivated so that the frequency is more accurate. [HWConfig[4] -&gt; L(l-1)]. See also <seealso cref="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.DdsPowerOn"/>.
+            </remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceDdsFrequency">
+            <summary>Gets or sets the value for DDS adjustment.</summary>
+            <remarks>See HWConfig[0-3].</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SourceDeviceFrequency">
+            <summary>Gets or sets the source frequency rounded like it is sent to the device.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.CommandIndex">
+            <summary>Gets or sets the command index.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.CommandTime">
+            <summary>Gets or sets the command time (i. e. ADC cycles).</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.MaxCommandTime">
+            <summary>Gets the maximum execution time (i.e. ADC cycles) supported by this command.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.HardwareDelayIndex">
+            <summary>
+            Gets the index of the hardware delay.
+            If different between this index and the last index sent, a delay will be added before the actual measurement.
+            </summary>
+            <remarks>
+            The hardware delay index is (mainly) needed when attenuator shaping will be done, because when switching the 20dB channel
+            attenuators (CH1 and CH2) during a sweep measurement the involved HF relays need some settling time. The settling time is
+            0.5 milliseconds per relay which sums up to 1 milliseconds because two relays are affected.
+            </remarks>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.CalculateRequiredDelay(OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition,System.Nullable{System.Double})">
+            <summary>Calculates the required delay in milliseconds when switching from the given previous command to this command.</summary>
+            <param name="previousCommand">The previous command.</param>
+            <param name="minDelay">(Optional) The minimum delay (e.g. DuT-delay).</param>
+            <returns>The required delay.</returns>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.PrepareCommand(System.Span{System.Byte})">
+            <summary>Prepares the command for sending it to the hardware by filling it into the supplied buffer.</summary>
+            <param name="buffer">The buffer.</param>
+            <returns>The count of bytes written (=size of the command).</returns>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.CopyTo(OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition)">
+            <summary>Copies the values.</summary>
+            <param name="deviceConfig">The device configuration.</param>
+            <exception cref="T:System.NullReferenceException">Device configuration is null.</exception>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Clone">
+            <summary>Clones this configuration.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.Clone(System.UInt16)">
+            <summary>Clones this configuration.</summary>
+            <param name="newCommandTime">The command time.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.GetConfigBit(System.UInt32,System.Byte)">
+            <summary>Gets the configuration bit value at a specific bit position.</summary>
+            <param name="configBits">The configuration bits.</param>
+            <param name="bitPosition">The bit position.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SetConfigBit(System.UInt32@,System.Boolean,System.Byte)">
+            <summary>Sets the configuration bit to high or low dependent on the value at a specific bit position.</summary>
+            <param name="configBits">The configuration bits.</param>
+            <param name="value">If set to <c>true</c> set bit to true, false otherwise.</param>
+            <param name="bitPosition">The bit position.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.BitReverse(System.UInt16)">
+            <summary>Reverses the bit order of the value.</summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SetBit(System.UInt16@,System.Int32)">
+            <summary>Sets the bit of a 16 bit number to high at a specific position.</summary>
+            <param name="value">The value.</param>
+            <param name="position">The position.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.SetBit(System.UInt32@,System.Int32,System.Boolean)">
+            <summary>Sets the bit.</summary>
+            <param name="answerByte">The answer byte.</param>
+            <param name="pos">The position.</param>
+            <param name="value">Teh new value.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.GetConfigBits">
+            <summary>
+            Corrects the Configuration bits of the hardware specification to overcome errors during hardware development and returns the correct bits.
+            </summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerCommandDefinition.CalculateSourceDdsSignalLevel">
+            <summary>Calculates the source DDS signal level including the on/off state of the DDS source and the state of the x6 PLL multiplier.</summary>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine">
+            <summary>FRAnalyzer engine implementation.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.ConnectedDevices">
+            <summary>Gets a list of all connected FTDI devices.</summary>
+            <value>The connected FTDI devices.</value>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.SupportGroundLoopMeasurement">
+            <summary>Gets a value indicating whether the ground loop measurement will be supported when performing an auxiliary measurement.</summary>
+            <value><c>true</c> if the ground loop measurement will be supported; otherwise, <c>false</c>.</value>
+            <remarks>Currently only supported for FRAnalyzer devices in combination with "PerformAuxiliaryMeasurement".</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.HasLedIndicators">
+            <summary>Gets a value indicating whether the device has LED indicators visualizing the measurement states.</summary>
+            <value><c>true</c> if this instance has led indicators; otherwise, <c>false</c>.</value>
+            <remarks>Currently only supported for FRAnalyzer devices.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.IsSourcePowerOnDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay for the source-attenuators when the source power is turned on.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.IsSourceAttenuatorChangeDelayRequired">
+            <summary>Gets a value indicating whether the connected device requires a delay if the source attenuators change.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.ProductId">
+            <summary>Gets the product identifier of the connected USB device.</summary>
+            <value>The product identifier.</value>
+            <remarks>This is used to filter the USB events.</remarks>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.DefaultCalibrationData">
+            <summary>Gets the default calibration data.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.DeviceRevisionAddress">
+            <summary>Gets the device revision address (location in the FRAM).</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.DeviceOptionAddress">
+            <summary>Gets the device option address (location in the FRAM).</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.DeviceOption">
+            <summary>Gets the device option ('0' for FRANEO devices which is the default and '1' for PQualyzer devices).</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.FlashDataChecker">
+            <summary>Gets the flash data checker.</summary>
+            <value>The flash data checker.</value>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine" /> class.</summary>
+            <param name="serialNumber">The serial number.</param>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngine.CreateCommands">
+            <summary>Creates the commands.</summary>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngineCommands`1">
+            <summary>FRAnalyzer engine commands implementation.</summary>
+            <typeparam name="TDevice">The type of the device.</typeparam>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngineCommands`1.FlashMemorySize">
+            <summary>Gets the size of the flash memory in bytes.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngineCommands`1.FirmwareFromResource">
+            <summary>Gets the firmware from resource in binary format.</summary>
+        </member>
+        <member name="M:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngineCommands`1.#ctor(OmicronLab.FtdiDevice.FtdiEngine{`0})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerEngineCommands`1"/> class.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="T:OmicronLab.FRAnalyzer.Engine.FRAnalyzerFlashDataCheck">
+            <summary>Helper class for checking the devices flash memory.</summary>
+        </member>
+        <member name="P:OmicronLab.FRAnalyzer.Engine.FRAnalyzerFlashDataCheck.FlashMemorySize">
+            <summary>Gets the length of the flash memory byte array.</summary>
+        </member>
+    </members>
+</doc>

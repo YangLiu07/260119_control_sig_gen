@@ -1,0 +1,82 @@
+﻿  test260313.cpp
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::Object”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::IDisposable”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::BodeAutomationInterface”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::MulticastDelegate”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::DeviceRemovedDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::BodeAutomationInterface”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::IAsyncResult”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::DeviceRemovedDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::BodeAutomationInterface”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::AsyncCallback”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::DeviceRemovedDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::BodeAutomationInterface”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::Action”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::BodeAutomationInterface”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “System::Type”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54): warning C4691: “Microsoft::Win32::RegistryKey”: 未引用的 程序集“Microsoft.Win32.Registry”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(27,54):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::BodeAutomation”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8): warning C4691: “System::IDisposable”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::Measurements::S21Measurement”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8): warning C4691: “System::MulticastDelegate”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::NewResultAvailableDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::Measurements::S21Measurement”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8): warning C4691: “System::IAsyncResult”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::NewResultAvailableDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::Measurements::S21Measurement”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8): warning C4691: “System::AsyncCallback”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::NewResultAvailableDelegate”时发生此诊断。
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::Measurements::S21Measurement”时发生此诊断。
+  
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8): warning C4691: “System::Threading::Tasks::Task”: 未引用的 程序集“System.Runtime”中应使用引用的类型，但使用了当前翻译单元中定义的类型
+      D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\test260313.cpp(30,8):
+      从程序集“OmicronLab.VectorNetworkAnalysis.AutomationInterface, Version=3.51.3075.1, Culture=neutral, PublicKeyToken=null”导入类型“OmicronLab::VectorNetworkAnalysis::AutomationInterface::Interfaces::Measurements::S21Measurement”时发生此诊断。
+  
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  正在生成代码...
+  test260313.obj : 遇到了 MSIL 模块；对 MSIL 禁用了增量链接；正在执行完全链接
+  test260313.vcxproj -> D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\x64\Debug\test260313.exe
+  分析错误
+D:\software\vs\visual_stdio\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(166,5): error MSB3073: 命令“echo D|xcopy "D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\test260313\Interop\Interop.OmicronLab_VectorNetworkAnalysis_AutomationInterface.3.25.dll" "D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260313\x64\Debug
+D:\software\vs\visual_stdio\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(166,5): error MSB3073: :VCEnd”已退出，代码为 4。

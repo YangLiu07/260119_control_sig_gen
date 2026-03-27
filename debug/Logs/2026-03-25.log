@@ -1,0 +1,442 @@
+[2026-03-25 10:40:20] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:20] [INFO] SCPI Runner started.
+[2026-03-25 10:40:20] [INFO] Connecting VISA...
+[2026-03-25 10:40:20] [INFO] VISA connected.
+[2026-03-25 10:40:20] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:22] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:22] [INFO] SCPI Runner started.
+[2026-03-25 10:40:22] [INFO] Connecting VISA...
+[2026-03-25 10:40:22] [INFO] VISA connected.
+[2026-03-25 10:40:22] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:24] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:24] [INFO] SCPI Runner started.
+[2026-03-25 10:40:24] [INFO] Connecting VISA...
+[2026-03-25 10:40:24] [INFO] VISA connected.
+[2026-03-25 10:40:24] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:40] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:40] [INFO] SCPI Runner started.
+[2026-03-25 10:40:40] [INFO] Connecting VISA...
+[2026-03-25 10:40:40] [INFO] VISA connected.
+[2026-03-25 10:40:40] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 10:40:43] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:43] [INFO] SCPI Runner started.
+[2026-03-25 10:40:43] [INFO] Connecting VISA...
+[2026-03-25 10:40:43] [INFO] VISA connected.
+[2026-03-25 10:40:44] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 10:40:52] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:52] [INFO] SCPI Runner started.
+[2026-03-25 10:40:52] [INFO] Connecting VISA...
+[2026-03-25 10:40:52] [INFO] VISA connected.
+[2026-03-25 10:40:52] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 10:40:54] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:54] [INFO] SCPI Runner started.
+[2026-03-25 10:40:54] [INFO] Connecting VISA...
+[2026-03-25 10:40:54] [INFO] VISA connected.
+[2026-03-25 10:40:54] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 10:40:55] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:55] [INFO] SCPI Runner started.
+[2026-03-25 10:40:55] [INFO] Connecting VISA...
+[2026-03-25 10:40:55] [INFO] VISA connected.
+[2026-03-25 10:40:55] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:56] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:56] [INFO] SCPI Runner started.
+[2026-03-25 10:40:56] [INFO] Connecting VISA...
+[2026-03-25 10:40:56] [INFO] VISA connected.
+[2026-03-25 10:40:56] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:57] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:57] [INFO] SCPI Runner started.
+[2026-03-25 10:40:57] [INFO] Connecting VISA...
+[2026-03-25 10:40:57] [INFO] VISA connected.
+[2026-03-25 10:40:57] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:57] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:57] [INFO] SCPI Runner started.
+[2026-03-25 10:40:57] [INFO] Connecting VISA...
+[2026-03-25 10:40:57] [INFO] VISA connected.
+[2026-03-25 10:40:57] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:58] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:58] [INFO] SCPI Runner started.
+[2026-03-25 10:40:58] [INFO] Connecting VISA...
+[2026-03-25 10:40:58] [INFO] VISA connected.
+[2026-03-25 10:40:58] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:58] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:58] [INFO] SCPI Runner started.
+[2026-03-25 10:40:58] [INFO] Connecting VISA...
+[2026-03-25 10:40:58] [INFO] VISA connected.
+[2026-03-25 10:40:58] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:58] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:58] [INFO] SCPI Runner started.
+[2026-03-25 10:40:58] [INFO] Connecting VISA...
+[2026-03-25 10:40:58] [INFO] VISA connected.
+[2026-03-25 10:40:58] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:40:58] [INFO] Starting SCPI Runner...
+[2026-03-25 10:40:58] [INFO] SCPI Runner started.
+[2026-03-25 10:40:58] [INFO] Connecting VISA...
+[2026-03-25 10:40:58] [INFO] VISA connected.
+[2026-03-25 10:40:58] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:41:00] [INFO] Starting SCPI Runner...
+[2026-03-25 10:41:00] [INFO] SCPI Runner started.
+[2026-03-25 10:41:00] [INFO] Connecting VISA...
+[2026-03-25 10:41:00] [INFO] VISA connected.
+[2026-03-25 10:41:00] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 10:41:00] [INFO] Starting SCPI Runner...
+[2026-03-25 10:41:00] [INFO] SCPI Runner started.
+[2026-03-25 10:41:00] [INFO] Connecting VISA...
+[2026-03-25 10:41:00] [INFO] VISA connected.
+[2026-03-25 10:41:00] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:02:37] [INFO] Starting SCPI Runner...
+[2026-03-25 11:02:37] [INFO] SCPI Runner started.
+[2026-03-25 11:02:37] [INFO] Connecting VISA...
+[2026-03-25 11:02:38] [INFO] VISA connected.
+[2026-03-25 11:02:38] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:02:40] [INFO] Starting SCPI Runner...
+[2026-03-25 11:02:40] [INFO] SCPI Runner started.
+[2026-03-25 11:02:40] [INFO] Connecting VISA...
+[2026-03-25 11:02:40] [INFO] VISA connected.
+[2026-03-25 11:02:40] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:02:46] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:52] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:52] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:52] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:02:53] [INFO] :CALC:PAR:DEF Z
+
+[2026-03-25 11:03:41] [INFO] sadsa
+
+[2026-03-25 11:03:41] [INFO] sadsa
+
+[2026-03-25 11:03:42] [INFO] sadsa
+
+[2026-03-25 11:03:42] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:43] [INFO] sadsa
+
+[2026-03-25 11:03:44] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:45] [INFO] SCPI Runner started.
+[2026-03-25 11:03:45] [INFO] Connecting VISA...
+[2026-03-25 11:03:45] [INFO] VISA connected.
+[2026-03-25 11:03:45] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:03:46] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:46] [INFO] SCPI Runner started.
+[2026-03-25 11:03:46] [INFO] Connecting VISA...
+[2026-03-25 11:03:46] [INFO] VISA connected.
+[2026-03-25 11:03:46] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:03:48] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:48] [INFO] SCPI Runner started.
+[2026-03-25 11:03:48] [INFO] Connecting VISA...
+[2026-03-25 11:03:48] [INFO] VISA connected.
+[2026-03-25 11:03:48] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:03:49] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:49] [INFO] SCPI Runner started.
+[2026-03-25 11:03:49] [INFO] Connecting VISA...
+[2026-03-25 11:03:49] [INFO] VISA connected.
+[2026-03-25 11:03:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:03:49] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:49] [INFO] SCPI Runner started.
+[2026-03-25 11:03:49] [INFO] Connecting VISA...
+[2026-03-25 11:03:49] [INFO] VISA connected.
+[2026-03-25 11:03:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:03:49] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:49] [INFO] SCPI Runner started.
+[2026-03-25 11:03:49] [INFO] Connecting VISA...
+[2026-03-25 11:03:49] [INFO] VISA connected.
+[2026-03-25 11:03:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:03:49] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:49] [INFO] SCPI Runner started.
+[2026-03-25 11:03:49] [INFO] Connecting VISA...
+[2026-03-25 11:03:49] [INFO] VISA connected.
+[2026-03-25 11:03:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:03:49] [INFO] Starting SCPI Runner...
+[2026-03-25 11:03:49] [INFO] SCPI Runner started.
+[2026-03-25 11:03:49] [INFO] Connecting VISA...
+[2026-03-25 11:03:49] [INFO] VISA connected.
+[2026-03-25 11:03:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:11:03] [INFO] Starting SCPI Runner...
+[2026-03-25 11:11:03] [INFO] SCPI Runner started.
+[2026-03-25 11:11:03] [INFO] Connecting VISA...
+[2026-03-25 11:11:03] [INFO] VISA connected.
+[2026-03-25 11:11:03] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:11:04] [INFO] Starting SCPI Runner...
+[2026-03-25 11:11:04] [INFO] SCPI Runner started.
+[2026-03-25 11:11:04] [INFO] Connecting VISA...
+[2026-03-25 11:11:04] [INFO] VISA connected.
+[2026-03-25 11:11:04] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:11:05] [INFO] Starting SCPI Runner...
+[2026-03-25 11:11:05] [INFO] SCPI Runner started.
+[2026-03-25 11:11:05] [INFO] Connecting VISA...
+[2026-03-25 11:11:05] [INFO] VISA connected.
+[2026-03-25 11:11:05] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:11:16] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:11:16] [INFO] query::SYST:LOCK:REQ?
+
+[2026-03-25 11:11:16] [INFO] send::SYST:LOCK:REQ?
+
+[2026-03-25 11:13:08] [INFO] Starting SCPI Runner...
+[2026-03-25 11:13:08] [INFO] SCPI Runner started.
+[2026-03-25 11:13:08] [INFO] Connecting VISA...
+[2026-03-25 11:13:08] [INFO] VISA connected.
+[2026-03-25 11:13:09] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:13:10] [INFO] Starting SCPI Runner...
+[2026-03-25 11:13:10] [INFO] SCPI Runner started.
+[2026-03-25 11:13:10] [INFO] Connecting VISA...
+[2026-03-25 11:13:10] [INFO] VISA connected.
+[2026-03-25 11:13:10] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:13:11] [INFO] Starting SCPI Runner...
+[2026-03-25 11:13:11] [INFO] SCPI Runner started.
+[2026-03-25 11:13:11] [INFO] Connecting VISA...
+[2026-03-25 11:13:11] [INFO] VISA connected.
+[2026-03-25 11:13:11] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:13:15] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:13:15] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 11:13:15] [INFO] query::SYST:LOCK:REQ?
+
+[2026-03-25 11:13:15] [INFO] send::SYST:LOCK:REQ?
+
+[2026-03-25 11:17:00] [INFO] Starting SCPI Runner...
+[2026-03-25 11:17:00] [INFO] SCPI Runner started.
+[2026-03-25 11:17:00] [INFO] Connecting VISA...
+[2026-03-25 11:17:00] [INFO] VISA connected.
+[2026-03-25 11:17:01] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:17:03] [INFO] Starting SCPI Runner...
+[2026-03-25 11:17:03] [INFO] SCPI Runner started.
+[2026-03-25 11:17:03] [INFO] Connecting VISA...
+[2026-03-25 11:17:03] [INFO] VISA connected.
+[2026-03-25 11:17:03] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:17:08] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:17:08] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:17:08] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:32:19] [INFO] Starting SCPI Runner...
+[2026-03-25 11:32:19] [INFO] SCPI Runner started.
+[2026-03-25 11:32:19] [INFO] Connecting VISA...
+[2026-03-25 11:32:19] [INFO] VISA connected.
+[2026-03-25 11:32:20] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:32:21] [INFO] Starting SCPI Runner...
+[2026-03-25 11:32:21] [INFO] SCPI Runner started.
+[2026-03-25 11:32:21] [INFO] Connecting VISA...
+[2026-03-25 11:32:21] [INFO] VISA connected.
+[2026-03-25 11:32:21] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:32:23] [INFO] Starting SCPI Runner...
+[2026-03-25 11:32:23] [INFO] SCPI Runner started.
+[2026-03-25 11:32:23] [INFO] Connecting VISA...
+[2026-03-25 11:32:23] [INFO] VISA connected.
+[2026-03-25 11:32:23] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:32:25] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:32:25] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:32:25] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:34:04] [INFO] * RST
+
+[2026-03-25 11:34:42] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:34:42] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:34:42] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:35:02] [INFO] Starting SCPI Runner...
+[2026-03-25 11:35:02] [INFO] SCPI Runner started.
+[2026-03-25 11:35:02] [INFO] Connecting VISA...
+[2026-03-25 11:35:02] [INFO] VISA connected.
+[2026-03-25 11:35:02] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:35:05] [INFO] Starting SCPI Runner...
+[2026-03-25 11:35:05] [INFO] SCPI Runner started.
+[2026-03-25 11:35:05] [INFO] Connecting VISA...
+[2026-03-25 11:35:05] [INFO] VISA connected.
+[2026-03-25 11:35:05] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:35:07] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:35:07] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:35:07] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:35:48] [INFO] * RST
+
+[2026-03-25 11:35:52] [INFO] Starting SCPI Runner...
+[2026-03-25 11:35:52] [INFO] SCPI Runner started.
+[2026-03-25 11:35:52] [INFO] Connecting VISA...
+[2026-03-25 11:35:52] [INFO] VISA connected.
+[2026-03-25 11:35:52] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:35:55] [INFO] Starting SCPI Runner...
+[2026-03-25 11:35:55] [INFO] SCPI Runner started.
+[2026-03-25 11:35:55] [INFO] Connecting VISA...
+[2026-03-25 11:35:55] [INFO] VISA connected.
+[2026-03-25 11:35:55] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:35:58] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:35:58] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:35:58] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:44:55] [INFO] * RST
+
+[2026-03-25 11:45:11] [INFO] Starting SCPI Runner...
+[2026-03-25 11:45:11] [INFO] SCPI Runner started.
+[2026-03-25 11:45:11] [INFO] Connecting VISA...
+[2026-03-25 11:45:11] [INFO] VISA connected.
+[2026-03-25 11:45:11] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:45:13] [INFO] Starting SCPI Runner...
+[2026-03-25 11:45:13] [INFO] SCPI Runner started.
+[2026-03-25 11:45:13] [INFO] Connecting VISA...
+[2026-03-25 11:45:13] [INFO] VISA connected.
+[2026-03-25 11:45:13] [INFO] Device ID: Disconnected (Hardware Not Found)
+[2026-03-25 11:45:14] [INFO] Starting SCPI Runner...
+[2026-03-25 11:45:14] [INFO] SCPI Runner started.
+[2026-03-25 11:45:14] [INFO] Connecting VISA...
+[2026-03-25 11:45:14] [INFO] VISA connected.
+[2026-03-25 11:45:14] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:45:23] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:45:23] [INFO] query::SYST:ERR?
+
+[2026-03-25 11:45:23] [INFO] send::SYST:ERR?
+
+[2026-03-25 11:50:38] [INFO] * RST
+
+[2026-03-25 11:51:33] [INFO] Starting SCPI Runner...
+[2026-03-25 11:51:33] [INFO] SCPI Runner started.
+[2026-03-25 11:51:33] [INFO] Connecting VISA...
+[2026-03-25 11:51:33] [INFO] VISA connected.
+[2026-03-25 11:51:33] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:51:35] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:51:35] [INFO] query::SYST:ERR?
+
+[2026-03-25 11:51:35] [INFO] send::SYST:ERR?
+
+[2026-03-25 11:54:39] [INFO] * RST
+
+[2026-03-25 11:54:48] [INFO] Starting SCPI Runner...
+[2026-03-25 11:54:48] [INFO] SCPI Runner started.
+[2026-03-25 11:54:48] [INFO] Connecting VISA...
+[2026-03-25 11:54:48] [INFO] VISA connected.
+[2026-03-25 11:54:48] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:54:50] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:54:50] [INFO] *RST
+[2026-03-25 11:54:50] [INFO] query::SYST:ERR?
+
+[2026-03-25 11:54:50] [INFO] send::SYST:ERR?
+
+[2026-03-25 11:55:02] [INFO] * RST
+
+[2026-03-25 11:57:12] [INFO] Starting SCPI Runner...
+[2026-03-25 11:57:12] [INFO] SCPI Runner started.
+[2026-03-25 11:57:12] [INFO] Connecting VISA...
+[2026-03-25 11:57:12] [INFO] VISA connected.
+[2026-03-25 11:57:12] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:57:13] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:57:13] [INFO] send:*RST
+[2026-03-25 11:57:13] [INFO] query::SYST:ERR?
+
+[2026-03-25 11:57:13] [INFO] send::SYST:ERR?
+
+[2026-03-25 11:57:40] [INFO] send:* RST
+
+[2026-03-25 11:57:48] [INFO] Starting SCPI Runner...
+[2026-03-25 11:57:49] [INFO] SCPI Runner started.
+[2026-03-25 11:57:49] [INFO] Connecting VISA...
+[2026-03-25 11:57:49] [INFO] VISA connected.
+[2026-03-25 11:57:49] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:57:49] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:57:49] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 11:57:49] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:58:50] [INFO] send:* RST
+
+[2026-03-25 11:59:24] [INFO] Starting SCPI Runner...
+[2026-03-25 11:59:24] [INFO] SCPI Runner started.
+[2026-03-25 11:59:24] [INFO] Connecting VISA...
+[2026-03-25 11:59:24] [INFO] VISA connected.
+[2026-03-25 11:59:24] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 11:59:25] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 11:59:25] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 11:59:25] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:59:25] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 11:59:52] [INFO] send:* RST
+
+[2026-03-25 12:00:24] [INFO] Starting SCPI Runner...
+[2026-03-25 12:00:24] [INFO] SCPI Runner started.
+[2026-03-25 12:00:24] [INFO] Connecting VISA...
+[2026-03-25 12:00:24] [INFO] VISA connected.
+[2026-03-25 12:00:24] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 12:00:25] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 12:00:25] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 12:00:25] [INFO] query::SYSTem:LOCK:OWNer?
+
+[2026-03-25 12:00:25] [INFO] send::SYSTem:LOCK:OWNer?
+
+[2026-03-25 12:00:56] [INFO] send:* RST
+
+[2026-03-25 12:01:03] [INFO] Starting SCPI Runner...
+[2026-03-25 12:01:03] [INFO] SCPI Runner started.
+[2026-03-25 12:01:03] [INFO] Connecting VISA...
+[2026-03-25 12:01:03] [INFO] VISA connected.
+[2026-03-25 12:01:03] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 12:01:04] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 12:01:04] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 12:01:04] [INFO] query::SYST:LOCK:REQ?
+
+[2026-03-25 12:01:04] [INFO] send::SYST:LOCK:REQ?
+
+[2026-03-25 12:01:12] [INFO] send:* RST
+
+[2026-03-25 12:26:48] [INFO] Starting SCPI Runner...
+[2026-03-25 12:26:48] [INFO] SCPI Runner started.
+[2026-03-25 12:26:48] [INFO] Connecting VISA...
+[2026-03-25 12:26:48] [INFO] VISA connected.
+[2026-03-25 12:26:48] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 12:26:49] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 12:26:49] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 12:26:49] [INFO] query::SYST:LOCK:REQ? 
+
+[2026-03-25 12:26:49] [INFO] send::SYST:LOCK:REQ? 
+
+[2026-03-25 17:50:30] [INFO] send:* RST
+
+[2026-03-25 18:13:02] [INFO] send:* RST
+
+[2026-03-25 18:14:54] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 18:14:54] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 18:14:54] [INFO] query::SYST:LOCK:REQ? 
+
+[2026-03-25 18:14:54] [INFO] send::SYST:LOCK:REQ? 
+
+[2026-03-25 18:15:01] [INFO] Starting SCPI Runner...
+[2026-03-25 18:15:01] [INFO] SCPI Runner started.
+[2026-03-25 18:15:01] [INFO] Connecting VISA...
+[2026-03-25 18:15:01] [INFO] VISA connected.
+[2026-03-25 18:15:01] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-25 18:15:03] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-25 18:15:03] [INFO] send::SYST:LOCK:REL
+
+[2026-03-25 18:15:03] [INFO] query::SYST:LOCK:REQ? 
+
+[2026-03-25 18:15:03] [INFO] send::SYST:LOCK:REQ? 
+

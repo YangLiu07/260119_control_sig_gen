@@ -1,0 +1,12 @@
+﻿   Qt/MSBuild: 3.4.1.0
+  Reading Qt configuration (D:/software/Qt/6.2.3/msvc2019_64/bin/qmake)
+   Qt: 6.2.3
+  bodedrive.cpp
+  main.cpp
+  mainwindow.cpp
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\bodedrive.cpp(403,45): warning C4267: “参数”: 从“size_t”转换到“ViUInt32”，可能丢失数据
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\bodedrive.cpp(519,45): warning C4267: “参数”: 从“size_t”转换到“ViUInt32”，可能丢失数据
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\bodedrive.cpp(639,57): warning C4100: 'when': 未引用的参数
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\bodedrive.cpp(639,41): warning C4100: 'vi': 未引用的参数
+  moc_mainwindow.cpp
+  260119_control_sig_gen.vcxproj -> D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\debug\260119_control_sig_gen.exe

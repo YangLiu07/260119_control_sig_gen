@@ -1,0 +1,487 @@
+[2026-03-27 10:44:36] [INFO] Starting SCPI Runner...
+[2026-03-27 10:44:37] [INFO] SCPI Runner started.
+[2026-03-27 10:44:37] [INFO] Connecting VISA...
+[2026-03-27 10:44:37] [INFO] VISA connected.
+[2026-03-27 10:44:37] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:44:37] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:44:41] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:44:43] [INFO] response:1
+[2026-03-27 10:44:43] [INFO] send:*CLS
+
+[2026-03-27 10:44:45] [INFO] send:*RST
+
+[2026-03-27 10:44:45] [INFO] response:1
+[2026-03-27 10:44:45] [INFO] send:*ESE 255
+
+[2026-03-27 10:44:45] [INFO] response:0,"No error"
+[2026-03-27 10:44:45] [INFO] 0,"No error"
+[2026-03-27 10:44:45] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:44:45] [INFO] response:1
+[2026-03-27 10:44:45] [INFO] send::SENS:FREQ:STAR10
+
+[2026-03-27 10:44:45] [INFO] send::SENS:FREQ:STOP20
+
+[2026-03-27 10:44:45] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:44:45] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:44:45] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:44:45] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10"
+[2026-03-27 10:44:45] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10"
+[2026-03-27 10:44:45] [INFO] response:3.5465846154E-02
+[2026-03-27 10:44:45] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:44:45] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:44:45] [INFO] send::INIT
+
+[2026-03-27 10:44:45] [INFO] send::TRIG:SING
+
+[2026-03-27 10:44:45] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20"
+[2026-03-27 10:44:45] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20"
+[2026-03-27 10:44:45] [INFO] response:1
+[2026-03-27 10:44:45] [INFO] response:1.0e+05,1.9458877176e+05,3.7864790094e+05,7.3680629973e+05,1.4337423289e+06,2.7899015879e+06,5.4288352332e+06,1.0563903801e+07,2.0556170656e+07,4.0e+07
+[2026-03-27 10:44:45] [INFO] response:-113,"Undefined header;command: :SENS:BAND300HZ"
+[2026-03-27 10:44:45] [INFO] -113,"Undefined header;command: :SENS:BAND300HZ"
+[2026-03-27 10:44:45] [INFO] response:2.4314934745e+00,2.5334521103e+00,2.828482494e+00,3.6465661982e+00,5.7087211114e+00,1.0220642609e+01,1.9748703232e+01,4.2516820711e+01,1.1668580539e+02,3.106237748e+01,9.3257372559e+00,1.6840706136e+01,2.9233619225e+01,4.6102682809e+01,6.1935310291e+01,7.2012612795e+01,7.581915302e+01,7.1769744763e+01,2.8293353117e+01,-2.7553006405e+01
+[2026-03-27 10:44:45] [INFO] response:0,"No error"
+[2026-03-27 10:44:45] [INFO] 0,"No error"
+[2026-03-27 10:44:55] [INFO] Starting SCPI Runner...
+[2026-03-27 10:44:57] [INFO] SCPI Runner started.
+[2026-03-27 10:44:57] [INFO] Connecting VISA...
+[2026-03-27 10:44:57] [INFO] VISA connected.
+[2026-03-27 10:44:57] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:44:57] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:44:59] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:45:01] [INFO] response:1
+[2026-03-27 10:48:54] [INFO] Starting SCPI Runner...
+[2026-03-27 10:48:55] [INFO] SCPI Runner started.
+[2026-03-27 10:48:55] [INFO] Connecting VISA...
+[2026-03-27 10:48:55] [INFO] VISA connected.
+[2026-03-27 10:48:55] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:48:55] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:48:57] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:48:59] [INFO] response:1
+[2026-03-27 10:48:59] [INFO] send:*CLS
+
+[2026-03-27 10:49:14] [INFO] send:*RST
+
+[2026-03-27 10:49:14] [INFO] response:1
+[2026-03-27 10:49:14] [INFO] send:*ESE 255
+
+[2026-03-27 10:49:14] [INFO] response:0,"No error"
+[2026-03-27 10:49:14] [INFO] 0,"No error"
+[2026-03-27 10:49:14] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:49:14] [INFO] response:1
+[2026-03-27 10:49:14] [INFO] send::SENS:FREQ:STAR10
+
+[2026-03-27 10:49:14] [INFO] send::SENS:FREQ:STOP20
+
+[2026-03-27 10:49:14] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:49:14] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:49:15] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:49:15] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10"
+[2026-03-27 10:49:15] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10"
+[2026-03-27 10:49:15] [INFO] response:3.5465846154E-02
+[2026-03-27 10:49:15] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:49:15] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:49:15] [INFO] send::INIT
+
+[2026-03-27 10:49:15] [INFO] send::TRIG:SING
+
+[2026-03-27 10:49:15] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20"
+[2026-03-27 10:49:15] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20"
+[2026-03-27 10:49:15] [INFO] response:1
+[2026-03-27 10:49:15] [INFO] ✅ 
+[2026-03-27 10:51:59] [INFO] send:* RST
+
+[2026-03-27 10:52:28] [INFO] Starting SCPI Runner...
+[2026-03-27 10:52:30] [INFO] SCPI Runner started.
+[2026-03-27 10:52:30] [INFO] Connecting VISA...
+[2026-03-27 10:52:30] [INFO] VISA connected.
+[2026-03-27 10:52:30] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:52:30] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:52:34] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:52:36] [INFO] response:1
+[2026-03-27 10:52:36] [INFO] send:*CLS
+
+[2026-03-27 10:52:41] [INFO] send:*RST
+
+[2026-03-27 10:52:41] [INFO] response:1
+[2026-03-27 10:52:41] [INFO] send:*ESE 255
+
+[2026-03-27 10:52:41] [INFO] response:0,"No error"
+[2026-03-27 10:52:41] [INFO] 0,"No error"
+[2026-03-27 10:52:41] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:52:41] [INFO] response:1
+[2026-03-27 10:52:41] [INFO] send::SENS:FREQ:STAR10kHz
+
+[2026-03-27 10:52:41] [INFO] send::SENS:FREQ:STOP20kHz
+
+[2026-03-27 10:52:41] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:52:41] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:52:41] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:52:41] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10KHZ"
+[2026-03-27 10:52:41] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10KHZ"
+[2026-03-27 10:52:41] [INFO] response:3.5465846154E-02
+[2026-03-27 10:52:41] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:52:41] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:52:41] [INFO] send::INIT
+
+[2026-03-27 10:52:41] [INFO] send::TRIG:SING
+
+[2026-03-27 10:52:41] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20KHZ"
+[2026-03-27 10:52:41] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20KHZ"
+[2026-03-27 10:52:41] [INFO] response:1
+[2026-03-27 10:52:41] [INFO] ✅ 
+[2026-03-27 10:53:35] [INFO] send:* RST
+
+[2026-03-27 10:53:47] [INFO] Starting SCPI Runner...
+[2026-03-27 10:53:48] [INFO] SCPI Runner started.
+[2026-03-27 10:53:48] [INFO] Connecting VISA...
+[2026-03-27 10:53:48] [INFO] VISA connected.
+[2026-03-27 10:53:48] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:53:48] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:53:52] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:53:54] [INFO] response:1
+[2026-03-27 10:54:02] [INFO] Starting SCPI Runner...
+[2026-03-27 10:54:03] [INFO] SCPI Runner started.
+[2026-03-27 10:54:03] [INFO] Connecting VISA...
+[2026-03-27 10:54:03] [INFO] VISA connected.
+[2026-03-27 10:54:03] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:54:03] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:54:04] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:54:07] [INFO] response:1
+[2026-03-27 10:54:07] [INFO] send:*CLS
+
+[2026-03-27 10:54:07] [INFO] send:*RST
+
+[2026-03-27 10:54:07] [INFO] response:1
+[2026-03-27 10:54:07] [INFO] send:*ESE 255
+
+[2026-03-27 10:54:07] [INFO] response:0,"No error"
+[2026-03-27 10:54:07] [INFO] 0,"No error"
+[2026-03-27 10:54:07] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:54:07] [INFO] response:1
+[2026-03-27 10:54:07] [INFO] send::SENS:FREQ:STAR10 kHz
+
+[2026-03-27 10:54:07] [INFO] send::SENS:FREQ:STOP20 kHz
+
+[2026-03-27 10:54:07] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:54:07] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:54:07] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:54:07] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:54:07] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:54:07] [INFO] response:3.5465846154E-02
+[2026-03-27 10:54:07] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:54:07] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:54:07] [INFO] send::INIT
+
+[2026-03-27 10:54:07] [INFO] send::TRIG:SING
+
+[2026-03-27 10:54:07] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:54:07] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:54:10] [INFO] response:1
+[2026-03-27 10:54:31] [INFO] Starting SCPI Runner...
+[2026-03-27 10:54:33] [INFO] SCPI Runner started.
+[2026-03-27 10:54:33] [INFO] Connecting VISA...
+[2026-03-27 10:54:33] [INFO] VISA connected.
+[2026-03-27 10:54:33] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:54:33] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:54:35] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:54:37] [INFO] response:1
+[2026-03-27 10:54:37] [INFO] send:*CLS
+
+[2026-03-27 10:54:37] [INFO] send:*RST
+
+[2026-03-27 10:54:37] [INFO] response:1
+[2026-03-27 10:54:37] [INFO] send:*ESE 255
+
+[2026-03-27 10:54:37] [INFO] response:0,"No error"
+[2026-03-27 10:54:37] [INFO] 0,"No error"
+[2026-03-27 10:54:37] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:54:37] [INFO] response:1
+[2026-03-27 10:54:37] [INFO] send::SENS:FREQ:STAR10 kHz
+
+[2026-03-27 10:54:37] [INFO] send::SENS:FREQ:STOP20 kHz
+
+[2026-03-27 10:54:37] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:54:37] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:54:37] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:54:37] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:54:37] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:54:37] [INFO] response:3.5465846154E-02
+[2026-03-27 10:54:37] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:54:37] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:54:37] [INFO] send::INIT
+
+[2026-03-27 10:54:37] [INFO] send::TRIG:SING
+
+[2026-03-27 10:54:37] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:54:37] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:54:37] [INFO] response:1
+[2026-03-27 10:55:41] [INFO] Starting SCPI Runner...
+[2026-03-27 10:55:42] [INFO] SCPI Runner started.
+[2026-03-27 10:55:42] [INFO] Connecting VISA...
+[2026-03-27 10:55:42] [INFO] VISA connected.
+[2026-03-27 10:55:42] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:55:42] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:55:46] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:55:48] [INFO] response:1
+[2026-03-27 10:55:48] [INFO] send:*CLS
+
+[2026-03-27 10:55:48] [INFO] send:*RST
+
+[2026-03-27 10:55:48] [INFO] response:1
+[2026-03-27 10:55:48] [INFO] send:*ESE 255
+
+[2026-03-27 10:55:48] [INFO] response:0,"No error"
+[2026-03-27 10:55:48] [INFO] 0,"No error"
+[2026-03-27 10:55:48] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:55:48] [INFO] response:1
+[2026-03-27 10:55:48] [INFO] send::SENS:FREQ:STAR10 kHz
+
+[2026-03-27 10:55:48] [INFO] send::SENS:FREQ:STOP20 kHz
+
+[2026-03-27 10:55:48] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:55:48] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:55:48] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:55:48] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:55:48] [INFO] -113,"Undefined header;command: :SENS:FREQ:STAR10 KHZ"
+[2026-03-27 10:55:48] [INFO] response:3.5465846154E-02
+[2026-03-27 10:55:48] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:55:48] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:55:48] [INFO] send::INIT
+
+[2026-03-27 10:55:48] [INFO] send::TRIG:SING
+
+[2026-03-27 10:55:48] [INFO] response:-113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:55:48] [INFO] -113,"Undefined header;command: :SENS:FREQ:STOP20 KHZ"
+[2026-03-27 10:55:48] [INFO] response:1
+[2026-03-27 10:55:48] [INFO] ✅ 
+[2026-03-27 10:56:44] [INFO] send:* RST
+
+[2026-03-27 10:56:54] [INFO] Starting SCPI Runner...
+[2026-03-27 10:56:56] [INFO] SCPI Runner started.
+[2026-03-27 10:56:56] [INFO] Connecting VISA...
+[2026-03-27 10:56:56] [INFO] VISA connected.
+[2026-03-27 10:56:56] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:56:56] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:56:57] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:56:59] [INFO] response:1
+[2026-03-27 10:56:59] [INFO] send:*CLS
+
+[2026-03-27 10:57:01] [INFO] send:*RST
+
+[2026-03-27 10:57:01] [INFO] response:1
+[2026-03-27 10:57:01] [INFO] send:*ESE 255
+
+[2026-03-27 10:57:01] [INFO] response:0,"No error"
+[2026-03-27 10:57:01] [INFO] 0,"No error"
+[2026-03-27 10:57:01] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:57:01] [INFO] response:1
+[2026-03-27 10:57:01] [INFO] send::SENS:FREQ:STAR 10kHz
+
+[2026-03-27 10:57:01] [INFO] send::SENS:FREQ:STOP 20kHz
+
+[2026-03-27 10:57:01] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:57:01] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:57:01] [INFO] send::SENS:BAND300Hz
+
+[2026-03-27 10:57:01] [INFO] response:-113,"Undefined header;command: :SENS:BAND300HZ"
+[2026-03-27 10:57:01] [INFO] -113,"Undefined header;command: :SENS:BAND300HZ"
+[2026-03-27 10:57:01] [INFO] response:3.2905846154E-02
+[2026-03-27 10:57:01] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:57:01] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:57:01] [INFO] send::INIT
+
+[2026-03-27 10:57:01] [INFO] send::TRIG:SING
+
+[2026-03-27 10:57:01] [INFO] response:0,"No error"
+[2026-03-27 10:57:01] [INFO] 0,"No error"
+[2026-03-27 10:57:01] [INFO] response:1
+[2026-03-27 10:57:01] [INFO] ✅ 
+[2026-03-27 10:57:27] [INFO] send:* RST
+
+[2026-03-27 10:57:36] [INFO] Starting SCPI Runner...
+[2026-03-27 10:57:37] [INFO] SCPI Runner started.
+[2026-03-27 10:57:37] [INFO] Connecting VISA...
+[2026-03-27 10:57:38] [INFO] VISA connected.
+[2026-03-27 10:57:38] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:57:38] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 10:57:39] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 10:57:41] [INFO] response:1
+[2026-03-27 10:57:41] [INFO] send:*CLS
+
+[2026-03-27 10:57:43] [INFO] send:*RST
+
+[2026-03-27 10:57:43] [INFO] response:1
+[2026-03-27 10:57:43] [INFO] send:*ESE 255
+
+[2026-03-27 10:57:43] [INFO] response:0,"No error"
+[2026-03-27 10:57:43] [INFO] 0,"No error"
+[2026-03-27 10:57:43] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 10:57:43] [INFO] response:1
+[2026-03-27 10:57:43] [INFO] send::SENS:FREQ:STAR 10kHz
+
+[2026-03-27 10:57:43] [INFO] send::SENS:FREQ:STOP 20kHz
+
+[2026-03-27 10:57:43] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 10:57:43] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 10:57:43] [INFO] send::SENS:BAND 300Hz
+
+[2026-03-27 10:57:43] [INFO] response:0,"No error"
+[2026-03-27 10:57:43] [INFO] 0,"No error"
+[2026-03-27 10:57:43] [INFO] response:9.4739692308E-02
+[2026-03-27 10:57:43] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 10:57:43] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 10:57:43] [INFO] send::INIT
+
+[2026-03-27 10:57:43] [INFO] send::TRIG:SING
+
+[2026-03-27 10:57:43] [INFO] response:0,"No error"
+[2026-03-27 10:57:43] [INFO] 0,"No error"
+[2026-03-27 10:57:43] [INFO] response:1
+[2026-03-27 10:57:43] [INFO] ✅ 
+[2026-03-27 10:58:52] [INFO] send:* RST
+
+[2026-03-27 11:39:56] [INFO] Starting SCPI Runner...
+[2026-03-27 11:39:58] [INFO] SCPI Runner started.
+[2026-03-27 11:39:58] [INFO] Connecting VISA...
+[2026-03-27 11:40:00] [ERROR] ERROR: VISA connection failed.
+[2026-03-27 11:40:03] [INFO] Starting SCPI Runner...
+[2026-03-27 11:40:05] [INFO] SCPI Runner started.
+[2026-03-27 11:40:05] [INFO] Connecting VISA...
+[2026-03-27 11:40:05] [INFO] VISA connected.
+[2026-03-27 11:40:05] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 11:40:05] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 11:40:12] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 11:40:15] [INFO] response:1
+[2026-03-27 11:40:15] [INFO] send:*CLS
+
+[2026-03-27 11:40:15] [INFO] send:*RST
+
+[2026-03-27 11:40:15] [INFO] response:1
+[2026-03-27 11:40:15] [INFO] send:*ESE 255
+
+[2026-03-27 11:40:15] [INFO] response:0,"No error"
+[2026-03-27 11:40:15] [INFO] 0,"No error"
+[2026-03-27 11:40:15] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 11:40:15] [INFO] response:1
+[2026-03-27 11:40:15] [INFO] send::SENS:FREQ:STAR 10kHz
+
+[2026-03-27 11:40:15] [INFO] send::SENS:FREQ:STOP 20kHz
+
+[2026-03-27 11:40:15] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 11:40:15] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 11:40:15] [INFO] send::SENS:BAND 300Hz
+
+[2026-03-27 11:40:15] [INFO] response:0,"No error"
+[2026-03-27 11:40:15] [INFO] 0,"No error"
+[2026-03-27 11:40:15] [INFO] response:9.4739692308E-02
+[2026-03-27 11:40:15] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 11:40:15] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 11:40:15] [INFO] send::INIT
+
+[2026-03-27 11:40:15] [INFO] send::TRIG:SING
+
+[2026-03-27 11:40:15] [INFO] response:0,"No error"
+[2026-03-27 11:40:15] [INFO] 0,"No error"
+[2026-03-27 11:40:15] [INFO] response:1
+[2026-03-27 11:40:15] [INFO] ✅ 
+[2026-03-27 11:43:16] [INFO] send:* RST
+
+[2026-03-27 12:34:55] [INFO] Starting SCPI Runner...
+[2026-03-27 12:34:57] [INFO] SCPI Runner started.
+[2026-03-27 12:34:57] [INFO] Connecting VISA...
+[2026-03-27 12:34:57] [INFO] VISA connected.
+[2026-03-27 12:34:57] [INFO] response:OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 12:34:57] [INFO] Device ID: OmicronLab,Bode100R2,LN919Y,9.0
+[2026-03-27 12:34:58] [INFO] >>> 开始自动测量 | 范围: 10Hz - 20Hz | 点数: 10
+[2026-03-27 12:35:00] [INFO] response:1
+[2026-03-27 12:35:00] [INFO] send:*CLS
+
+[2026-03-27 12:35:02] [INFO] send:*RST
+
+[2026-03-27 12:35:02] [INFO] response:1
+[2026-03-27 12:35:02] [INFO] send:*ESE 255
+
+[2026-03-27 12:35:02] [INFO] response:0,"No error"
+[2026-03-27 12:35:02] [INFO] 0,"No error"
+[2026-03-27 12:35:02] [INFO] send::CALC:PAR:DEF Z
+
+[2026-03-27 12:35:02] [INFO] response:1
+[2026-03-27 12:35:02] [INFO] send::SENS:FREQ:STAR 10kHz
+
+[2026-03-27 12:35:02] [INFO] send::SENS:FREQ:STOP 20kHz
+
+[2026-03-27 12:35:02] [INFO] send::SENS:SWE:POIN 10
+
+[2026-03-27 12:35:02] [INFO] send::SENS:SWE:TYPE LOG
+
+[2026-03-27 12:35:02] [INFO] send::SENS:BAND 300Hz
+
+[2026-03-27 12:35:02] [INFO] response:0,"No error"
+[2026-03-27 12:35:02] [INFO] 0,"No error"
+[2026-03-27 12:35:02] [INFO] response:9.4739692308E-02
+[2026-03-27 12:35:02] [INFO] send::CALC:FORM SLIN
+
+[2026-03-27 12:35:02] [INFO] send::TRIG:SOUR BUS
+
+[2026-03-27 12:35:02] [INFO] send::INIT
+
+[2026-03-27 12:35:02] [INFO] send::TRIG:SING
+
+[2026-03-27 12:35:02] [INFO] response:0,"No error"
+[2026-03-27 12:35:02] [INFO] 0,"No error"
+[2026-03-27 12:35:02] [INFO] response:1
+[2026-03-27 12:35:02] [INFO] ✅ 
+[2026-03-27 12:35:04] [INFO] send:* RST
+

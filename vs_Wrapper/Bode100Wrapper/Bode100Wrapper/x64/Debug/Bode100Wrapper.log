@@ -1,0 +1,5 @@
+﻿  pch.cpp
+  AssemblyInfo.cpp
+  Bode100Wrapper.cpp
+  正在生成代码...
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\Bode100Wrapper\Bode100Wrapper\Bode100Wrapper.cpp(9,1): error C1010: 在查找预编译头时遇到意外的文件结尾。是否忘记了向源中添加“#include "pch.h"”?

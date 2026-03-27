@@ -1,0 +1,829 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.Bode500.MidLayer</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500Device">
+            <summary>Helper and factory class to connect and access Bode 500 devices.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Bode500Device.OpenLock">
+            <summary>The asynchronous lock.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500Device.IsTestEngineAvailable">
+            <summary>Gets or sets a value indicating whether the test engine is available.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500Device.ActiveDevicesCount">
+            <summary>Gets the active devices count.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500Device.#cctor">
+            <summary>Initializes static members of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500Device" /> class.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500Device.QueryConnectedDevices">
+            <summary>Gets a list of all connected Bode 100 devices.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500Device.Open(OmicronLab.BaseCommon.DeviceInformation,System.Func{OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.BaseMidLayer.Measurement.MeasurementSuiteBase{OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration,OmicronLab.BaseMidLayer.Measurement.MeasurementTask}},System.Action{System.Double},OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline)">
+            <summary>Opens the device with the specified identifier asynchronous or returns an already opened handler.</summary>
+            <exception cref="T:System.Threading.Tasks.TaskCanceledException">Thrown when an executing task is cancelled.</exception>
+            <param name="info">The device information.</param>
+            <param name="suiteFactory">The suite factory.</param>
+            <param name="engineStatusCallback">(Optional) The status callback which is called to update the status of the device programming.</param>
+            <param name="pipeline">(Optional) The pipeline.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500Device.InitializeDevice(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,System.Func{OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.BaseMidLayer.Measurement.MeasurementSuiteBase{OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration,OmicronLab.BaseMidLayer.Measurement.MeasurementTask}})">
+            <summary>Initializes the bode device.</summary>
+            <param name="taskHandler">The task handler.</param>
+            <param name="suiteFactory">The suite factory.</param>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration">
+            <summary>Device calibration for a Bode 500 device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Engine">
+            <summary>Gets the engine.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.fQ">
+            <summary>Gets or sets the quartz frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.MaxAFFrequency">
+            <summary>Gets the maximum frequency for AF measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.MinRFFrequency">
+            <summary>Gets the minimum frequency for RF measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.MinLinearPathFrequency">
+            <summary>Gets or sets the Minimum frequency for linear path.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.IntermediateFrequency">
+            <summary>Gets or sets 'fIF', the Intermediate frequency in RF range.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.MaxSwitchoverRangeBandwidth">
+            <summary>Gets the maximum bandwidth in the switch-over range.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.MaxBandwidth">
+            <summary>Gets the maximum bandwidth this HW is capable of measuring at.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.PowerLimits">
+            <summary>Gets or sets the minimum and maximum output power versus frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.CalibrationFrequencies">
+            <summary>Gets the gain/phase calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.SerialNumber">
+            <summary>Gets or sets the serial number of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.PhaseShiftFrequencyForAFAttenuators">
+            <summary>Gets the phase shift frequency for af attenuators.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.PhaseShiftFrequencyForRFAttenuators">
+            <summary>Gets the phase shift frequency for rf attenuators.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Data">
+            <summary>Gets the calibration data.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.GainPhaseInternalCalibrationFrequencies">
+            <summary>Gets or sets the gain phase internal calibration frequencies used for internal gain-phase calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ImpedanceCalibrationFrequencies">
+            <summary>Gets or sets the impedance calibration frequencies used for impedance calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.LinearPathCalibrationFrequencies">
+            <summary>Gets or sets the linear path calibration frequencies used for linear path calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ChannelGainCalibrationFrequencies">
+            <summary>Gets or sets the channel gain calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.fDds">
+            <summary>Gets or sets the DDS frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.fSAdc">
+            <summary>Gets or sets the sampling frequency of the ADC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ACInputTimeChannel1">
+            <summary>Gets or sets the ac input time channel1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ACInputTimeChannel2">
+            <summary>Gets or sets the ac input time channel2.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D16_1">
+            <summary>Gets the attenuation of the 16dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D8_1">
+            <summary>Gets the attenuation of the 8dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D4_1">
+            <summary>Gets the attenuation of the 4dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D2_1">
+            <summary>Gets the attenuation of the 2dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D1_1">
+            <summary>Gets the attenuation of the 1dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D0p5_1">
+            <summary>Gets the attenuation of the 0.5dB attenuator of the first switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D16_2">
+            <summary>Gets the attenuation of the 16dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D8_2">
+            <summary>Gets the attenuation of the 8dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D4_2">
+            <summary>Gets the attenuation of the 4dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D2_2">
+            <summary>Gets the attenuation of the 2dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D1_2">
+            <summary>Gets the attenuation of the 1dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.D0p5_2">
+            <summary>Gets the attenuation of the 0.5dB attenuator of the second switchable source attenuator.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Offset1Base">
+            <summary>The Offset 1 base value (=-h1/h2).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Offset1DdsCoeff">
+            <summary>The Offset 1 DDS coefficient (=-h3/h2).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Offset2">
+            <summary>The Offset 2 (=N2) used for DC calibration.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Offset3">
+            <summary>The Offset 3 (=N3) used for DC calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.Offset3FineAdjustment">
+            <summary>Gets the offset 3 fine adjustment table.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.#ctor(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.Boolean)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration"/> class.</summary>
+            <param name="engine">The engine.</param>
+            <param name="initializeDefaults">if set to <c>true</c> default data will be set; otherwise the data define in the calibration file.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.#ctor(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.Func{OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration"/> class.</summary>
+            <param name="engine">The engine.</param>
+            <param name="calibrationDataFactory">The calibration data creation factory.</param>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.BodeCalibrationFrequenciesList">
+            <summary>Gets the Bode device full range calibration frequencies.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.GetCalibrationData(OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice)">
+            <summary>Gets the calibration data of the given device.</summary>
+            <param name="device">The device.</param>
+            <returns>The calibration data.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ApplyCalibration(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTask)">
+            <summary>Applies the calibration.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.CalculateVRms(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Calculates the V(RMS) levels of the given task.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.RemoveSuite(System.Guid)">
+            <summary>Removes the suite.</summary>
+            <param name="suiteId">The suite Id.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.PrecalculateCorrectionValues(System.Guid,System.Collections.Immutable.ImmutableList{System.Double},System.Double,System.Double,System.Double)">
+            <summary>Pre-calculates the measurement points correction values to reduce later calculations for the interpolation.</summary>
+            <param name="suiteId">The suite identifier.</param>
+            <param name="measurementPoints">The measurement points.</param>
+            <param name="switchoverFrequency">The switchover frequency.</param>
+            <param name="shortDelayTime">The short delay time.</param>
+            <param name="rLoad">The R(load).</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.CreateFrequencyConfiguration(OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,System.Collections.Generic.IEnumerable{OmicronLab.BaseMidLayer.Interfaces.ISamplesFilter})">
+            <summary>Creates the frequency configuration.</summary>
+            <param name="setup">The setup.</param>
+            <param name="filterQueue">The filter queue.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.ApplyDeviceCalibration(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Applies the device calibration.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.DefineAttenuatorFrequencies">
+            <summary>Defines the attenuator calibration frequencies.</summary>
+            <remarks>See flash specification of the device for more details.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.DefineGainPhaseCalibrationFrequencies">
+            <summary>Defines the gain-phase calibration frequencies.</summary>
+            <remarks>See flash specification of the device for more details.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.CalibrateSource(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Calibrates the source.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.SetOutputLevel(OmicronLab.BaseMidLayer.Measurement.MeasurementTask,OmicronLab.Bode500.Engine.Bode500CommandDefinition)">
+            <summary>Sets the output level.</summary>
+            <param name="task">The task.</param>
+            <param name="config">The configuration.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">OutputLevel out of range.</exception>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.SetDdsFrequency(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTask,OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,OmicronLab.Bode500.Engine.Bode500CommandDefinition)">
+            <summary>Sets the DDS frequency.</summary>
+            <param name="task">The task.</param>
+            <param name="setup">The setup.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.CalibrateSamples(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Calibrates the samples.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.LoadCalibrationData(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.Boolean)">
+            <summary>Loads the calibration data.</summary>
+            <param name="engine">The engine.</param>
+            <param name="initializeDefaults">If set to <c>true</c> defaults will be loaded; otherwise the data from the file system.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration.DetectorOverloadDetection(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Detects the overload for the detector.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration">
+            <summary>The Bode 500 device settings containing Bode 500 specific properties required for measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.SourceOn">
+            <summary>Gets or sets a value indicating whether the source is on (switch closed).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.PathSwitchSettlingTime">
+            <summary>Gets or sets the path switch settling time in milliseconds needed due to the gate-lag in the RF-switches CHx_RFLIN and IMP_ON/IMP_REF_ON.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.ForceChannel1ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether to force the impedance bridge on CH1 to be enabled.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.Channel1DC">
+            <summary>Gets or sets a value indicating whether channel 1 is set to DC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.ForceChannel2ImpedanceBridge">
+            <summary>Gets or sets a value indicating whether to force the impedance bridge on CH2 to be enabled.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.Channel2DC">
+            <summary>Gets or sets a value indicating whether channel 2 is set to DC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.Channel1Linear">
+            <summary>Gets or sets a value indicating whether the linear path of channel 1 is activated.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.Channel2Linear">
+            <summary>Gets or sets a value indicating whether the linear path of channel 2 is activated.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.#ctor(System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration" /> class.</summary>
+            <param name="channelTermination">Each channels termination.</param>
+            <param name="channelAttenuation">Each channels attenuation.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.AsReadOnly(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Clones this instance into a read-only version.</summary>
+            <param name="frequency">The frequency to use.</param>
+            <param name="sourceLevel">The source level to use.</param>
+            <param name="bandwidth">The bandwidth to use.</param>
+            <param name="attenuation">The attenuation to use.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.Clone(System.Nullable{System.Double})">
+            <summary>Clones this instance.</summary>
+            <param name="frequency">The frequency to set in the clone.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.ApplyDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)">
+            <summary>Applies the default values to the current device configuration for the related measurement mode.</summary>
+            <param name="mode">The measurement mode.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration.GetNewInstance(System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Gets a new instance.</summary>
+            <param name="channelTermination">Each channels termination.</param>
+            <param name="channelAttenuation">Each channels attenuation.</param>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration">
+            <summary>Frequency configuration for the Bode 500.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.IntermediateFrequency">
+            <summary>Gets or sets the intermediate frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.SwitchoverFrequency">
+            <summary>Gets or sets the switchover frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.RequiresDetectorMeasurementTask">
+            <summary>Gets a value indicating whether the current frequency configuration requires a detector measurement to get the correct overload-value.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.HardwareSettlingTime">
+            <summary>Gets or sets the hardware settling time.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.DetectorTime">
+            <summary>Gets or sets the detector time.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.DetectorMeasurementInterval">
+            <summary>Gets or sets the detector measurement interval.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration.#ctor(OmicronLab.BaseMidLayer.Interfaces.IReadOnlyDeviceConfiguration,System.Collections.Generic.IEnumerable{OmicronLab.BaseMidLayer.Interfaces.ISamplesFilter},System.Double,System.Double)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500FrequencyConfiguration"/> class.</summary>
+            <param name="setup">The setup.</param>
+            <param name="filters">The filters.</param>
+            <param name="fSAdc">The ADC frequency.</param>
+            <param name="switchoverFrequency">The switchover frequency.</param>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask">
+            <summary>Bode 500 measurement task implementation.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask.UpdateCommandDefinition(System.Int32)">
+            <summary>Updates the command definition based on the current device setup and frequency configuration.</summary>
+            <param name="hardwareRevision">The hardware revision.</param>
+            <remarks>Command index and time is not set in this method.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask.UpdateCommandDefinition(System.Int32,System.Boolean)">
+            <summary>Updates the command definition based on the current device setup and frequency configuration.</summary>
+            <param name="hardwareRevision">The hardware revision.</param>
+            <param name="throwOnError">
+            If the settings are not well defined a <see cref="T:System.NotSupportedException"/> will be thrown in case of <c>true</c>; otherwise
+            the suggested attenuator and termination settings will be returned as tuple.
+            </param>
+            <remarks>Command index and time is not set in this method.</remarks>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask.CheckTermination(System.Boolean,OmicronLab.BaseMidLayer.Enumerations.Termination,System.Boolean)">
+            <summary>Checks the termination.</summary>
+            <exception cref="T:System.NotSupportedException">Thrown when the requested operation is not supported.</exception>
+            <param name="channelLinear">True in case of channel linear.</param>
+            <param name="termination">The termination.</param>
+            <param name="throwOnError">
+            If the settings are not well defined a <see cref="T:System.NotSupportedException"/> will be thrown in case of <c>true</c>;
+            otherwise the suggested termination settings will be returned.
+            </param>
+            <returns>The suggested Termination.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask.CheckAttenuation(OmicronLab.BaseMidLayer.Enumerations.Channel,System.Boolean,System.Boolean,OmicronLab.BaseMidLayer.Enumerations.Attenuation,System.Boolean)">
+            <summary>Checks the attenuation.</summary>
+            <exception cref="T:System.NotSupportedException">Thrown when the requested operation is not supported.</exception>
+            <param name="channel">The channel.</param>
+            <param name="impedanceBridge">True in case of impedance bridge.</param>
+            <param name="channelLinear">True incase of channel linear.</param>
+            <param name="attenuation">The attenuation.</param>
+            <param name="throwOnError">
+            If the settings are not well defined a <see cref="T:System.NotSupportedException"/> will be thrown in case of <c>true</c>;
+            otherwise the suggested attenuator will be returned.
+            </param>
+            <returns>The suggested attenuation.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTask.CheckUseLinearPath(System.Boolean,OmicronLab.BaseMidLayer.Enumerations.Attenuation,OmicronLab.BaseMidLayer.Enumerations.Termination,System.Double)">
+            <summary>Check use linear path.</summary>
+            <param name="impedanceBridge">True in case of impedance bridge.</param>
+            <param name="attenuation">The attenuation.</param>
+            <param name="termination">The termination.</param>
+            <param name="frequency">The device configuration frequency.</param>
+            <returns>True if linear path is required, false if not.</returns>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler">
+            <summary>The measurement task handler for Bode 500 measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.HardwareRevision">
+            <summary>Gets the hardware revision of the connected device.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.GetSensorTemperaturesAsync">
+            <summary>Gets the sensor temperatures in °C for the CPU, source and local oscillator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.DeviceOption">
+            <summary>Gets the device option.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.#ctor(OmicronLab.BaseCommon.DeviceInformation,OmicronLab.BaseEngine.Engine.Interfaces.IInternalEngine{OmicronLab.BaseEngine.Engine.Interfaces.ICommandDefinition},OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler"/> class.</summary>
+            <param name="device">The information about the device used by this task-handler.</param>
+            <param name="engine">The engine.</param>
+            <param name="pipeline">The pipeline.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.GetDeviceCalibration(OmicronLab.BaseEngine.Engine.Interfaces.IEngine)">
+            <summary>Gets the device calibration.</summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500MeasurementTaskHandler.PrepareMeasurementFilters">
+            <summary>Prepares the filters for a standard measurement. This creates a new list containing the default filters.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration">
+            <summary>The Bode 500 device settings containing Bode 500 specific properties required for measurements.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.SourceOn">
+            <summary>Gets a value indicating whether the source is on (switch closed).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.ForceChannel1ImpedanceBridge">
+            <summary>Gets a value indicating whether to force the impedance bridge on CH1 to be enabled.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Channel1DC">
+            <summary>Gets a value indicating whether channel 1 is set to DC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.ForceChannel2ImpedanceBridge">
+            <summary>Gets a value indicating whether to force the impedance bridge on CH2 to be enabled.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Channel2DC">
+            <summary>Gets a value indicating whether channel 2 is set to DC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Channel1Linear">
+            <summary>Gets a value indicating whether the linear path of channel 1 is activated.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Channel2Linear">
+            <summary>Gets a value indicating whether the linear path of channel 2 is activated.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.PathSwitchSettlingTime">
+            <summary>Gets the path switch settling time in milliseconds needed due to the gate-lag in the RF-switches CHx_RFLIN and IMP_ON/IMP_REF_ON.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Type">
+            <summary>Gets the type name.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.#ctor(OmicronLab.Bode500.MidLayer.Bode500DeviceConfiguration,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration"/> class.</summary>
+            <param name="configuration">The configuration.</param>
+            <param name="frequency">The frequency to use.</param>
+            <param name="sourceLevel">The source level to use.</param>
+            <param name="bandwidth">The bandwidth to use.</param>
+            <param name="attenuation">The attenuation to use.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.#ctor(OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration"/> class.</summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.#ctor(System.Double,System.Double,OmicronLab.BaseMidLayer.Enumerations.ReceiverBandwidth,System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Termination},System.Collections.Generic.IReadOnlyDictionary{OmicronLab.BaseMidLayer.Enumerations.Channel,OmicronLab.BaseMidLayer.Enumerations.Attenuation},System.Double,System.Boolean,OmicronLab.BaseMidLayer.Enumerations.CalibrationMeasurement,System.Nullable{OmicronLab.BaseMidLayer.Enumerations.CalibrationType},System.Boolean,System.Nullable{System.Boolean},System.Boolean,System.Nullable{System.Boolean},System.Boolean,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Double,System.Double,System.Double,System.Double)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration" /> class.</summary>
+            <param name="sourceLevel">The source level.</param>
+            <param name="frequency">The frequency.</param>
+            <param name="bandwidth">The bandwidth.</param>
+            <param name="termination">The termination.</param>
+            <param name="attenuation">The attenuation.</param>
+            <param name="dutDelay">The DuT delay.</param>
+            <param name="disableOverflowDetection">Set to <c>true</c> to disable overflow detection.</param>
+            <param name="calibrationMeasurement">The calibration measurement.</param>
+            <param name="calibrationType">Type of the calibration.</param>
+            <param name="sourceOn">Set to <c>true</c> if the source is on.</param>
+            <param name="forceChannel1ImpedanceBridge">Set to <c>true</c> to force the impedance bridge on CH1 to be enabled.</param>
+            <param name="channel1Dc">Set to <c>true</c> if channel 1 is set to DC.</param>
+            <param name="forceChannel2ImpedanceBridge">Set to <c>true</c> to force the impedance bridge on CH2 to be enabled.</param>
+            <param name="channel2Dc">Set to <c>true</c> if channel 2 is set to DC.</param>
+            <param name="channel1Linear">Activate the linear path of channel 1.</param>
+            <param name="channel2Linear">Activate the linear path of channel 2.</param>
+            <param name="pathSwitchSettlingTime">The path switch settling time in milliseconds.</param>
+            <param name="warpFactor">The warp factor.</param>
+            <param name="hyperspaceFactor">The hyperspace factor.</param>
+            <param name="slipstreamFactor">The slipstream factor.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Bode500ReadOnlyDeviceConfiguration.Clone">
+            <summary>Clones this instance.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData">
+            <summary>Calibration data file for a Bode 500 (used for serializing calibration data).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData.Version">
+            <summary>The version number of the file.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData.DeviceProperties">
+            <summary>Gets or sets the device properties (standard values which shall be used with this device, not depending on the adjustment).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData.DeviceCalibration">
+            <summary>Gets or sets the calibration results (these values are modified during device adjustment).</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationData.DefaultInitialization">
+            <summary>Initializes the file with default values.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper">
+            <summary>A Helper for Bode 500 calibrations.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.Gout">
+            <summary>This factor refers to the open circuit output voltage at the N connector.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.fineAdjustInterpolator">
+            <summary>The fine adjust interpolator used for offset 3 correction.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.PerformDcCalibration(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.UInt64,System.Int32)">
+            <summary>Performs the DC calibration on the given engine.</summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+            <param name="engine">The engine.</param>
+            <param name="frequency">The frequency-value for the DDS.</param>
+            <param name="nZ">(Optional) The calibration-value of the DC-ADC.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.MeasureNOut(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.UInt64)">
+            <summary>Measures the Nout parameter.</summary>
+            <param name="engine">The engine.</param>
+            <param name="frequency">The frequency-value for the DDS.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.MeasureNOut(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.UInt64,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>Measures the Nout parameter.</summary>
+            <param name="engine">The engine.</param>
+            <param name="frequency">The frequency-value for the DDS.</param>
+            <param name="offset1">The first offset correction value.</param>
+            <param name="offset2">The second offset correction value.</param>
+            <param name="offset3">The third offset correction value.</param>
+            <returns>An ushort.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.MeasureNOut(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},OmicronLab.Bode500.Engine.Bode500CommandDefinition)">
+            <summary>Measures the Nout parameter.</summary>
+            <param name="engine">The engine.</param>
+            <param name="commandDefinition">The command definition.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.CreateDcCalibrationDefaultCommandDefinition(System.UInt64)">
+            <summary>Creates the DC calibration default command definition.</summary>
+            <param name="frequency">The frequency-value for the DDS.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.CreateDcCalibrationDefaultCommandDefinition(System.UInt64,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>Creates the DC calibration default command definition.</summary>
+            <param name="frequency">The frequency-value for the DDS.</param>
+            <param name="offset1">The first offset correction value.</param>
+            <param name="offset2">The second offset correction value.</param>
+            <param name="offset3">The third offset correction value.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.GetOutputLevel(OmicronLab.Bode500.Engine.Bode500CommandDefinition,OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration,System.Double)">
+            <summary>Gets the output level (Pout) in dBm.</summary>
+            <param name="configuration">The configuration.</param>
+            <param name="deviceCalibration">The device calibration.</param>
+            <param name="pRel">The relative power (PRel) in dBm.</param>
+            <returns>The output level in dBm.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.SetOutputLevel(OmicronLab.Bode500.Engine.Bode500CommandDefinition,OmicronLab.Bode500.MidLayer.Bode500DeviceCalibration,System.Double,System.Double,System.Boolean,System.Action{OmicronLab.Bode500.Engine.Bode500CommandDefinition,System.Double})">
+            <summary>Sets the output level according to the output power.</summary>
+            <param name="configuration">The configuration.</param>
+            <param name="deviceCalibration">The device calibration.</param>
+            <param name="pOut">The output power (Pout) in dBm.</param>
+            <param name="pRel">The relative power (Prel) in dBm.</param>
+            <param name="resetFineAdjustment">(Optional) Allows to reset the fine adjust interpolator. This is only required for DTP calibration.</param>
+            <param name="configurationPostProcessing">(Optional) Allows to perform a post processing action on the <paramref name="configuration"/>. This is only required for DTP calibration.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.CalculateVOut(System.UInt16,System.Int32)">
+            <summary>Calculates the Vout .</summary>
+            <param name="nOut">The Nout.</param>
+            <param name="nZ">The calibration-value of the DC-ADC.</param>
+            <returns>The calculated Vout.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.ResetFineAdjustment">
+            <summary>Resets the fine adjustment interpolator for the offset 3 compenstation.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.GetInterpolatedOffset3Compensation(System.Double)">
+            <summary>Gets interpolated offset 3 compensation values.</summary>
+            <param name="pOut">The output power (Pout) in dBm.</param>
+            <returns>The interpolated offset 3 compensation.</returns>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500CalibrationHelper.ReadAveragedSourceLevel(OmicronLab.BaseEngine.Engine.Interfaces.IEngine{OmicronLab.EmbeddedDevice.Interfaces.IEmbeddedDevice},System.Int32)">
+            <summary>Reads source level <paramref name="avgCount"/> times and returns the calculated average.</summary>
+            <param name="engine">The engine.</param>
+            <param name="avgCount">Number of averages.</param>
+            <returns>The source level.</returns>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues">
+            <summary>A class containing all the calibration result values - the results of a device adjustment (and the associated descriptions and limits of these values).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DefaultCalibrationCpuTemperature">
+            <summary>Gets the default calibration CPU temperature.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DefaultCalibrationSourceTemperature">
+            <summary>The default calibration source temperature.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DefaultCalibrationLocalOscillatorTemperature">
+            <summary>The default calibration local oscillator temperature.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationCompany">
+            <summary>Gets or sets the Company where the device adjustment took place.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationOperatorName">
+            <summary>Gets or sets the Name of the device adjustment operator or responsible person.</summary>
+            <value>The name of the calibration operator.</value>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationDateTime">
+            <summary>Gets or sets the Date and time of the device adjustment in ISO 8601 format 'yyyy-MM-ddTHH:mm:ss'.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationCpuTemperature">
+            <summary>Gets or sets the CPU temperature in °C when the calibration took place.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationSourceTemperature">
+            <summary>Gets or sets the source temperature in °C when the calibration took place.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.CalibrationLocalOscillatorTemperature">
+            <summary>Gets or sets the local oscillator temperature °C when the calibration took place.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.QuartzFrequencyDeviation">
+            <summary>Gets or sets 'dQ' Deviation of the quartz frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.OutputPowerNominal">
+            <summary>Gets or sets 'Pnom' Output power at low frequency (1kHz) with both attenuators at 0dB and DDS FSC word = 511.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.OutputAttenuator">
+            <summary>Gets or sets Attenuation of the attenuation steps of both output attenuators at low frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.OutputPowerFrequencyResponse">
+            <summary>Gets or sets 'Prel_f' Output power deviation over frequency (both attenuators 7 dB, DDS FSC word = 511).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.AdcOverloadCH1">
+            <summary>Gets or sets 'Novl_adc_ch1' Calibration value for the ADC overload of CH1 in the flash.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.AdcOverloadCH2">
+            <summary>Gets or sets 'Novl_adc_ch2' Calibration value for the ADC overload of CH2 in the flash.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DetectorOffsetCH1">
+            <summary>Gets or sets 'Noffs_det_ch1' Calibration value for the offset of the mixer detector of CH1 (value without input signal).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DetectorOffsetCH2">
+            <summary>Gets or sets 'Noffs_det_ch2' Calibration value for the offset of the mixer detector of CH2 (value without input signal).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DetectorOverloadCH1">
+            <summary>Gets or sets 'Novl_det_ch1' Calibration value for the overload definition of mixer detector of CH1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DetectorOverloadCH2">
+            <summary>Gets or sets 'Novl_det_ch2' Calibration value for the overload definition of mixer detector of CH2.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.AcInputTimeCH1">
+            <summary>Gets or sets time constant of AC coupling capacitor at CH1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.AcInputTimeCH2">
+            <summary>Gets or sets time constant of AC coupling capacitor at CH2.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.InputAttenuatorCH1">
+            <summary>Gets or sets CH1 20dB input attenuator calibration values.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.InputAttenuatorCH2">
+            <summary>Gets or sets CH2 20dB input attenuator calibration values.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.LinearPathCH1">
+            <summary>Gets or sets CH1 linear path attenuator calibration values.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.LinearPathCH2">
+            <summary>Gets or sets CH2 linear path attenuator calibration values.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseInternalDelay">
+            <summary>Gets or sets 'Tint' Delay for the gain/phase correction using internal reference.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseInternal">
+            <summary>Gets or sets calibration results of Internal-Gain-Phase-Calibration using default cables for connecting OUT to CH2, Att=0dB.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseExternalDelay">
+            <summary>Gets or sets 'Text' Delay for the gain/phase correction using external reference.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseExternal">
+            <summary>Gets or sets calibration results of External-Gain-Phase-Calibration with equal signals on CH1 and CH2, Att=0dB.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ConversionFactorCH1External">
+            <summary>Gets or sets conversion factor from digits to absolute voltage for CH1 (external path) at 1kHz, 0dB attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ConversionFactorCH2External">
+            <summary>Gets or sets conversion factor from digits to absolute voltage for CH2 (external path) at 1kHz, 0dB attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.FrequencyResponseCH1External">
+            <summary>Gets or sets frequency response of input CH1 (external path) AF and RF range relative to 1 kHz (attenuator at 0 dB).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.FrequencyResponseCH2External">
+            <summary>Gets or sets frequency response of input CH2 (external path) AF and RF range relative to 1 kHz (attenuator at 0 dB).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ConversionFactorCH1Internal">
+            <summary>Gets or sets conversion factor from digits to absolute voltage for CH1 (internal path) at 1kHz, 0dB attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ConversionFactorCH2Internal">
+            <summary>Gets or sets conversion factor from digits to absolute voltage for CH2 (internal path) at 1kHz, 0dB attenuator.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.FrequencyResponseCH1Internal">
+            <summary>Gets or sets frequency response of input CH1 (internal path) AF and RF range relative to 1 kHz (attenuator at 0 dB).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.FrequencyResponseCH2Internal">
+            <summary>Gets or sets frequency response of input CH2 (internal path) AF and RF range relative to 1 kHz (attenuator at 0 dB).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ImpedanceCalibrationAlpha">
+            <summary>Gets or sets 'alpha' constant factor of the impedance bridge calculated based on the reference terminations.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ImpedanceCalibrationRR">
+            <summary>Gets or sets 'rR' reflection factor of the impedance ZR of the impedance bridge calculated based on the reference terminations.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ImpedanceCalibrationRF">
+            <summary>Gets or sets 'rF' reflection factor of the impedance ZF of the impedance bridge calculated based on the reference terminations.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DcCalibrationOffset">
+            <summary>Gets or sets the offset of the DC calibration ADC.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DcCalibration">
+            <summary>Gets or sets the DC calibration.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DcCalibrationOffset3FineAdjustment">
+            <summary>   Gets or sets the output level dependent interpolation table for the Offset 3 fine adjustment. </summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.DefaultInitialization">
+            <summary>Default initialization with values for generation of a default calibration data file.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ImpedanceCalibrationFrequencies">
+            <summary>Gets the impedance calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.LinearPathCalibrationFrequencies">
+            <summary>Gets the linear path calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.InputAttenuatorCalibrationFrequencies">
+            <summary>Gets the input attenuator calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ChannelGainCalibrationFrequencies">
+            <summary>Gets the channel gain calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseInternalCalibrationFrequencies">
+            <summary>Gets the gain phase internal calibration frequencies.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.GainPhaseExternalCalibrationFrequencies">
+            <summary>Gets the gain phase external calibration frequencies.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractAllFrequencies``3(System.Collections.Generic.IDictionary{``0,OmicronLab.BaseMidLayer.Calibration.Serialization.CalibrationValuesDictionary{System.Double,``1,``2}})">
+            <summary>Extracts the frequencies of the defined calibration entries.</summary>
+            <param name="calibrationEntries">The calibration entries.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractAllFrequencies``1(System.Collections.Generic.IDictionary{``0,OmicronLab.BaseMidLayer.Calibration.Serialization.CalibrationValuesDictionary})">
+            <summary>Extracts the frequencies of the defined calibration entries.</summary>
+            <param name="calibrationEntries">The calibration entries.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractAllFrequencies``1(System.Collections.Generic.IDictionary{``0,OmicronLab.BaseMidLayer.Calibration.Serialization.CalibrationValuesDictionaryGainPhase})">
+            <summary>Extracts the frequencies of the defined calibration entries.</summary>
+            <param name="calibrationEntries">The calibration entries.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractFrequencies``1(System.Collections.Generic.IDictionary{System.Double,``0})">
+            <summary>Extracts the frequencies of the defined calibration entries.</summary>
+            <param name="calibrationEntries">The calibration entries.</param>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractImpedanceCalibrationFrequencies">
+            <summary>Extracts the impedance calibration frequencies.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractInputAttenuatorCalibrationFrequencies">
+            <summary>Extract the input attenuator calibration frequencies.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractLinearPathCalibrationFrequencies">
+            <summary>Extract the linear path calibration frequencies.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceCalibrationValues.ExtractChannelGainCalibrationFrequencies">
+            <summary>Extract the channel gain calibration frequencies.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties">
+            <summary>A class containing the device property values and its units as well as its limits, default values and a description of the individual meaning.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.DeviceType">
+            <summary>Gets or sets the Device Type String.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.DeviceRevision">
+            <summary>Gets or sets the DeviceRevision identifier (hexadecimal number, 0x40 for Bode 500).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.DeviceSerial">
+            <summary>Gets or sets the Serial number of the device (9 digit numeric number).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.BoardSerial">
+            <summary>Gets or sets the Serial number of the board (9 digit numeric number).</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.NominalQuartzFrequency">
+            <summary>Gets or sets 'fQnom', the Nominal quartz frequency.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.MaxAFFrequency">
+            <summary>Gets or sets the Maximum frequency in AF range.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.MinRFFrequency">
+            <summary>Gets or sets the Minimum frequency in RF range.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.MinLinearPathFrequency">
+            <summary>Gets or sets the Minimum frequency for linear path.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.Bode500DeviceProperties.DefaultInitialization">
+            <summary>Example initialization with values for generation of a calibration data file.</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue">
+            <summary>Values that represent values used for DC calibration.</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue.Offset1">
+            <summary>An enum constant representing the offset 1 (=N1).</summary>
+            <remarks>This is just here for completeness, as it is level-dependent be calculated via h1, h2 and h3 for every level.</remarks>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue.Offset2">
+            <summary>An enum constant representing the offset 2 (=N2).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue.Offset3">
+            <summary>An enum constant representing the offset 3 (=N3).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue.Offset1Base">
+            <summary>An enum constant representing the offset 1 base value (= fixed part of N1).</summary>
+        </member>
+        <member name="F:OmicronLab.Bode500.MidLayer.Calibration.Enumerations.DcCalibrationValue.Offset1DdsCoeff">
+            <summary>An enum constant representing the offset DdsDac coefficient (= DdsDac dependent part of N1).</summary>
+        </member>
+        <member name="T:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue">
+            <summary>A pre-calculated V(RMS) calibration value.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel1Internal">
+            <summary>Gets the value for the internal path of channel 1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel1External">
+            <summary>Gets the value for the external path of channel 1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel1Linear">
+            <summary>Gets the value for the linear path of channel 1.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel2Internal">
+            <summary>Gets the value for the internal path of channel 2.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel2External">
+            <summary>Gets the value for the external path of channel 2.</summary>
+        </member>
+        <member name="P:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.Channel2Linear">
+            <summary>Gets the value for the linear path of channel 2.</summary>
+        </member>
+        <member name="M:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.Bode500.MidLayer.Calibration.PreCalculatedVRmsValue"/> struct.</summary>
+            <param name="channel1Internal">The value for the internal path of channel 1.</param>
+            <param name="channel1External">The value for the external path of channel 1.</param>
+            <param name="channel1Linear">The value for the linear path of channel 1.</param>
+            <param name="channel2Internal">The value for the internal path of channel 2.</param>
+            <param name="channel2External">The value for the external path of channel 2.</param>
+            <param name="channel2Linear">The value for the linear path of channel 2.</param>
+        </member>
+    </members>
+</doc>

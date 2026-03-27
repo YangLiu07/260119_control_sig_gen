@@ -1,0 +1,5 @@
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260312\test260312\x64\Debug\test260312.vcxproj.AssemblyReference.cache
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260312\x64\Debug\test260312.exe.config
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260312\test260312\x64\Debug\test260312.vcxproj.SuggestedBindingRedirects.cache
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260312\test260312\x64\Debug\test260312.exe.config
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\test260312\test260312\x64\Debug\test2603.80507315.Up2Date

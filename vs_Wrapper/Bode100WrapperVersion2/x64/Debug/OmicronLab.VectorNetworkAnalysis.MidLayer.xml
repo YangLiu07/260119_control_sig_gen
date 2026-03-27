@@ -1,0 +1,418 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmicronLab.VectorNetworkAnalysis.MidLayer</name>
+    </assembly>
+    <members>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice">
+            <summary>Holds all information about a device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Name">
+            <summary>Gets the name of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Description">
+            <summary>Gets the description of the device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Color">
+            <summary>Gets the color-identifier of the device (e.g. as #RGB-Hex-value).</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.CurrentUser">
+            <summary>Gets or sets the current user of the device if it is in use.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Status">
+            <summary>Gets or sets the status of a device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.StatusDescription">
+            <summary>Gets the description of the status as a string.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Hardware">
+            <summary>Gets the hardware information.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Connection">
+            <summary>Gets the connection-type of this device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.DeviceManager">
+            <summary>Gets the device manager.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.ConnectionWatcher">
+            <summary>Gets or sets the connection watcher.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.#cctor">
+            <summary>Initializes static members of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.#ctor(OmicronLab.BaseCommon.DeviceInformation,OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager,System.String,System.String,System.String,OmicronLab.BaseCommon.Enumerations.DeviceStatus)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice" /> class.</summary>
+            <param name="info">The hardware information.</param>
+            <param name="deviceManager">The device manager.</param>
+            <param name="description">(Optional) The description of the device.</param>
+            <param name="color">(Optional) The color-identifier of the device (e.g. as #RGB-value).</param>
+            <param name="currentUser">(Optional) The current user of the device if it is in use.</param>
+            <param name="status">(Optional) The current status of the device.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Lock(System.String)">
+            <summary>Locks the device.</summary>
+            <param name="user">The user who locks the device (e.g. BAS 3.x @ localhost).</param>
+            <returns>True if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Release(System.Boolean)">
+            <summary>Releases the device.</summary>
+            <param name="forceRelease">True to force release.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.IsUpgradeRequired">
+            <summary>Query if this device requires a firmware upgrade.</summary>
+            <returns>True if upgrade required, false if not.</returns>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.OpenUpgradePage">
+            <summary>Opens upgrade page to upgrade the devices firmware.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Open(System.String,System.Action{System.Double},System.Action{System.Double},System.Boolean,System.Boolean,OmicronLab.BaseMidLayer.Interfaces.ITaskPipeline,OmicronLab.Tools.Common.Logging.LogSettingsData)">
+             <summary>Opens the device with the specified identifier asynchronous or returns an already opened handler.</summary>
+             <exception cref="T:System.InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+             <param name="user">The user who locks the device (e.g. BAS 3.x @ localhost).</param>
+             <param name="engineStatusCallback">(Optional) The status callback which is called to update the status of the device programming.</param>
+             <param name="internalCalibrationStatusCallback">(Optional) The status callback which is called to update the status of the internal calibration.</param>
+             <param name="enforceProgramming">(Optional) If set to <c>true</c> the programming will be enforced.</param>
+             <param name="initializeInBackground">(Optional) Set to <c>true</c> to perform the initialization in the background.</param>
+             <param name="pipeline">(Optional) The task pipeline. Null to use the default pipeline.</param>
+             <param name="logData">(Optional) Information describing the log.</param>
+             <returns>A measurement task handler will be returned.</returns>
+            
+             ### <exception cref="T:System.InvalidOperationException">Device is already in use.</exception>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.CreateSuite(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)">
+            <summary>Creates a measurement suite.</summary>
+            <param name="measurementTaskHandler">The measurement task handler.</param>
+            <param name="mode">The mode.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.Clone(OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager)">
+            <summary>Makes a copy of this device and assigns a new device-manager.</summary>
+            <param name="manager">The manager.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.DisposeAsync">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</summary>
+            <returns>A task that represents the asynchronous dispose operation.</returns>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.GetCurrentUserEvent_Raised(System.Object,System.EventArgs{System.Object})">
+            <summary>Event handler. Called by GetCurrentUserEvent for raised events.</summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">An EventArgs&lt;object&gt; to process.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.DeviceStatusChangedEvent_Raised(System.Object,OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.DeviceStatusChangedEventArgs)">
+            <summary>Event handler. Called by DeviceStatusChangedEvent for raised events.</summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Device status changed event information.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice.CurrentUserEvent_Raised(System.Object,OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CurrentDeviceUser)">
+            <summary>Event handler. Called by CurrentUserEvent for raised events.</summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">A CurrentDeviceUser to process.</param>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper">
+            <summary>VNA helpers.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.CreateSuite(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)">
+            <summary>Creates a measurement suite.</summary>
+            <param name="measurementTaskHandler">The measurement task handler.</param>
+            <param name="mode">The mode.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyDefaultSettings(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings,OmicronLab.BaseMidLayer.Enumerations.MeasurementSubMode,System.Boolean)">
+            <summary>A MeasurementMode? extension method that applies the default settings.</summary>
+            <param name="mode">The mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+            <param name="parameter">(Optional) The parameter extending the <paramref name="mode"/>.</param>
+            <param name="applyOverAllSettings">(Optional) True to apply overall settings (applying impedance related settings in gain modes (SCPI only)).</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyOverallDefaults(OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the overall defaults which are valid for all measurement modes.</summary>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyS11OnePortDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the S11 one port defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyOnePortDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the impedance one port defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyGainPhaseInternalDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings,System.Boolean)">
+            <summary>Applies the gain phase internal defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+            <param name="applyOverAllSettings">(Optional) True to apply overall settings (applying impedance related settings in gain modes (SCPI only)).</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyGainPhaseDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings,System.Boolean)">
+            <summary>Applies the gain phase defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+            <param name="applyOverAllSettings">(Optional) True to apply overall settings (applying impedance related settings in gain modes (SCPI only)).</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyVoltageCurrentGainDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the voltage current gain defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplySeriesThruDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the series thru defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyShuntThruDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the shunt thru defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyShuntThruWithRsDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the shunt thru with serial resistor (Rs) defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyImpedanceAdapterDefaults(OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the impedance adapter defaults.</summary>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyExternalBridgeDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Applies the external bridge defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.ApplyS11ExternalCouplerDefaults(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType,OmicronLab.BaseMidLayer.Interfaces.IDeviceSettings)">
+            <summary>Apply S11 external coupler defaults.</summary>
+            <param name="mode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <param name="settings">The device settings which will be updated.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.DefaultStopFrequency(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,OmicronLab.Tools.Common.Devices.DeviceType)">
+            <summary>Reads the default stop frequency in Hz related to the device type and the measurement mode.</summary>
+            <param name="measurementMode">The measurement mode.</param>
+            <param name="deviceType">Type of the device.</param>
+            <returns>A double.</returns>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.DefaultShortDelayTime(OmicronLab.Tools.Common.Devices.DeviceType)">
+            <summary>Reads the Device dependent default short delay time in ps.</summary>
+            <param name="deviceType">Type of the device.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CommonHelper.IsBode500(OmicronLab.Tools.Common.Devices.DeviceType)">
+            <summary>Query if 'deviceType' is bode 500.</summary>
+            <param name="deviceType">Type of the device.</param>
+            <returns>True if bode 500, false if not.</returns>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CurrentDeviceUser">
+            <summary>Delivers the current user of a device.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CurrentDeviceUser.SerialNumber">
+            <summary>Gets or sets the serial number.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.CurrentDeviceUser.CurrentUser">
+            <summary>Gets or sets the current user.</summary>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.DeviceStatusChangedEventArgs">
+            <summary>Arguments for the DeviceStatusChanged-Event.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.DeviceStatusChangedEventArgs.SerialNumber">
+            <summary>Gets or sets the serial number.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Helper.DeviceStatusChangedEventArgs.DeviceStatus">
+            <summary>Gets or sets the status of the current device.</summary>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase">
+            <summary>Helper class for creating device related measurement task handlers.</summary>
+            <seealso cref="T:System.IDisposable" />
+            <remarks>Currently used in Bode automation interface and SCPI.</remarks>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.InternalCalibrationCallbackDelegate">
+            <summary>The delegate function for the internal calibration progress event.</summary>
+            <param name="percentage">The current progress percentage.</param>
+        </member>
+        <member name="E:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.InternalCalibrationUpdate">
+            <summary>Occurs when when a new internal calibration progress is available.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.Dispose">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.EnableUnitTestMode">
+            <summary>Gets or sets a value indicating whether the unit test mode is enabled. If enabled a test device is used on non-serial-number connects.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.DeviceManager">
+            <summary>Gets the device manager.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.LocalInternalCalibrationCallback">
+            <summary>Gets the local internal calibration callback.</summary>
+            <value>The local internal calibration callback.</value>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.CreateHandler(System.String,System.String,System.Action{System.Double})">
+            <summary>Creates the measurement task handler.</summary>
+            <param name="user">The user who locks the device (e.g. BAS 3.x @ localhost).</param>
+            <param name="serialNumber">The serial number.</param>
+            <param name="internalCalibrationCallback">The internal calibration callback.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.IsValidDeviceGroup(OmicronLab.BaseCommon.Enumerations.DeviceGroup)">
+            <summary>Determines whether the current device group is valid for SCPI communication.</summary>
+            <param name="group">The device group.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.MidLayerDeviceHandlingBase.Dispose(System.Boolean)">
+            <summary>Disposes the specified disposing.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources.DeviceAlreadyInUse">
+            <summary>
+              Looks up a localized string similar to Is seems like the device with SerialNumber {0} is already in use..
+            </summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources.NoDeviceWithSerialNumber">
+            <summary>
+              Looks up a localized string similar to There is no device with the given SerialNumber: {0}.
+            </summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.Properties.Resources.NoFreeDevice">
+            <summary>
+              Looks up a localized string similar to No free device found!.
+            </summary>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager">
+            <summary>Device Manager for the bode suite.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.EnableFraneoSupport">
+            <summary>Gets or sets a value indicating whether the FRANEO 800 should be supported.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.EnableDemoDevices">
+            <summary>Gets or sets a value indicating whether the demo-devices should be enabled.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.ConnectedDevicesQueries">
+            <summary>Gets the connected devices queries.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.AdditionalDeviceAddedEvents">
+            <summary>Gets the additional device added events.</summary>
+        </member>
+        <member name="P:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.AdditionalDeviceRemovedEvents">
+            <summary>Gets the additional device removed events.</summary>
+        </member>
+        <member name="F:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.deviceAddedHandler">
+            <summary>Device added event handler.</summary>
+        </member>
+        <member name="F:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.deviceRemovedHandler">
+            <summary>Device removed event handler.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.#cctor">
+            <summary>Initializes static members of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager"/> class.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.#ctor(System.Action{System.Action},System.Action{System.Func{System.Threading.Tasks.Task}})">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager" /> class.</summary>
+            <param name="dispatcherAction">The dispatcher function to execute something on the dispatcher thread of the GUI.</param>
+            <param name="dispatcherActionAsync">The dispatcher function to execute something async on the dispatcher thread of the GUI.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.OnDeviceAdded(OmicronLab.BaseCommon.DeviceInformation)">
+            <summary>Raises the <see cref="E:DeviceAdded" /> event.</summary>
+            <param name="info">The <see cref="T:OmicronLab.BaseCommon.DeviceInformation"/> instance containing the event data.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.OnVnaDeviceAdded(OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice)">
+            <summary>Raises the <see cref="E:DeviceAdded" /> event.</summary>
+            <param name="device">The device.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.Dispose(System.Boolean)">
+            <summary>Releases unmanaged and - optionally - managed resources.</summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.QueryConnectedDevicesAsync">
+            <summary>Queries the connected devices.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.UpdateVnaDeviceProperties(OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice,OmicronLab.VectorNetworkAnalysis.Communication.ServiceDiscovery.DeviceInfo)">
+            <summary>Updates the VNA-device properties.</summary>
+            <param name="device">The device.</param>
+            <param name="deviceInfo">Information describing the device.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.UpdateVnaDevicePropertiesAsync(OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice)">
+            <summary>Updates the VNA device properties by accessing the device-endpoint (for network devices like the Bode 500).</summary>
+            <param name="device">The device.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaDeviceManager.CreateConnectionWatcherAsync(OmicronLab.VectorNetworkAnalysis.MidLayer.Devices.VnaDevice,System.Int32)">
+            <summary>Creates the connection watcher for the given device.</summary>
+            <param name="device">The device.</param>
+            <param name="retriesLeft">(Optional) The retries left.</param>
+        </member>
+        <member name="T:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1">
+            <summary>Measurement Suite for VNA measurements.</summary>
+            <typeparam name="TDeviceConfig">The device configuration.</typeparam>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.#ctor(OmicronLab.BaseMidLayer.Interfaces.IMeasurementTaskHandler,OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)">
+            <summary>Initializes a new instance of the <see cref="T:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1"/> class.</summary>
+            <param name="measurementTaskHandler">The measurement task handler.</param>
+            <param name="mode">The mode.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.GetComplexResults">
+            <summary>Gets the complex results.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.OmicronLab#BaseMidLayer#Interfaces#IInternalMeasurementSuite#UpdateSuiteState(OmicronLab.BaseMidLayer.Enumerations.MeasurementSuiteState)">
+            <summary>Update the state of the suite.</summary>
+            <param name="state">The state.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.OmicronLab#BaseMidLayer#Interfaces#IInternalMeasurementSuite#UpdateMeasurementMode(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)">
+            <summary>Update the measurement mode.</summary>
+            <param name="mode">The new mode.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.OmicronLab#BaseMidLayer#Interfaces#IInternalMeasurementSuite#ChangeMeasurementMode(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,System.Boolean)">
+            <summary>
+            Changes the measurement mode. Compared to
+            <see cref="M:OmicronLab.BaseMidLayer.Interfaces.IInternalMeasurementSuite.UpdateMeasurementMode(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode)" /> it offers
+            also offers the possibility to decide if the current configuration settings will be kept.
+            </summary>
+            <param name="mode">The new mode.</param>
+            <param name="keepSettings">if set to <c>true</c> the settings will be kept; otherwise default values will be applied.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.SetMeasurementMode(OmicronLab.BaseMidLayer.Enumerations.MeasurementMode,System.Boolean)">
+            <summary>Sets the measurement mode.</summary>
+            <param name="mode">The new mode.</param>
+            <param name="keepSettings">if set to <c>true</c> the settings will be kept; otherwise default values will be applied.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.GetResult(OmicronLab.BaseMidLayer.Measurement.MeasurementTask)">
+            <summary>Gets the result from the given task.</summary>
+            <param name="task">The task.</param>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.CreateClonedSuite">
+            <summary>Creates a cloned (but not configured) suite.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.PrepareCalibrations">
+            <summary>Prepares the calibrations.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.PreparePreProcessors">
+            <summary>Prepares the pre processors.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.PreparePostProcessors">
+            <summary>Prepares the post processors.</summary>
+        </member>
+        <member name="M:OmicronLab.VectorNetworkAnalysis.MidLayer.VnaMeasurementSuite`1.CreateDefaultDeviceConfiguration">
+            <summary>Gets the default device setup.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,4 @@
+﻿  Measurement.cpp
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\SCPI260313\SCPI260313\Measurement.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\SCPI260313\SCPI260313\Measurement.cpp(55,42): warning C4267: “参数”: 从“size_t”转换到“ViUInt32”，可能丢失数据
+  SCPI260313.vcxproj -> D:\NPU\Project_material\Auto_Testing\QT_Stduy\exp_project\260119_control_sig_gen\vs_Wrapper\SCPI260313\x64\Debug\SCPI260313.exe
