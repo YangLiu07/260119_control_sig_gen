@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDateTime> // 必须引入这个
-#include <QFile> // 必须引入这个
+#include <QDateTime> 
+#include <QFile>
 #include <QMenu>
 #include <QDesktopServices>
 #include <QUrl>
@@ -13,6 +13,12 @@
 #include <windows.h>
 #include "bodedrive.h"
 #include <QtConcurrent>
+#include "qcustomplot.h"
+//#include "chartmanager.h" // 顶部引入
+#include <cmath> // 用于 std::cos, std::sin 和 M_PI
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 
 
@@ -65,10 +71,75 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //初始化ui界面，实例化
     ui->setupUi(this);
+    setConnectionLed(false);
+    // ========================================================
+    // 1. 图例美化 (解决问题 2：图例遮挡)
+    // ========================================================
+    ui->plotAdmittance->legend->setVisible(true);
+    ui->plotAdmittance->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop | Qt::AlignLeft);
+    // 设置半透明背景 (RGBA: 255,255,255, 180) 和无边框
+    ui->plotAdmittance->legend->setBrush(QBrush(QColor(255, 255, 255, 180)));
+    ui->plotAdmittance->legend->setBorderPen(Qt::NoPen);
 
-    // 1. 初始化驱动对象，实例化对象？
+    // ========================================================
+    // 2. 曲线与 Y 轴美化 (增加线条抗锯齿)
+    // ========================================================
+    // 左轴：电导 G
+    ui->plotAdmittance->yAxis->setLabel("电导 G (S)");
+    ui->plotAdmittance->yAxis->setLabelColor(QColor(40, 110, 255));
+    ui->plotAdmittance->yAxis->setTickLabelColor(QColor(40, 110, 255));
+    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis);
+    ui->plotAdmittance->graph(0)->setPen(QPen(QColor(40, 110, 255), 2));
+    ui->plotAdmittance->graph(0)->setName("电导 G (S)");
+
+    // 右轴：电纳 B
+    ui->plotAdmittance->yAxis2->setVisible(true);
+    ui->plotAdmittance->yAxis2->setLabel("电纳 B (S)");
+    ui->plotAdmittance->yAxis2->setLabelColor(QColor(255, 60, 60));
+    ui->plotAdmittance->yAxis2->setTickLabelColor(QColor(255, 60, 60));
+    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis2);
+    ui->plotAdmittance->graph(1)->setPen(QPen(QColor(255, 60, 60), 2));
+    ui->plotAdmittance->graph(1)->setName("电纳 B (S)");
+
+    // ========================================================
+    // 3. X 轴美化 (解决问题 1：刻度重叠)
+    // ========================================================
+    ui->plotAdmittance->xAxis->setLabel("频率 (Hz)");
+    ui->plotAdmittance->xAxis->setScaleType(QCPAxis::stLogarithmic);
+    QSharedPointer<QCPAxisTickerLog> logTicker(new QCPAxisTickerLog);
+    ui->plotAdmittance->xAxis->setTicker(logTicker);
+    // 强制数字显示格式，设置刻度倾斜 30 度
+    ui->plotAdmittance->xAxis->setNumberFormat("eb");
+    ui->plotAdmittance->xAxis->setNumberPrecision(1);
+    ui->plotAdmittance->xAxis->setTickLabelRotation(30); // 倾斜避免重叠
+
+    // ========================================================
+    // 4. 网格线美化 (解决问题 3：缺乏层次感)
+    // ========================================================
+    QPen gridPen(QColor(220, 220, 220), 1, Qt::SolidLine);
+    QPen subGridPen(QColor(240, 240, 240), 1, Qt::DotLine);
+
+    // X 轴网格
+    ui->plotAdmittance->xAxis->grid()->setPen(gridPen);
+    ui->plotAdmittance->xAxis->grid()->setSubGridVisible(true);
+    ui->plotAdmittance->xAxis->grid()->setSubGridPen(subGridPen);
+
+    // 左 Y 轴网格
+    ui->plotAdmittance->yAxis->grid()->setPen(gridPen);
+    ui->plotAdmittance->yAxis->grid()->setSubGridVisible(true);
+    ui->plotAdmittance->yAxis->grid()->setSubGridPen(subGridPen);
+
+    // 右 Y 轴不需要画网格，否则会和左 Y 轴的网格线交叉打架
+    ui->plotAdmittance->yAxis2->grid()->setVisible(false);
+
+    // ========================================================
+    // 5. 交互功能：允许缩放平移，并绑定点击事件
+    // ========================================================
+    ui->plotAdmittance->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->plotAdmittance->axisRect()->setRangeZoomAxes(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis);
+
+
     rigol = new RigolDriver(this);
-
     bode = new BodeDrive();
     bode->setLogHandler([this](const QString& msg) {
         this->appendLog(msg,LOG_INFO);
@@ -103,15 +174,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->editSweepFreqStart->setValidator(freqValidator);
     ui->editSweepFreqEnd->setValidator(freqValidator);
 
+    
+   
 }
 
 //析构函数
 MainWindow::~MainWindow()
 {
     if (bode) {
-        // 第一步：初始化/复位设备（发送 SCPI 命令）
-        // 建议在断开前发送，因为断开后就发不了了
-        bode->sendCommand(vi,"* RST\n");
+        // 第一步：修复拼写错误，去掉空格，并且建议加上 *CLS 清除历史错误
+        bode->sendCommand("*CLS\n");
+        bode->sendCommand("*RST\n"); // 修改前是 "* RST\n"
 
         // 第二步：关闭 VISA 会话 (viClose)
         bode->disconnect();
@@ -128,9 +201,14 @@ MainWindow::~MainWindow()
 // /////////////////////////////////////////日志管理////////////////////////////
 
 //日志生成方法
-void MainWindow::appendLog(const QString &msg, int LogLevel)
+void MainWindow::appendLog(const QString& msg, int LogLevel)
 {
-    // --- 1. 处理界面显示 (UI Logic) ---
+    // 【核心防崩溃安全锁】：如果当前不在主线程，强制排队到主线程执行
+    if (QThread::currentThread() != this->thread()) {
+        QMetaObject::invokeMethod(this, "appendLog", Qt::QueuedConnection,
+            Q_ARG(QString, msg), Q_ARG(int, LogLevel));
+        return;
+    }
     QString color = (LogLevel == 3) ? "red" : (LogLevel == 2) ? "orange" :(LogLevel == 1 ? "green" : "black");
     QString levelStr = (LogLevel == 3) ? "[ERROR]" :(LogLevel == 2) ? "[WARNING]" : (LogLevel == 1 ? "[SUCCESS]" : "[INFO]");
 
@@ -538,145 +616,340 @@ void MainWindow::switchPage(QWidget *page)
 
 // ///////////////////////////////////////阻抗分析测试配置页面实现////////////////////////
 
-// ///////////////////连接服务器实现/////////////////////
-void MainWindow::on_btnBodeVisaConnect_clicked() 
+void MainWindow::on_btnBodeVisaConnect_clicked()
 {
     QString ip = ui->editBodeVisa->text().trimmed();
-
-    if (ip.isEmpty())
-    {
+    if (ip.isEmpty()) {
         appendLog("ERROR: IP address is empty.", LOG_ERROR);
         return;
     }
 
-    appendLog("Starting SCPI Runner...",LOG_INFO);
+    // 1. 禁用连接按钮，防止用户狂点导致多线程冲突
+    // ui->btnBodeVisaConnect->setEnabled(false); 
+    appendLog("正在启动 SCPI 服务并连接 VISA，请稍候...", LOG_INFO);
 
-    PROCESS_INFORMATION pi{};
+    // 2. 将耗时操作扔进后台线程
+    QFuture<void> future = QtConcurrent::run([=]() {
 
-    bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
-    QThread::msleep(1500);
-    if (!runnerOK)
-    {
-        appendLog("ERROR: Failed to start SCPI Runner.", LOG_ERROR);
-        return;
-    }
-    
-    appendLog("SCPI Runner started.", LOG_INFO);
-    appendLog("Connecting VISA...", LOG_INFO);
-    
+        PROCESS_INFORMATION pi{};
+        bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
 
-    bool ok = bode->connectVisa(ip);
+        // 在后台线程里 msleep 是绝对安全的，不会卡界面！
+        QThread::msleep(1500);
 
-    if (!ok)
-    {
-        appendLog("ERROR: VISA connection failed.", LOG_ERROR);
-
-        return;
-    }
-    appendLog("VISA connected.", LOG_INFO);
-
-    QString idn = bode->queryCommandv3("*IDN?\n");
-    //QString idn = bode->queryIDN();
-    appendLog("Device ID: " + idn, LOG_INFO);
-}
-// ///////////////////连接服务器实现/////////////////////
-// ------------------------------------------------------
-
-// ///////////////////校准实现/////////////////////
-void MainWindow::on_btnOpenCali_clicked()
-{
-
-    if (vi != 0) {
-        // ==========================================
-        // 1. 申请仪器控制权 (加锁)
-        // ==========================================
-        QString lockStatus = bode->queryCommand( vi,":SYST:LOCK:REQ?\n");
-
-        // 可选：检查是否成功拿到锁（如果返回不是 1 或 OK，说明被别的软件占用了）
-        if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
-            appendLog("获取仪器控制权失败，仪器可能正被官方软件占用！", LOG_ERROR);
-            return; // 拿不到锁就直接退出，不要往下执行了
+        if (!runnerOK) {
+            // 注意：子线程不能直接操作 UI！必须切回主线程去更新界面
+            QMetaObject::invokeMethod(this, [=]() {
+                appendLog("ERROR: Failed to start SCPI Runner.", LOG_ERROR);
+                // ui->btnBodeVisaConnect->setEnabled(true);
+                });
+            return;
         }
 
-        appendLog("成功获取仪器控制权，开始校准...", LOG_INFO);
+        bool ok = bode->connectVisa(ip);
+        if (!ok) {
+            QMetaObject::invokeMethod(this, [=]() {
+                appendLog("ERROR: VISA connection failed.", LOG_ERROR);
+                setConnectionLed(false);
+                // ui->btnBodeVisaConnect->setEnabled(true);
+                });
+            return;
+        }
 
-        // ==========================================
-        // 2. 执行你的正常校准流程 (你原来的代码)
-        // ==========================================
-        QString ope = bode->bodeCalibration(vi, BodeDrive::CalMode::Open);
-        QString ope2 = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
-        QString ope3 = bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
+        // --- 正常发送指令 (耗时操作都在后台完成) ---
+        QString idn = bode->queryCommand("*IDN?\n");
+        bode->sendCommand("*CLS\n");
+        bode->queryCommand(":SYST:LOCK:REQ?\n");
+        bode->sendCommand(":CALC:PAR:DEF Z\n");
+        bode->sendCommand(":SENS:Z:METH TSER\n");
+        bode->queryCommand("*OPC?\n");
+        QString errStatus = bode->queryCommand(":SYST:ERR?\n");
+        bode->queryCommand(":SYST:LOCK:REL?\n");
 
-        appendLog("校准指令发送完毕", LOG_INFO);
-        appendLog(ope + ope2 + ope3, LOG_INFO);
-
-        // 假设 bodeCalibrationCom 是你的应用校准/综合处理函数
-        // QString com = bode->bodeCalibrationCom(vi);
-        // appendLog(com, LOG_INFO);
-
-        // ==========================================
-        // 3. 释放仪器控制权 (解锁) - 【非常重要】
-        // ==========================================
-        QString relok = bode->queryCommand(vi, ":SYST:LOCK:REL?\n");
-        appendLog("仪器控制权已释放", LOG_INFO);
-        QString com=bode->bodeCalibrationCom(vi);
-        appendLog(com, LOG_INFO);
-
-    }
-    else {
-        appendLog("句柄无效，开路校准失败", LOG_ERROR);
-    }
-    //if (vi != 0) { // 简单检查句柄是否有效
-
-    //    QString ope=bode->bodeCalibration(vi, BodeDrive::CalMode::Open);
-    //    QString ope2 = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
-    //    QString ope3 = bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
-    //    appendLog("校准成功", LOG_INFO);
-    //    appendLog(ope+ope2+ope3, LOG_INFO);
-    //    QString com=bode->bodeCalibrationCom(vi);
-    //    appendLog(com, LOG_INFO);
-    //}
-    //else {
-    //    appendLog("开路校准失败", LOG_ERROR);
-    //}
+        // 3. 所有耗时通讯做完后，切回主线程更新 UI
+        QMetaObject::invokeMethod(this, [=]() {
+            appendLog("Device ID: " + idn, LOG_INFO);
+            if (errStatus.contains("0") && errStatus.toLower().contains("no error")) {
+                appendLog("初始阻抗测量模式配置成功！", LOG_INFO);
+                setConnectionLed(true);
+            }
+            else {
+                appendLog("仪器返回错误: " + errStatus, LOG_ERROR);
+            }
+            // 恢复按钮状态
+            // ui->btnBodeVisaConnect->setEnabled(true);
+            });
+        });
 }
 
+
+//#########################状态指示灯########################
+void MainWindow::setConnectionLed(bool isConnected) {
+    if (isConnected) {
+        // 亮绿灯，带有发光阴影效果
+        ui->label_LED->setStyleSheet(
+            "QLabel {"
+            "  background-color: #00E676;"
+            "  border-radius: 8px;" // 半径是宽高的一半，变成圆形
+            "  border: 1px solid #00C853;"
+            "}"
+        );
+    }
+    else {
+        // 灭灯（暗红色）
+        ui->label_LED->setStyleSheet(
+            "QLabel {"
+            "  background-color: #551A1A;"
+            "  border-radius: 8px;"
+            "  border: 1px solid #330000;"
+            "}"
+        );
+    }
+}
+// //#########################状态指示灯########################
+// /////////////////////////////////////////////////////////////
+// ///////////////////校准实现/////////////////////
+//void MainWindow::on_btnOpenCali_clicked()
+//{
+//
+//    if (vi != 0) {
+//        // ==========================================
+//        // 1. 申请仪器控制权 (加锁)
+//        // ==========================================
+//        QString lockStatus = bode->queryCommand(":SYST:LOCK:REQ?\n");
+//        // 可选：检查是否成功拿到锁（如果返回不是 1 或 OK，说明被别的软件占用了）
+//        if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
+//            appendLog("获取仪器控制权失败，仪器可能正被官方软件占用！", LOG_ERROR);
+//            return; // 拿不到锁就直接退出，不要往下执行了
+//        }
+//
+//        appendLog("成功获取仪器控制权，开始校准...", LOG_INFO);
+//        // ==========================================
+//        // 2. 执行你的正常校准流程 (你原来的代码)
+//        // ==========================================
+//        QString ope = bode->bodeCalibration(BodeDrive::CalMode::Open);
+//
+//        appendLog("校准指令发送完毕", LOG_INFO);
+//        appendLog(ope, LOG_INFO);
+//        QString relok = bode->queryCommand(":SYST:LOCK:REL?\n");
+//        appendLog("仪器控制权已释放", LOG_INFO);
+//        //QString com=bode->bodeCalibration(vi);
+//        //appendLog(com, LOG_INFO);
+//
+//    }
+//    else {
+//        appendLog("句柄无效，开路校准失败", LOG_ERROR);
+//    }
+
+
+
+void MainWindow::on_btnOpenCali_clicked()
+{
+    if (vi == 0) return;
+    // 1. [UI 线程] 禁用按钮，给出提示
+    ui->btnOpenCali->setEnabled(false);
+    appendLog("正在进行开路校准，仪器执行中...", LOG_INFO);
+
+    // 2. 调用我们封装的异步神器
+    executeAsync(
+        // ----------------------------------------
+        // 任务 A：后台耗时操作 (这里的代码都在子线程运行)
+        // ----------------------------------------
+        [=]() -> QString {
+            bode->queryCommand(":SYST:LOCK:REQ?\n");
+            QString result = bode->bodeCalibration(BodeDrive::CalMode::Open);
+            bode->queryCommand(":SYST:LOCK:REL?\n");
+
+            return result; // 把校准结果返回给下一步
+        },
+
+        // ----------------------------------------
+        // 任务 B：UI 刷新操作 (这里的代码自动切回主线程)
+        // ----------------------------------------
+        [=](QString workerResult) {
+
+            if (workerResult == "ERROR_DISCONNECTED") {
+                appendLog("校准失败：未检测到物理设备！", LOG_ERROR);
+            }
+            else {
+                appendLog("开路校准完成！", LOG_SUCCESS);
+                appendLog("返回值: " + workerResult, LOG_INFO);
+            }
+
+            // 恢复按钮点击
+            ui->btnOpenCali->setEnabled(true);
+        }
+    );
+}//}
 
 void MainWindow::on_btnShortCali_clicked()
 {
 
-    if (vi != 0) { // 简单检查句柄是否有效
+    if (vi == 0) return;
 
-        QString shor = bode->bodeCalibration(vi, BodeDrive::CalMode::Short);
-        appendLog("短路校准成功", LOG_INFO);
-        appendLog(shor, LOG_INFO);
-    }
-    else {
-        appendLog("短路校准失败", LOG_ERROR);
-    }
+    // 1. [UI 线程] 禁用按钮，给出提示
+    ui->btnShortCali->setEnabled(false);
+    appendLog("正在进行短路校准，仪器执行中...", LOG_INFO);
+
+    // 2. 调用我们封装的异步神器
+    executeAsync(
+        // ----------------------------------------
+        // 任务 A：后台耗时操作 (这里的代码都在子线程运行)
+        // ----------------------------------------
+        [=]() -> QString {
+            // 先检测物理掉线
+            //if (!bode->checkPhysicalConnection()) {
+            //    return "ERROR_DISCONNECTED"; // 返回特定错误码
+            //}
+
+            bode->queryCommand(":SYST:LOCK:REQ?\n");
+            QString result = bode->bodeCalibration(BodeDrive::CalMode::Short);
+            bode->queryCommand(":SYST:LOCK:REL?\n");
+
+            return result; // 把校准结果返回给下一步
+        },
+
+        // ----------------------------------------
+        // 任务 B：UI 刷新操作 (这里的代码自动切回主线程)
+        // ----------------------------------------
+        [=](QString workerResult) {
+
+            if (workerResult == "ERROR_DISCONNECTED") {
+                appendLog("校准失败：未检测到物理设备！", LOG_ERROR);
+            }
+            else {
+                appendLog("短路校准完成！", LOG_SUCCESS);
+                appendLog("返回值: " + workerResult, LOG_INFO);
+            }
+
+            // 恢复按钮点击
+            ui->btnShortCali->setEnabled(true);
+        }
+    );
 }
 
 void MainWindow::on_btnLoadCali_clicked()
 {
-    if (vi != 0) { // 简单检查句柄是否有效
+    if (vi == 0) return;
 
-        QString ss=bode->bodeCalibration(vi, BodeDrive::CalMode::Load);
-        if (ss.trimmed().isEmpty()) {
-            appendLog("ss 是空或全是空格", LOG_INFO);
+    // 1. [UI 线程] 禁用按钮，给出提示
+    ui->btnLoadCali->setEnabled(false);
+    appendLog("正在进行负载校准，仪器执行中...", LOG_INFO);
+
+    // 2. 调用我们封装的异步神器
+    executeAsync(
+        // ----------------------------------------
+        // 任务 A：后台耗时操作 (这里的代码都在子线程运行)
+        // ----------------------------------------
+        [=]() -> QString {
+            // 先检测物理掉线
+            //if (!bode->checkPhysicalConnection()) {
+            //    return "ERROR_DISCONNECTED"; // 返回特定错误码
+            //}
+
+            bode->queryCommand(":SYST:LOCK:REQ?\n");
+            QString result = bode->bodeCalibration(BodeDrive::CalMode::Load);
+            bode->queryCommand(":SYST:LOCK:REL?\n");
+
+            return result; // 把校准结果返回给下一步
+        },
+
+        // ----------------------------------------
+        // 任务 B：UI 刷新操作 (这里的代码自动切回主线程)
+        // ----------------------------------------
+        [=](QString workerResult) {
+
+            if (workerResult == "ERROR_DISCONNECTED") {
+                appendLog("校准失败：未检测到物理设备！", LOG_ERROR);
+            }
+            else {
+                appendLog("开路校准完成！", LOG_SUCCESS);
+                appendLog("返回值: " + workerResult, LOG_INFO);
+            }
+
+            // 恢复按钮点击
+            ui->btnLoadCali->setEnabled(true);
         }
-        appendLog("负载校准成功",LOG_INFO);
-        appendLog(ss, LOG_INFO);
-    }
-    else {
-        appendLog("负载校准失败", LOG_ERROR);
-    }
-    QString sss = bode->bodeCalibrationCom(vi);
-    appendLog(sss, LOG_INFO);
+    );
 }
 
 // ///////////////////校准实现/////////////////////
 // // ------------------------------------------------------
 // ///////////////////////////////////////阻抗分析测试配置页面实现////////////////////////
+//void MainWindow::on_btnStartMeasurement_clicked()
+//{
+//    if (vi == 0) {
+//        appendLog("仪器未连接，请先连接仪器！", LOG_ERROR);
+//        return;
+//    }
+//
+//    // ==========================================
+//    // 1. 收集 UI 上的用户参数
+//    // ==========================================
+//    SweepParams params;
+//
+//    // 因为你是 SpinBox，通过 value() 获取数字，并转换为字符串发给仪器
+//    // 假设你的 SpinBox 单位默认是 Hz
+//    params.startFreq = std::to_string(ui->spinStartFreq->value());
+//    params.stopFreq = std::to_string(ui->spinStopFreq->value());
+//    params.points = ui->spinSweepPoint->value();
+//
+//    // 判断扫频模式 (假设 ComboBox 第1项是线性，第2项是对数)
+//    if (ui->boxSweepMode->currentIndex() == 0) {
+//        params.sweepType = "LIN";
+//    }
+//    else {
+//        params.sweepType = "LOG";
+//    }
+//
+//    params.bandwidth = "300Hz"; // 暂时写死，或者你后续也可以加一个控件
+//
+//    // ==========================================
+//    // 2. 锁定界面按钮，防止重复点击
+//    // ==========================================
+//    ui->btnStartMeasurement->setEnabled(false);
+//    appendLog(QString(">>> 开始自动测量 | 范围: %1Hz - %2Hz | 点数: %3")
+//        .arg(QString::fromStdString(params.startFreq)).arg(QString::fromStdString(params.stopFreq)).arg(QString::number(params.points)), LOG_INFO);
+//
+//    // ==========================================
+//    // 3. 开启子线程执行测量 (防卡死)
+//    // ==========================================
+//    QFuture<void> future = QtConcurrent::run([=]() {
+//
+//        // 调用底层的测量函数
+//        MeasureResult result = bode->performMeasurement( params);
+//
+//        // ==========================================
+//        // 4. 切回主线程更新 UI
+//        // ==========================================
+//        QMetaObject::invokeMethod(this, [=]() {
+//            if (result.success) {
+//                appendLog("✅ " + result.message, LOG_INFO);
+//
+//                // 仅作演示：打印拿到的第一个点的数据，证明数据真的抓回来了
+//                if (!result.frequencies.empty()) {
+//                    QString pointInfo = QString("样本数据 [1] -> 频率: %1 Hz, 阻抗: %2 欧姆, 相位: %3 度")
+//                        .arg(result.frequencies[0])
+//                        .arg(result.magnitudes[0])
+//                        .arg(result.phases[0]);
+//                    appendLog(pointInfo, LOG_INFO);
+//                }
+//
+//                // 【下一步预留位置】
+//                // 这里拿到了完整的 result.frequencies, result.magnitudes
+//                // 之后你可以把这些数组丢给 QCustomPlot 画出曲线！
+//
+//            }
+//            else {
+//                appendLog("❌ " + result.message, LOG_ERROR);
+//            }
+//
+//            // 测量结束，恢复按钮点击功能
+//            ui->btnStartMeasurement->setEnabled(true);
+//            });
+//        });
+//}
+
 void MainWindow::on_btnStartMeasurement_clicked()
 {
     if (vi == 0) {
@@ -689,13 +962,10 @@ void MainWindow::on_btnStartMeasurement_clicked()
     // ==========================================
     SweepParams params;
 
-    // 因为你是 SpinBox，通过 value() 获取数字，并转换为字符串发给仪器
-    // 假设你的 SpinBox 单位默认是 Hz
     params.startFreq = std::to_string(ui->spinStartFreq->value());
     params.stopFreq = std::to_string(ui->spinStopFreq->value());
     params.points = ui->spinSweepPoint->value();
 
-    // 判断扫频模式 (假设 ComboBox 第1项是线性，第2项是对数)
     if (ui->boxSweepMode->currentIndex() == 0) {
         params.sweepType = "LIN";
     }
@@ -703,14 +973,16 @@ void MainWindow::on_btnStartMeasurement_clicked()
         params.sweepType = "LOG";
     }
 
-    params.bandwidth = "300Hz"; // 暂时写死，或者你后续也可以加一个控件
+    params.bandwidth = "300Hz"; // 此处暂时写死，后续可绑定UI控件
 
     // ==========================================
     // 2. 锁定界面按钮，防止重复点击
     // ==========================================
     ui->btnStartMeasurement->setEnabled(false);
     appendLog(QString(">>> 开始自动测量 | 范围: %1Hz - %2Hz | 点数: %3")
-        .arg(QString::fromStdString(params.startFreq)).arg(QString::fromStdString(params.stopFreq)).arg(QString::number(params.points)), LOG_INFO);
+        .arg(QString::fromStdString(params.startFreq))
+        .arg(QString::fromStdString(params.stopFreq))
+        .arg(QString::number(params.points)), LOG_INFO);
 
     // ==========================================
     // 3. 开启子线程执行测量 (防卡死)
@@ -718,31 +990,75 @@ void MainWindow::on_btnStartMeasurement_clicked()
     QFuture<void> future = QtConcurrent::run([=]() {
 
         // 调用底层的测量函数
-        MeasureResult result = bode->performMeasurement(vi, params);
+        MeasureResult result = bode->performMeasurement(params);
 
         // ==========================================
-        // 4. 切回主线程更新 UI
+        // 4. 切回主线程更新 UI 并绘制双轴图表
         // ==========================================
         QMetaObject::invokeMethod(this, [=]() {
             if (result.success) {
                 appendLog("✅ " + result.message, LOG_INFO);
 
-                // 仅作演示：打印拿到的第一个点的数据，证明数据真的抓回来了
-                if (!result.frequencies.empty()) {
-                    QString pointInfo = QString("样本数据 [1] -> 频率: %1 Hz, 阻抗: %2 欧姆, 相位: %3 度")
-                        .arg(result.frequencies[0])
-                        .arg(result.magnitudes[0])
-                        .arg(result.phases[0]);
-                    appendLog(pointInfo, LOG_INFO);
+                QVector<double> xFreq;
+                QVector<double> yCond; // 电导 G (实部，映射到左 Y 轴)
+                QVector<double> ySusp; // 电纳 B (虚部，映射到右 Y 轴)
+
+                // 遍历底层传回来的阻抗和相位数据
+                for (size_t i = 0; i < result.frequencies.size(); ++i) {
+                    double f = static_cast<double>(result.frequencies[i]);
+                    double zMag = static_cast<double>(result.magnitudes[i]);
+                    double zPhaseDeg = static_cast<double>(result.phases[i]);
+
+                    xFreq.push_back(f);
+
+                    if (zMag != 0.0) {
+                        // 角度转弧度计算
+                        double zPhaseRad = zPhaseDeg * M_PI / 180.0;
+
+                        // 核心转换公式：Y = 1/Z
+                        double G = std::cos(zPhaseRad) / zMag;
+                        double B = -std::sin(zPhaseRad) / zMag;
+
+                        yCond.push_back(G);
+                        ySusp.push_back(B);
+                    }
+                    else {
+                        // 防御性处理：防止阻抗为 0 导致除零崩溃
+                        yCond.push_back(0.0);
+                        ySusp.push_back(0.0);
+                    }
                 }
 
-                // 【下一步预留位置】
-                // 这里拿到了完整的 result.frequencies, result.magnitudes
-                // 之后你可以把这些数组丢给 QCustomPlot 画出曲线！
+                // 安全校验：确保在 UI 构造函数中已经 addGraph() 至少两次了
+                if (ui->plotAdmittance->graphCount() >= 2) {
+                    // 将数据喂给对应的曲线
+                    ui->plotAdmittance->graph(0)->setData(xFreq, yCond); // 蓝线：电导 G
+                    ui->plotAdmittance->graph(1)->setData(xFreq, ySusp); // 红线：电纳 B
+
+                    // ==========================================
+                    // 🌟 双轴各自独立自适应缩放
+                    // ==========================================
+
+                    // 1. 让 X 轴适应全部频率范围 (以 graph(0) 为准即可)
+                    ui->plotAdmittance->graph(0)->rescaleKeyAxis();
+
+                    // 2. 让左侧 Y 轴适应电导 G 的数据范围
+                    ui->plotAdmittance->graph(0)->rescaleValueAxis();
+
+                    // 3. 让右侧 Y 轴适应电纳 B 的数据范围 (独立缩放，互不干扰)
+                    ui->plotAdmittance->graph(1)->rescaleValueAxis();
+
+                    // 强制重绘图表
+                    ui->plotAdmittance->replot();
+                    appendLog("双轴导纳曲线绘制成功！", LOG_SUCCESS);
+                }
+                else {
+                    appendLog("绘图失败：图表未正确初始化 (图层数量 < 2)", LOG_WARNING);
+                }
 
             }
             else {
-                appendLog("❌ " + result.message, LOG_ERROR);
+                appendLog("❌ 测量失败：" + result.message, LOG_ERROR);
             }
 
             // 测量结束，恢复按钮点击功能
@@ -750,6 +1066,9 @@ void MainWindow::on_btnStartMeasurement_clicked()
             });
         });
 }
+
+
+
 
 // -------------------------------------------------------------------------------------------
 

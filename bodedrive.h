@@ -11,6 +11,8 @@
 #include <windows.h>
 #include <QVector>
 #include <functional>
+#include <QProcess>
+
 
 // 1. 用户输入的扫频参数结构体
 struct SweepParams {
@@ -47,25 +49,25 @@ public:
     void stopScpiRunner();
     bool connectVisa(const QString& ip);
     bool startScpiRunner(const std::wstring& cmd, PROCESS_INFORMATION& pi);
-    void sendCommandv2(ViSession vi, const std::string& cmd);
-    void sendCommand(ViSession vi, const QString& cmd);
+    //void sendCommandv2(ViSession vi, const std::string& cmd);
+    //void sendCommand(ViSession vi, const QString& cmd);
     void disconnect();
     //void sendCommand(ViSession vi, const std::string& cmd);
     QString queryIDN();
     //QString queryCommand(ViSession vi, const std::string& cmd);
     bool isConnected() const;
     //QString queryCommand(const std::string& cmd);
-    QString queryCommand(ViSession vi, const std::string& cmd);
-    QString queryCommandv3(const QString& cmd);
+    //QString queryCommand(ViSession vi, const std::string& cmd);
+    QString queryCommand(const QString& cmd);
     //QString BodeDrive::queryCommand(ViSession vi, const QString& cmd)
     std::vector<float> parseResults(const std::string& data);
-    QString bodeCalibration(ViSession vi, CalMode mode);
-    QString bodeCalibrationCom(ViSession vi);
-    void sendCommandData(const std::string& cmd);
+    QString bodeCalibration(CalMode mode);
+
+    void sendCommand(const std::string& cmd);
     //std::string queryCommandDatav2(ViSession vi, const std::string& cmd);
     //std::string queryCommandData(ViSession vi, const std::string& cmd);
     QString checkError(ViSession vi, std::string when);
-    MeasureResult performMeasurement(ViSession vi, SweepParams params);
+    MeasureResult performMeasurement(SweepParams params);
 
 private:
     LogFunc m_logHandler = nullptr;

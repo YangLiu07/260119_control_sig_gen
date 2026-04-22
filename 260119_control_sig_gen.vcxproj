@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>6.2.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;concurrent</QtModules>
+    <QtModules>core;gui;widgets;concurrent;printsupport</QtModules>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -92,6 +92,7 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>"C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc\visa64.lib";$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -149,6 +150,7 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>"C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc\visa64.lib";$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -188,6 +190,7 @@
     <ClCompile Include="bodedrive.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="qcustomplot.cpp" />
     <ClCompile Include="rigoldriver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bodedrive.h" />
+    <QtMoc Include="qcustomplot.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
