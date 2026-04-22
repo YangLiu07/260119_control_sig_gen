@@ -15,6 +15,8 @@
 #include <QtConcurrent>
 #include "qcustomplot.h"
 //#include "chartmanager.h" // 顶部引入
+
+
 #include <cmath> // 用于 std::cos, std::sin 和 M_PI
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
