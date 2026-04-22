@@ -6,7 +6,6 @@
 #include <QElapsedTimer>
 #include"mainwindow.h"
 #include <chrono>
-#include "qcustomplot.h"
 BodeDrive::BodeDrive()
 {
 
@@ -162,157 +161,294 @@ bool BodeDrive::startScpiRunner(
     isServerRunning = true;
     return true;
 }
-//void BodeDrive::stopScpiRunner() {
-//    if (isServerRunning && pi.hProcess != NULL) {
-//        // 1. 尝试优雅关闭（如果服务器有退出机制，可以发送命令，没有的话直接强杀）
-//        // TerminateProcess 是最直接清空服务器的方法
-//        TerminateProcess(pi.hProcess, 0);
-//
-//        // 2. 必须关闭句柄，否则会造成内核资源泄漏
-//        CloseHandle(pi.hProcess);
-//        CloseHandle(pi.hThread);
-//
-//        // 3. 重置状态
-//        pi = { 0 };
-//        isServerRunning = false;
-//        log("SCPI Server stopped and cleaned up.");
-//    }
-//}
-void BodeDrive::stopScpiRunner()
-{
-    // 1. 尝试通过 Windows 句柄杀进程 (你原本的方式)
+void BodeDrive::stopScpiRunner() {
     if (isServerRunning && pi.hProcess != NULL) {
+        // 1. 尝试优雅关闭（如果服务器有退出机制，可以发送命令，没有的话直接强杀）
+        // TerminateProcess 是最直接清空服务器的方法
         TerminateProcess(pi.hProcess, 0);
+
+        // 2. 必须关闭句柄，否则会造成内核资源泄漏
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
+
+        // 3. 重置状态
         pi = { 0 };
+        isServerRunning = false;
+        log("SCPI Server stopped and cleaned up.");
+    }
+}
+
+//void BodeDrive::sendCommand(ViSession vi, const QString & cmd) {
+//
+//    ViUInt32 retCount;
+//    QByteArray data = cmd.toUtf8();   // 关键转换
+//
+//    viWrite(vi, (ViBuf)data.data(), data.size(), &retCount);
+//    // 通过VISA向仪器发送命令
+//    //viWrite(vi, (ViBuf)cmd.c_str(), cmd.size(), &retCount);
+//}
+
+
+
+void BodeDrive::sendCommand(ViSession vi, const QString& cmd) {
+    ViUInt32 retCount;
+    log("send:"+cmd);
+    // 1. 将 QString 转换为 QByteArray
+    // 对于 SCPI 命令，通常使用 toLocal8Bit() 或 toLatin1()
+    QByteArray buffer = cmd.toLocal8Bit();
+
+
+
+    // 2. 确保命令以换行符 \n 结尾（如果输入没有带上的话）
+    if (!buffer.endsWith('\n')) {
+        buffer.append('\n');
     }
 
-    // 2. 商业防呆兜底：防止句柄丢失导致的僵尸进程，直接按进程名系统级强杀
-    // 注意替换为你实际的 SCPI 服务器 exe 名称
-    QString processName = "OmicronLab.VectorNetworkAnalysis.ScpiRunner.exe";
-    QProcess::execute("taskkill", QStringList() << "-im" << processName << "-f");
-
-    isServerRunning = false;
-    log("SCPI 服务器已强制关闭并清理内存。");
+    // 3. 通过 VISA 接口写入数据
+    viWrite(vi, (ViBuf)buffer.constData(), (ViUInt32)buffer.size(), &retCount);
+    
+    // 4. 可选：调试输出
+    // qDebug() << "SENT:" << cmd.trimmed();
 }
 
 
-//QString BodeDrive::queryCommand(const QString& cmd) {
-//    // 1. 基础状态检查 (完全照搬 queryIDN)
-//    if (!vi) return "Not Initialized";
+// 1. 加上 BodeDrive:: 前缀，并将返回值改为头文件中声明的 QString
+//QString BodeDrive::queryCommand(ViSession vi, const std::string& cmd) {
+//
+//    ViChar buffer[1024]{}; // 每次读取1KB
+//    ViUInt32 retCount;
+//
+//    // 2. 因为现在已经在 BodeDrive 类作用域内了，直接调用即可，删掉 "BodeDrive::"
+//    sendCommand(vi, cmd);
+//
+//    viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+//
+//    // 3. 补全缺失的 std:: 前缀
+//    std::string currentChars = std::string(buffer, retCount);
+//    std::string response = currentChars;
+//
+//    // 4. 补全 string::npos 前面的 std::
+//    while (currentChars.find('\n') == std::string::npos)
+//    {
+//        viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+//
+//        currentChars = std::string(buffer, retCount);
+//        response += currentChars;
+//
+//        // 5. 补全 cout 和 endl 前面的 std::
+//        std::cout << "QUERY: " << cmd << std::endl;
+//    }
+//
+//    // 6. 将最终拼接好的 std::string 转换为头文件要求的 QString
+//    return QString::fromStdString(response);
+//}
+
+// 注意：你截图1里写的是 QString ss = queryCommand，截图2返回的是 std::string。
+// 我这里以返回 std::string 为例，如果你的头文件定义的是 QString，请自行修改返回值类型。
+
+//QString BodeDrive::queryCommand(ViSession vi, const std::string& cmd) {
+//
+//    ViChar buffer[1024]{};
+//    ViUInt32 retCount = 0;
+//    QString response = "";
+//
+//    sendCommand(vi, cmd);
 //
 //    ViStatus status;
-//    ViUInt32 retCount;
-//    // 缓冲区开大一点 (1024)，应对比 *IDN? 稍微长一点的返回值
-//    char buffer[1024] = { 0 };
+//    do {
+//        // 每次读取前清空 buffer，防止脏数据干扰
+//        memset(buffer, 0, sizeof(buffer));
 //
-//    // 2. 预处理指令：自动补全换行符并安全转换为 C 字符串
-//    QString finalCmd = cmd;
-//    if (!finalCmd.endsWith('\n')) {
-//        finalCmd += '\n';
-//    }
+//        // 留出最后一位防止字符串越界
+//        status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
+//      
+//        // 如果读到了数据，拼接到 response 中
+//        if (retCount > 0) {
+//            response += QString::fromUtf8((char*)buffer, retCount);
+//        }
+//        else {
+//            
+//            response = ("仪器返回值没东西");
+//        }
 //
-//    // 这一步非常关键：必须用 QByteArray 中转，否则转换出的 const char* 会变成乱码
-//    QByteArray ba = finalCmd.toLocal8Bit();
-//    const char* cmdStr = ba.constData();
+//        // 【防死锁核心】如果读取发生错误（比如超时 VI_ERROR_TMO），立刻跳出！
+//        if (status < VI_SUCCESS) {
+//            // qDebug() << "viRead 遇到警告或错误，状态码:" << status;
+//            break;
+//        }
 //
-//    // 3. 写入指令 (模仿 queryIDN)
-//    status = viWrite(vi, (ViBuf)cmdStr, (ViUInt32)ba.size(), &retCount);
-//    if (status < VI_SUCCESS) {
-//        // 将状态码转换为 16 进制，比如 0xBFFF000E
-//        QString hexCode = QString::number(status, 16).toUpper();
-//        QString errMsg = "Write Error: 0x" + hexCode;
-//        log("error:" + errMsg);
-//    }
-//    // 4. 清空缓冲区并读取 (完全照搬 queryIDN)
-//    memset(buffer, 0, sizeof(buffer));
-//    status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
+//        // 【正确循环条件】只有当状态明确告诉我们 "还没读完，1024字节装不下" 时，才继续循环
+//    } while (status == VI_SUCCESS_MAX_CNT);
 //
-//    // 5. 提取并返回结果
-//    QString result = "";
-//    if (status >= VI_SUCCESS) {
-//        // 将成功读到的字节转换为 QString，并用 trimmed() 去掉末尾的 \n 或空格
-//        result = QString::fromLocal8Bit(buffer, retCount).trimmed();
-//
-//        // 如果你想在界面上看到成功的返回，可以解除下面这行的注释
-//        // log("RECV: " + result); 
-//    }
-//    else {
-//        // 如果超时或出错
-//        // log("Read Error Status: " + QString::number(status, 16));
-//    }
-//    log("response:" + result);
-//    return result;
+//    return response;
 //}
 
 
-QString BodeDrive::queryCommand(const QString& cmd) {
+
+//QString BodeDrive::queryCommand(ViSession vi, const QString& cmd) {
+//    // 1. 将 QString 转换为 QByteArray 以便通过 VISA 发送
+//    // SCPI 命令通常使用本地 8-bit 编码或 UTF-8
+//    QByteArray sendData = cmd.toLocal8Bit();
+//    sendCommand(vi, sendData.data());
+//
+//    QByteArray response;
+//    ViChar buffer[1024];
+//    ViUInt32 retCount;
+//    ViStatus status;
+//
+//    // 2. 循环读取直到检测到终止符
+//    // 注意：Bode100 SCPI 通常以 '\n' (LF) 结尾
+//    bool finished = false;
+//    while (!finished) {
+//        memset(buffer, 0, sizeof(buffer));
+//        status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
+//
+//        if (status < VI_SUCCESS) {
+//            // 这里可以添加异常处理逻辑，例如 break 或抛出信号
+//            break;
+//        }
+//
+//        QByteArray chunk = QByteArray(buffer, retCount);
+//        response.append(chunk);
+//
+//        // 检查当前块或已收到的数据中是否包含换行符
+//        if (chunk.contains('\n')) {
+//            finished = true;
+//        }
+//    }
+//
+//    // 3. 将结果转换为 QString 返回（自动处理编码）
+//    return QString::fromLocal8Bit(response).trimmed();
+//}
+// 
+//  
+ //  官方示例
+QString BodeDrive::queryCommand(ViSession vi, const std::string& cmd) {
+
+    ViChar buffer[1024]{}; // 每次读取1KB
+    ViUInt32 retCount;
+
+    sendCommandv2(vi, cmd);
+
+    viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+
+    std::string currentChars = std::string(buffer, retCount);
+    std::string response = currentChars;
+
+    while (currentChars.find('\n') == std::string::npos)
+    {
+        viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+
+        currentChars = std::string(buffer, retCount);
+        response += currentChars;
+
+        //std::cout << "QUERY: " << cmd << std::endl;
+    }
+    QString result = QString::fromStdString(response);
+    log(result);
+    return result;
+}
+QString BodeDrive::queryCommandv3(const QString& cmd) {
+    // 1. 基础状态检查 (完全照搬 queryIDN)
     if (!vi) return "Not Initialized";
 
     ViStatus status;
     ViUInt32 retCount;
+    // 缓冲区开大一点 (1024)，应对比 *IDN? 稍微长一点的返回值
+    char buffer[1024] = { 0 };
 
-    // 1. 预处理指令
+    // 2. 预处理指令：自动补全换行符并安全转换为 C 字符串
     QString finalCmd = cmd;
     if (!finalCmd.endsWith('\n')) {
         finalCmd += '\n';
     }
 
+    // 这一步非常关键：必须用 QByteArray 中转，否则转换出的 const char* 会变成乱码
     QByteArray ba = finalCmd.toLocal8Bit();
     const char* cmdStr = ba.constData();
 
-    // 2. 写入指令
+    // 3. 写入指令 (模仿 queryIDN)
     status = viWrite(vi, (ViBuf)cmdStr, (ViUInt32)ba.size(), &retCount);
     if (status < VI_SUCCESS) {
+        // 将状态码转换为 16 进制，比如 0xBFFF000E
         QString hexCode = QString::number(status, 16).toUpper();
-        log("Write Error: 0x" + hexCode);
-        return "";
+        QString errMsg = "Write Error: 0x" + hexCode;
+        log("error:" + errMsg);
     }
+    // 4. 清空缓冲区并读取 (完全照搬 queryIDN)
+    memset(buffer, 0, sizeof(buffer));
+    status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
 
-    // ====================================================
-    // 3. 核心修复：循环分块读取大段数据
-    // ====================================================
-    QByteArray responseData; // 动态扩容的字节数组，用来拼接所有数据
-    char buffer[2048];       // 每次读取的块大小 (2KB)
-
-    do {
-        memset(buffer, 0, sizeof(buffer));
-
-        // 尝试读取一块数据
-        status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
-
-        if (status >= VI_SUCCESS) {
-            // 将本次读到的数据拼接到总容器中
-            responseData.append(buffer, retCount);
-        }
-
-        // VI_SUCCESS_MAX_CNT 是 VISA 库的宏：表示本次读取是因为填满了缓冲区而停止的，
-        // 说明仪器手里还有数据没发完，必须继续 do-while 循环。
-    } while (status == VI_SUCCESS_MAX_CNT);
-
-    // ====================================================
-    // 4. 提取并返回最终结果
-    // ====================================================
+    // 5. 提取并返回结果
     QString result = "";
-    if (status >= VI_SUCCESS || status == VI_SUCCESS_MAX_CNT) {
-        result = QString::fromLocal8Bit(responseData).trimmed();
+    if (status >= VI_SUCCESS) {
+        // 将成功读到的字节转换为 QString，并用 trimmed() 去掉末尾的 \n 或空格
+        result = QString::fromLocal8Bit(buffer, retCount).trimmed();
+
+        // 如果你想在界面上看到成功的返回，可以解除下面这行的注释
+        // log("RECV: " + result); 
     }
     else {
-        // 如果发生了超时或其他读取错误
-        log("Read Error Status: " + QString::number(status, 16).toUpper());
+        // 如果超时或出错
+        // log("Read Error Status: " + QString::number(status, 16));
     }
-
-    // 如果日志太长会导致界面卡顿，对于长数据（比如长度大于100），可以选择不打印全文
-    if (result.length() < 200) {
-        log("response: " + result);
-    }
-    else {
-        log("response: [Data too long, length=" + QString::number(result.length()) + " bytes]");
-    }
-
+    log("response:" + result);
     return result;
 }
+void BodeDrive::sendCommandv2(ViSession vi, const std::string& cmd) {
+
+    ViUInt32 retCount;
+    log("send" + QString::fromStdString(cmd));
+    // 通过VISA向仪器发送命令
+    viWrite(vi, (ViBuf)cmd.c_str(), cmd.size(), &retCount);
+
+    // 在控制台打印发送的命令
+    //cout << "SEND: " << cmd << endl;
+}
+// BodeDrive.cpp
+//QString BodeDrive::queryCommand(ViSession vi,const char& cmd) {
+//    if (this->vi == VI_NULL) log("未连接ViSession");
+//
+//    char buffer[1024] = { 0 };
+//    ViUInt32 retCount;
+//    ViStatus status;
+//    
+//    // 3. 通过 VISA 接口写入数据
+//    viWrite(vi, (ViBuf)cmd, (ViUInt32)strlen, &retCount);
+//    viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+//
+//    std::string currentChars = std::string(buffer, retCount);
+//    std::string response = currentChars;
+//
+//    while (currentChars.find('\n') == std::string::npos)
+//    {
+//        viRead(vi, (ViBuf)buffer, sizeof(buffer), &retCount);
+//
+//        currentChars = std::string(buffer, retCount);
+//        response += currentChars;
+//    }
+//    QString res = QString::fromStdString(response);
+//    log("response:"+res);
+//    return res;
+//}
+//老版本询问命令
+//QString BodeDrive::queryCommand(const std::string& cmd)
+//{
+//    if (!isConnected())
+//        return "Not connected";
+//
+//    ViUInt32 retCount = 0;
+//    char buffer[512] = { 0 };
+//
+//    viWrite(vi, (ViBuf)cmd.c_str(), cmd.size(), &retCount);
+//
+//    ViStatus status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
+//
+//    if (status >= VI_SUCCESS && retCount > 0)
+//        return QString::fromUtf8(buffer, retCount);
+//
+//    return "";
+//}
 
 std::vector<float> BodeDrive::parseResults(const std::string& data)
 {
@@ -332,8 +468,12 @@ std::vector<float> BodeDrive::parseResults(const std::string& data)
 
 }
 
-QString BodeDrive::bodeCalibration(CalMode mode)
+QString BodeDrive::bodeCalibration(ViSession vi,CalMode mode)
 {
+    //sendCommand(vi,":CALC:PAR:DEF Z\n");
+    ////queryCommand("*OPC?\n");
+    //sendCommand(vi, ":SENS:Z:METH IAD\n");
+    //QString before=queryCommand(":SENS:CORR:FULL:AVAI?\n");
     QString modeStr;
     switch (mode) {
     case CalMode::Open:  modeStr = "OPEN"; break;
@@ -341,17 +481,36 @@ QString BodeDrive::bodeCalibration(CalMode mode)
     case CalMode::Load:  modeStr = "LOAD"; break;
     }
     QString fullCmd = QString(":SENS:CORR:FULL:%1\n").arg(modeStr);
-    std::string coli = fullCmd.toStdString();
-    sendCommand(coli);
-    QString opc = queryCommand("*OPC?\n");
+    sendCommand(vi, fullCmd);
+    QString opc = queryCommand(vi,"*OPC?\n");
     //queryCommand存在问题导致程序死锁，修改
-    QString err = queryCommand("SYST:ERR?\n");
+    QString err = queryCommand(vi,"SYST:ERR?\n");
     //addLogtoGUI("信号与槽的日志显示");
     QString ss = err+opc;
     return ss;
 }
 
-void BodeDrive::sendCommand(const std::string& cmd) {
+QString BodeDrive::bodeCalibrationCom(ViSession vi)
+{
+
+    //int numOfPoints = 201;
+    //QString startfreq = "10kHz";
+    //QString stopfreq = "10MAHz";
+    //QString bandwidth = "300Hz";
+    //sendCommand(vi, ":SENS:FREQ:STAR" + startfreq + "\n"); //start frequency 10kHz
+    //sendCommand(vi, ":SENS:FREQ:STOP" + stopfreq + "\n"); //stop frequency 10MHz
+    //sendCommand(vi, ":SENS:SWE:TYPE LOG\n"); //logarithmic sweep
+    //sendCommand(vi, ":SENS:BAND" + bandwidth + "\n");
+
+    QString after3 = queryCommand(vi,":SENS:CORR:FULL:AVAI?\n");
+    QString after2 = queryCommand(vi,":SENS:CORR:FULL:ENAB ON\n");
+    QString after = queryCommand(vi,":SENS:CORR:FULL:ACT?\n");
+    
+    //QString after3 = queryCommand(":SENS:CORR:FULL:AVAI?\n");
+    return after +  after3;
+}
+
+void BodeDrive::sendCommandData(const std::string& cmd) {
 
     ViUInt32 retCount;
     QString que = QString::fromStdString(cmd);
@@ -359,7 +518,16 @@ void BodeDrive::sendCommand(const std::string& cmd) {
     // 通过VISA向仪器发送命令
     viWrite(vi, (ViBuf)cmd.c_str(), cmd.size(), &retCount);
 }
-
+//std::string BodeDrive::queryCommandDatav2(ViSession vi, const std::string& cmd)
+//{
+//    memset(buffer, 0, sizeof(buffer));
+//    status = viRead(vi, (ViBuf)buffer, sizeof(buffer) - 1, &retCount);
+//
+//    QString idnResult = "Unknown Device";
+//    if (status >= VI_SUCCESS) {
+//        idnResult = QString::fromLocal8Bit(buffer).trimmed();
+//    }
+//}
 
 //std::string BodeDrive::queryCommandData(ViSession vi, const std::string& cmd) {
 //    QString que = QString::fromStdString(cmd);
@@ -389,270 +557,252 @@ void BodeDrive::sendCommand(const std::string& cmd) {
 //}
 
 
-//MeasureResult BodeDrive::performMeasurement(SweepParams params)
+
+// //////////////////////////////////阻抗测量函数////////////////////////////////
+//MeasureResult BodeDrive::performMeasurement(ViSession vi, SweepParams params)
 //{
-//    //sendCommand(vi, "*RST");
-//    ////checkError(vi, "checkerror:");
-//    //sendCommandData(vi, ":SYST:LOCK:REL\n");
-//    ////queryCommandData(vi, ":SYSTem:LOCK:OWNer?\n");
-//    
-//    QString lockOK = queryCommand(":SYST:LOCK:REQ? \n");
+//    MeasureResult result;
+//    result.success = false;
 //
-//    //cout << "lock status: " << lockOK << endl;
+//    // 1. 申请仪器控制权 (防死锁)
+//    sendCommandData(vi, ":SYST:LOCK:REL\n");
+//    std::string lockStatus = queryCommandData(vi, ":SYST:LOCK:REQ?\n");
+//    if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
+//        result.message = "获取仪器控制权失败，无法开始测量！";
+//        return result;
+//    }
 //
-//    sendCommand( "*CLS\n");  // 清除状态寄存器
-//    sendCommand("*RST\n");  // 重置仪器
+//    // 2. 初始化 (注意：删除了 *RST 以保护校准数据，只保留 *CLS 清除错误队列)
+//    sendCommand(vi, "*CLS\n");
+//    sendCommand(vi, "*ESE 255\n"); // 开启错误检查
 //
-//    queryCommand("*OPC?\n"); // 等待操作完成
+//    // 3. 写入用户配置的扫频参数
+//    sendCommand(vi, ":CALC:PAR:DEF Z\n"); // 测阻抗
+//    sendCommand(vi, ":SENS:FREQ:STAR " + params.startFreq + "\n");
+//    sendCommand(vi, ":SENS:FREQ:STOP " + params.stopFreq + "\n");
+//    sendCommand(vi, ":SENS:SWE:POIN " + QString::number(params.points) + "\n");
+//    sendCommand(vi, ":SENS:SWE:TYPE " + params.sweepType + "\n");
+//    sendCommand(vi, ":SENS:BAND " + params.bandwidth + "\n");
 //
-//    sendCommand("*ESE 255\n"); // 启用错误事件寄存器
+//    // 配置数据格式：线性幅值和相位 (Mag/Phase)
+//    sendCommand(vi, ":CALC:FORM SLIN\n");
 //
-//    //checkError(vi, "After reset:"); // 检查错误队列
+//    // 4. 触发测量
+//    sendCommand(vi, ":TRIG:SOUR BUS\n"); // 设置为总线触发
+//    sendCommand(vi, ":INIT\n");          // 初始化触发系统
+//    sendCommand(vi, ":TRIG:SING\n");     // 发送单次触发指令
 //
+//    // 5. 【关键】延长超时时间并等待测量完成
+//    // 扫频点数越多、带宽越窄，耗时越长。这里设个较长的时间，比如 60 秒
+//    ViUInt32 originalTimeout;
+//    viGetAttribute(vi, VI_ATTR_TMO_VALUE, &originalTimeout);
+//    viSetAttribute(vi, VI_ATTR_TMO_VALUE, 60000); // 60秒超时
 //
-//    /******************************************************
-//     * 配置测量类型
-//     *
-//     * Z 代表阻抗测量
-//     ******************************************************/
-//    //sendCommand(":CALC:PAR:DEF Z\n");
+//    QString opc = queryCommand(vi, "*OPC?\n"); // 阻塞等待仪器扫频结束
 //
-//    //queryCommand("*OPC?\n");
+//    viSetAttribute(vi, VI_ATTR_TMO_VALUE, originalTimeout); // 恢复超时时间
 //
+//    if (!opc.contains("1")) {
+//        result.message = "测量超时或通信中断！";
+//        sendCommand(vi, ":SYST:LOCK:REL?\n"); // 释放锁
+//        return result;
+//    }
 //
-//    /******************************************************
-//     * 配置频率扫描参数
-//     ******************************************************/
+//    // 6. 获取数据
+//    QString freqDataStr = queryCommand( vi,":SENS:FREQ:DATA?\n");
+//    QString measDataStr = queryCommand( vi,":CALC:DATA:SDAT?\n");
 //
-//    sendCommand(":SENS:FREQ:STAR " + params.startFreq + "kHz\n");
+//    // 7. 解析数据并装入 QVector
+//    QStringList freqList = freqDataStr.split(",", Qt::SkipEmptyParts);
+//    QStringList measList = measDataStr.split(",", Qt::SkipEmptyParts);
 //
-//    sendCommand(":SENS:FREQ:STOP " + params.stopFreq + "kHz\n");
+//    for (const QString& f : freqList) {
+//        result.frequencies.append(f.toDouble());
+//    }
 //
-//    sendCommand(":SENS:SWE:POIN " + std::to_string(params.points) + "\n");
+//    // SCPI SDAT 返回格式通常是成对的：[幅值1, 相位1, 幅值2, 相位2 ...]
+//    for (int i = 0; i < measList.size() - 1; i += 2) {
+//        result.magnitudes.append(measList[i].toDouble());
+//        result.phases.append(measList[i + 1].toDouble());
+//    }
 //
-//    sendCommand(":SENS:SWE:TYPE LOG\n");
+//    // 8. 释放仪器控制权
+//    sendCommand(vi, ":SYST:LOCK:REL?\n");
 //
-//    sendCommand(":SENS:BAND " + params.bandwidth + "\n");
+//    // 检查是否有系统错误 (SYST:ERR?) 这里略写，你可以加上之前写的 checkError 逻辑
 //
-//    //checkError("After freq definition:");
-//
-//
-//    /******************************************************
-//     * 查询预计测量时间
-//     ******************************************************/
-//    QString time = queryCommand(":SENS:SWE:TIME?");
-//
-//    //cout << "Time needed for the Measurement: " << time << "seconds" << endl;
-//
-//
-//    /******************************************************
-//     * 配置触发方式
-//     ******************************************************/
-//
-//    sendCommand(":CALC:FORM SLIN\n");
-//
-//    sendCommand(":TRIG:SOUR BUS\n");
-//
-//    sendCommand(":INIT\n");
-//
-//    sendCommand(":TRIG:SING\n");
-//
-//    //checkError(vi, "after trig config: ");
-//
-//
-//    /******************************************************
-//     * 等待测量完成
-//     ******************************************************/
-//    QString opc = queryCommand("*OPC?\n");
-//
-//    //cout << "opc status: " << opc << endl;
-//
-//
-//    /******************************************************
-//     * 读取扫描频率数据
-//     ******************************************************/
-//    QString frequencies = queryCommand(":SENS:FREQ:DATA?\n");
-//    queryCommand(":SYST:ERR?\n");
-//
-//    //checkError(vi, "after freq data: ");
-//
-//
-//    ///******************************************************
-//    // * 读取测量数据
-//    // *
-//    // * SDAT 返回幅值和相位数据
-//    // ******************************************************/
-//    QString allResults = queryCommand(":CALC:DATA:SDAT?\n");
-//
-//    //checkError(vi, "after meas data: ");
-//
-//
-//    //cout << "results: " << endl << allResults << endl;
-//
-//    //cout << "frequencies :" << endl << frequencies << endl;
-//
-//
-//    /******************************************************
-//     * 将字符串数据解析为浮点数组
-//     ******************************************************/
-//    std::vector<float> magnitude_phase = parseResults(allResults.toStdString());
-//
-//    std::vector<float> freqValues = parseResults(frequencies.toStdString());
-//
-//
-//    ///******************************************************
-//    // * 示例：打印第一个测量点
-//    // ******************************************************/
-//    //std::cout << "Frequency: " << freqValues[0] << "Hz\t"
-//    //    << "Magnitude: " << magnitude_phase[0] << "Ohms\t"
-//    //    << "Phase: " << magnitude_phase[201] << "deg" << std::endl;
-//
-//
-//    ///******************************************************
-//    // * 释放设备锁
-//    // ******************************************************/
-//    QString relok = queryCommand(":SYST:LOCK:REL?\n");
-//
-//    ////std:: cout << "release status: " << relok << std::endl;
-//
-//
-//    ///******************************************************
-//    // * 关闭 VISA 会话
-//    // ******************************************************/
-//    //viClose(vi);
-//    //viClose(rm);
-//
-//
-//    ///******************************************************
-//    // * 计算测量总耗时
-//    // ******************************************************/
-//    auto end = std::chrono::high_resolution_clock::now();
-//    auto start = std::chrono::high_resolution_clock::now();
-//
-//    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-//
-//    std::cout << "Measurement complete. Took "
-//        << duration.count()
-//        << " milliseconds"
-//        << std::endl;
-//    MeasureResult measResult;
-//    measResult.frequencies = freqValues;
-//
-//    //// 注意：Bode100 返回的 SDAT 数据通常是 [Mag1, Mag2... MagN, Phase1, Phase2... PhaseN]
-//    //// 或者是交替的。根据示例代码，前 201 个是幅值，后 201 个是相位
-//    //int numPoints = freqValues.size();
-//
-//    // 提取幅值部分
-//    measResult.magnitudes.assign(magnitude_phase.begin(),
-//        magnitude_phase.begin() + numPoints);
-//
-//    // 提取相位部分
-//    measResult.phases.assign(magnitude_phase.begin() + numPoints,
-//        magnitude_phase.end());
-//    MeasureResult measResult;
-//    return measResult;
+//    result.success = true;
+//    result.message = QString("测量完成！共获取 %1 个点的数据。").arg(result.frequencies.size());
+//    return result;
 //}
-// 
-// 
-MeasureResult BodeDrive::performMeasurement(SweepParams params)
+
+QString BodeDrive::checkError(ViSession vi, std::string when) {
+   QString error = queryCommandv3(":SYST:ERR?\n");
+    //QString result = QString::fromStdString(when + error);
+    log(error);
+    return error;
+}
+
+MeasureResult BodeDrive::performMeasurement(ViSession vi, SweepParams params)
 {
-    MeasureResult result;
-    result.success = false;
+    //sendCommand(vi, "*RST");
+    ////checkError(vi, "checkerror:");
+    //sendCommandData(vi, ":SYST:LOCK:REL\n");
+    ////queryCommandData(vi, ":SYSTem:LOCK:OWNer?\n");
+    
+    QString lockOK = queryCommandv3(":SYST:LOCK:REQ? \n");
 
-    // 使用 Qt 的高精度计时器替代 chrono，代码更简洁
-    QElapsedTimer timer;
-    timer.start();
+    //cout << "lock status: " << lockOK << endl;
 
-    // ==========================================
-    // 1. 申请仪器控制权 (对应 Python 的 lockOk)
-    // ==========================================
-    QString lockOK = queryCommand(":SYST:LOCK:REQ?\n");
-    if (!lockOK.contains("1")) {
-        result.message = "锁定仪器失败，可能被其他程序占用！";
-        return result;
-    }
+    sendCommandData( "*CLS\n");  // 清除状态寄存器
+    sendCommandData("*RST\n");  // 重置仪器
 
-    // ==========================================
-    // 2. 清理与复位 (商业规范兜底)
-    // ==========================================
-    sendCommand("*CLS\n");
-    sendCommand("*RST\n");
-    queryCommand("*OPC?\n");
+    queryCommandv3("*OPC?\n"); // 等待操作完成
 
-    // ==========================================
-    // 3. 配置测量模式为单端口阻抗 (对应 Python)
-    // ==========================================
-    sendCommand(":CALC:PAR:DEF Z\n");
-    sendCommand(":CALC:FORM SLIN\n"); // 线性幅值(欧姆) + 相位(度)
+    sendCommandData("*ESE 255\n"); // 启用错误事件寄存器
 
-    // ==========================================
-    // 4. 配置频率扫描参数
-    // ==========================================
-    // 注意：假设 params.startFreq 是纯数字字符串，需要补上单位
-    sendCommand(":SENS:FREQ:STAR " + params.startFreq + "kHz\n");
-    sendCommand(":SENS:FREQ:STOP " + params.stopFreq + "kHz\n");
-    sendCommand(":SENS:SWE:POIN " + std::to_string(params.points) + "\n");
+    checkError(vi, "After reset:"); // 检查错误队列
 
-    // 假设 params 结构体中有 sweepType 成员，对应 Python 的 Sweep_type
-    // 如果没有，你可以直接写死为 sendCommand(":SENS:SWE:TYPE LOG\n");
-    sendCommand(":SENS:SWE:TYPE " + params.sweepType + "\n");
-    sendCommand(":SENS:BAND " + params.bandwidth + "\n");
 
-    // ==========================================
-    // 5. 配置触发系统并开始 (对应 Python)
-    // ==========================================
-    sendCommand(":TRIG:SOUR BUS\n");
-    sendCommand(":INIT:CONT ON\n"); // Python 中强调：让触发器保持就绪，等待单一触发
-    sendCommand(":TRIG:SING\n");
+    /******************************************************
+     * 配置测量类型
+     *
+     * Z 代表阻抗测量
+     ******************************************************/
+    sendCommandData(":CALC:PAR:DEF Z\n");
 
-    // ==========================================
-    // 6. 阻塞等待测量完成
-    // ==========================================
-    QString opc = queryCommand("*OPC?\n");
-    if (!opc.contains("1")) {
-        result.message = "测量超时或未正常完成";
-        queryCommand(":SYST:LOCK:REL?\n"); // 发生异常也必须解锁
-        return result;
-    }
+    queryCommandv3("*OPC?\n");
 
-    // ==========================================
-    // 7. 获取原始数据
-    // ==========================================
-    QString allResultsStr = queryCommand(":CALC:DATA:SDAT?\n");
-    QString frequenciesStr = queryCommand(":SENS:FREQ:DATA?\n");
 
-    // ==========================================
-    // 8. 解析与切割数组 (完全对标 Python 的切片逻辑)
-    // ==========================================
-    std::vector<float> magnitude_phase = parseResults(allResultsStr.toStdString());
-    std::vector<float> freqValues = parseResults(frequenciesStr.toStdString());
+    /******************************************************
+     * 配置频率扫描参数
+     ******************************************************/
 
-    int numPoints = freqValues.size();
+    sendCommandData(":SENS:FREQ:STAR " + params.startFreq + "kHz\n");
 
-    // 安全校验：返回的幅值+相位总数据量必须 >= 频率点数的 2 倍
-    if (numPoints > 0 && magnitude_phase.size() >= 2 * numPoints) {
-        result.frequencies = freqValues;
+    sendCommandData(":SENS:FREQ:STOP " + params.stopFreq + "kHz\n");
 
-        // 提取幅值部分 (对应 Python: magnitude_raw = allResults_list_raw[0:Number_of_measurement_points])
-        result.magnitudes.assign(magnitude_phase.begin(), magnitude_phase.begin() + numPoints);
+    sendCommandData(":SENS:SWE:POIN " + std::to_string(params.points) + "\n");
 
-        // 提取相位部分 (对应 Python: phase_raw = allResults_list_raw[Number_of_measurement_points:len])
-        result.phases.assign(magnitude_phase.begin() + numPoints, magnitude_phase.begin() + 2 * numPoints);
+    sendCommandData(":SENS:SWE:TYPE LOG\n");
 
-        result.success = true;
-        result.message = QString("测量完成, 共抓取 %1 个点，耗时 %2 ms")
-            .arg(numPoints).arg(timer.elapsed());
-    }
-    else {
-        result.message = "数据解析异常：返回的数据长度与频率点数不匹配！";
-    }
+    sendCommandData(":SENS:BAND " + params.bandwidth + "\n");
 
-    // ==========================================
-    // 9. 释放设备控制权 (对应 Python 的 finally)
-    // ==========================================
-    queryCommand(":SYST:LOCK:REL?\n");
-    queryCommand("*OPC?\n"); // 等待释放动作完成
+    checkError(vi, "After freq definition:");
 
-    return result;
+
+    /******************************************************
+     * 查询预计测量时间
+     ******************************************************/
+    QString time = queryCommandv3(":SENS:SWE:TIME?");
+
+    //cout << "Time needed for the Measurement: " << time << "seconds" << endl;
+
+
+    /******************************************************
+     * 配置触发方式
+     ******************************************************/
+
+    sendCommandData(":CALC:FORM SLIN\n");
+
+    sendCommandData(":TRIG:SOUR BUS\n");
+
+    sendCommandData(":INIT\n");
+
+    sendCommandData(":TRIG:SING\n");
+
+    checkError(vi, "after trig config: ");
+
+
+    /******************************************************
+     * 等待测量完成
+     ******************************************************/
+    QString opc = queryCommandv3("*OPC?\n");
+
+    //cout << "opc status: " << opc << endl;
+
+
+    /******************************************************
+     * 读取扫描频率数据
+     ******************************************************/
+    //QString frequencies = queryCommandv3(":SENS:FREQ:DATA?\n");
+
+    //checkError(vi, "after freq data: ");
+
+
+    ///******************************************************
+    // * 读取测量数据
+    // *
+    // * SDAT 返回幅值和相位数据
+    // ******************************************************/
+    //QString allResults = queryCommandv3(":CALC:DATA:SDAT?\n");
+
+    //checkError(vi, "after meas data: ");
+
+
+    //cout << "results: " << endl << allResults << endl;
+
+    //cout << "frequencies :" << endl << frequencies << endl;
+
+
+    /******************************************************
+     * 将字符串数据解析为浮点数组
+     ******************************************************/
+    //std::vector<float> magnitude_phase = parseResults(allResults.toStdString());
+
+    //std::vector<float> freqValues = parseResults(frequencies.toStdString());
+
+
+    ///******************************************************
+    // * 示例：打印第一个测量点
+    // ******************************************************/
+    //std::cout << "Frequency: " << freqValues[0] << "Hz\t"
+    //    << "Magnitude: " << magnitude_phase[0] << "Ohms\t"
+    //    << "Phase: " << magnitude_phase[201] << "deg" << std::endl;
+
+
+    ///******************************************************
+    // * 释放设备锁
+    // ******************************************************/
+    //QString relok = queryCommandv3(":SYST:LOCK:REL?\n");
+
+    ////std:: cout << "release status: " << relok << std::endl;
+
+
+    ///******************************************************
+    // * 关闭 VISA 会话
+    // ******************************************************/
+    //viClose(vi);
+    //viClose(rm);
+
+
+    ///******************************************************
+    // * 计算测量总耗时
+    // ******************************************************/
+    //auto end = std::chrono::high_resolution_clock::now();
+    //auto start = std::chrono::high_resolution_clock::now();
+
+    //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    //std::cout << "Measurement complete. Took "
+    //    << duration.count()
+    //    << " milliseconds"
+    //    << std::endl;
+    //MeasureResult measResult;
+    //measResult.frequencies = freqValues;
+
+    //// 注意：Bode100 返回的 SDAT 数据通常是 [Mag1, Mag2... MagN, Phase1, Phase2... PhaseN]
+    //// 或者是交替的。根据示例代码，前 201 个是幅值，后 201 个是相位
+    //int numPoints = freqValues.size();
+
+    //// 提取幅值部分
+    //measResult.magnitudes.assign(magnitude_phase.begin(),
+    //    magnitude_phase.begin() + numPoints);
+
+    //// 提取相位部分
+    //measResult.phases.assign(magnitude_phase.begin() + numPoints,
+    //    magnitude_phase.end());
+    MeasureResult measResult;
+    return measResult;
 }
 // //////////////////////////////////阻抗测量函数////////////////////////////////

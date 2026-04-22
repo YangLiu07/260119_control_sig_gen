@@ -3,9 +3,6 @@
 #include <QMainWindow>
 #include "rigoldriver.h" // 引入驱动头文件
 #include"bodedrive.h"
-#include <QtConcurrent>
-#include <QPointer>
-#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,7 +29,6 @@ private slots:
     void on_btnSelectArb_clicked();
     void switchPage(QWidget *page);
     void on_btnBodeVisaConnect_clicked();
-    void setConnectionLed(bool isConnected);
     void on_btnOpenCali_clicked();
 
     void on_btnShortCali_clicked();
@@ -40,8 +36,6 @@ private slots:
     void on_btnLoadCali_clicked();
 
     void on_btnStartMeasurement_clicked();
-    // 处理图表点击事件的槽函数
-    //void onPlotCurveClicked(QCPAbstractPlottable* plottable, int dataIndex, QMouseEvent* event);
 
     
     // 页面切换函数
@@ -54,8 +48,6 @@ private:
     BodeDrive* bode;
     QString arbFilePath;     // 保存ARB波形文件路径
     ViSession vi;
-    class ChartManager; // 前置声明
-    ChartManager* chartMgr = nullptr; // 图表管理器指针
     
     void cleanOldLogs(const QString &path);
     bool checkInstrument(RigolDriver* dev, QString addr, QString name);// 仪器自检函数
@@ -70,30 +62,6 @@ private:
                            double &amplitude,
                            QString &errorMsg);
 
-    
-    template<typename WorkerFunc, typename UiUpdater>
-    void executeAsync(WorkerFunc worker, UiUpdater uiUpdater)
-    {
-        // 1. 创建安全指针。如果 MainWindow 被销毁，safeThis 会自动变成 nullptr
-        QPointer<MainWindow> safeThis(this);
-
-        // 2. 将 [=] 改为明确捕获所需变量，避免意外拷贝大对象，并将 safeThis 传进去
-        QtConcurrent::run([safeThis, worker, uiUpdater]() {
-
-            // 3. 在后台线程执行耗时操作，并拿到结果
-            auto result = worker();
-
-            // 4. 切回主线程前，检查界面是否已经被用户关掉了
-            if (safeThis) {
-                QMetaObject::invokeMethod(safeThis, [safeThis, uiUpdater, result]() {
-                    // 5. 回到主线程后再次确认界面存活（因为排队等待执行期间也可能被关掉）
-                    if (safeThis) {
-                        uiUpdater(result);
-                    }
-                    });
-            }
-            });
-    }
 
 };
 

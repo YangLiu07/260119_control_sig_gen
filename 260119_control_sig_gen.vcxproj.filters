@@ -49,18 +49,12 @@
     <ClCompile Include="bodedrive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qcustomplot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="rigoldriver.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qcustomplot.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
