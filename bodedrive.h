@@ -66,7 +66,7 @@ public:
     void sendCommand(const std::string& cmd);
     //std::string queryCommandDatav2(ViSession vi, const std::string& cmd);
     //std::string queryCommandData(ViSession vi, const std::string& cmd);
-    QString checkError(ViSession vi, std::string when);
+    //QString checkError(ViSession vi, std::string when);
     MeasureResult performMeasurement(SweepParams params);
 
 private:

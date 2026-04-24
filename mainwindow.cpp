@@ -14,6 +14,7 @@
 #include "bodedrive.h"
 #include <QtConcurrent>
 #include "qcustomplot.h"
+#include <QHeaderView> // 🌟 必须加上这个头文件来控制列宽
 //#include "chartmanager.h" // 顶部引入
 
 
@@ -67,84 +68,23 @@ namespace Bode100Spec
 }
 
 //编写public函数MainWindow
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    //初始化ui界面，实例化
+    // 初始化ui界面，实例化
     ui->setupUi(this);
     setConnectionLed(false);
-    // ========================================================
-    // 1. 图例美化 (解决问题 2：图例遮挡)
-    // ========================================================
-    ui->plotAdmittance->legend->setVisible(true);
-    ui->plotAdmittance->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop | Qt::AlignLeft);
-    // 设置半透明背景 (RGBA: 255,255,255, 180) 和无边框
-    ui->plotAdmittance->legend->setBrush(QBrush(QColor(255, 255, 255, 180)));
-    ui->plotAdmittance->legend->setBorderPen(Qt::NoPen);
 
     // ========================================================
-    // 2. 曲线与 Y 轴美化 (增加线条抗锯齿)
+    // ✨ 核心修改：调用封装好的图表初始化与游标函数
     // ========================================================
-    // 左轴：电导 G
-    ui->plotAdmittance->yAxis->setLabel("电导 G (S)");
-    ui->plotAdmittance->yAxis->setLabelColor(QColor(40, 110, 255));
-    ui->plotAdmittance->yAxis->setTickLabelColor(QColor(40, 110, 255));
-    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis);
-    ui->plotAdmittance->graph(0)->setPen(QPen(QColor(40, 110, 255), 2));
-    ui->plotAdmittance->graph(0)->setName("电导 G (S)");
-
-    // 右轴：电纳 B
-    ui->plotAdmittance->yAxis2->setVisible(true);
-    ui->plotAdmittance->yAxis2->setLabel("电纳 B (S)");
-    ui->plotAdmittance->yAxis2->setLabelColor(QColor(255, 60, 60));
-    ui->plotAdmittance->yAxis2->setTickLabelColor(QColor(255, 60, 60));
-    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis2);
-    ui->plotAdmittance->graph(1)->setPen(QPen(QColor(255, 60, 60), 2));
-    ui->plotAdmittance->graph(1)->setName("电纳 B (S)");
-
-    // ========================================================
-    // 3. X 轴美化 (解决问题 1：刻度重叠)
-    // ========================================================
-    ui->plotAdmittance->xAxis->setLabel("频率 (Hz)");
-    ui->plotAdmittance->xAxis->setScaleType(QCPAxis::stLogarithmic);
-    QSharedPointer<QCPAxisTickerLog> logTicker(new QCPAxisTickerLog);
-    ui->plotAdmittance->xAxis->setTicker(logTicker);
-    // 强制数字显示格式，设置刻度倾斜 30 度
-    ui->plotAdmittance->xAxis->setNumberFormat("eb");
-    ui->plotAdmittance->xAxis->setNumberPrecision(1);
-    ui->plotAdmittance->xAxis->setTickLabelRotation(30); // 倾斜避免重叠
-
-    // ========================================================
-    // 4. 网格线美化 (解决问题 3：缺乏层次感)
-    // ========================================================
-    QPen gridPen(QColor(220, 220, 220), 1, Qt::SolidLine);
-    QPen subGridPen(QColor(240, 240, 240), 1, Qt::DotLine);
-
-    // X 轴网格
-    ui->plotAdmittance->xAxis->grid()->setPen(gridPen);
-    ui->plotAdmittance->xAxis->grid()->setSubGridVisible(true);
-    ui->plotAdmittance->xAxis->grid()->setSubGridPen(subGridPen);
-
-    // 左 Y 轴网格
-    ui->plotAdmittance->yAxis->grid()->setPen(gridPen);
-    ui->plotAdmittance->yAxis->grid()->setSubGridVisible(true);
-    ui->plotAdmittance->yAxis->grid()->setSubGridPen(subGridPen);
-
-    // 右 Y 轴不需要画网格，否则会和左 Y 轴的网格线交叉打架
-    ui->plotAdmittance->yAxis2->grid()->setVisible(false);
-
-    // ========================================================
-    // 5. 交互功能：允许缩放平移，并绑定点击事件
-    // ========================================================
-    ui->plotAdmittance->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-    ui->plotAdmittance->axisRect()->setRangeZoomAxes(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis);
-
+    initChart();
 
     rigol = new RigolDriver(this);
     bode = new BodeDrive();
     bode->setLogHandler([this](const QString& msg) {
-        this->appendLog(msg,LOG_INFO);
+        this->appendLog(msg, LOG_INFO);
         });
     //connect(bode, &BodeDrive::logAvailable, this, &MainWindow::appendLog);
 
@@ -152,46 +92,330 @@ MainWindow::MainWindow(QWidget *parent)
     initMenuConnections();
 
     //Qt 信号槽机制 + Lambda 表达式 将sigLog的信息传递到ui界面的日志中
-   connect(rigol, &RigolDriver::sigLog, this, [=](QString msg){
-        this->appendLog(msg,LOG_INFO); });
+    connect(rigol, &RigolDriver::sigLog, this, [=](QString msg) {
+        this->appendLog(msg, LOG_INFO);
+        });
 
     //设置日志框允许自定义右键菜单
     ui->textBrowserLog->setContextMenuPolicy(Qt::CustomContextMenu);
 
     //连接“请求弹出菜单”的信号到我们的槽函数
     connect(ui->textBrowserLog, &QWidget::customContextMenuRequested,
-            this, &MainWindow::on_logContextMenu);
+        this, &MainWindow::on_logContextMenu);
 
     //切换信号源模式 扫频/自定义信号
     connect(ui->comboBox_selectWaweMode_2,
-            QOverload<int>::of(&QComboBox::currentIndexChanged),
-            ui->stackedWidget_2,
-            &QStackedWidget::setCurrentIndex);
-
+        QOverload<int>::of(&QComboBox::currentIndexChanged),
+        ui->stackedWidget_2,
+        &QStackedWidget::setCurrentIndex);
 
     // 在构造函数中对信号源频率范围进行设定
-    QDoubleValidator *freqValidator = new QDoubleValidator(0.001, 30000, 6, this);
+    QDoubleValidator* freqValidator = new QDoubleValidator(0.001, 30000, 6, this);
     freqValidator->setNotation(QDoubleValidator::ScientificNotation);
 
     ui->editSweepFreqStart->setValidator(freqValidator);
     ui->editSweepFreqEnd->setValidator(freqValidator);
 
-    
-   
+    // 软件启动时，默认禁用所有仪器的控制按钮，必须等连接成功才解锁
+    setConnectionLed(false);
+    setTestControlsEnabled(false);
+} // 构造函数结束
+
+
+// ✨ 新增：独立的图表与游标初始化函数
+void MainWindow::initChart()
+{
+    // ==========================================
+    // 1. 隐藏图例 (Legend)
+    // ==========================================
+    ui->plotAdmittance->legend->setVisible(false);
+
+    // ========================================================
+    // 2. 核心表格初始化 (保持你现有的完美外观)
+    // ========================================================
+    if (ui->table_Cursors) {
+        ui->table_Cursors->setColumnCount(4);
+        ui->table_Cursors->setRowCount(3);
+
+        QFont tableFont = ui->table_Cursors->font();
+        tableFont.setPointSize(7);
+        ui->table_Cursors->setFont(tableFont);
+
+        QStringList headers;
+        headers << "游标" << "频率 (kHz)" << "电导 G (S)" << "电纳 B (S)";
+        ui->table_Cursors->setHorizontalHeaderLabels(headers);
+
+        ui->table_Cursors->verticalHeader()->setVisible(false);
+        ui->table_Cursors->verticalHeader()->setDefaultSectionSize(18);
+        ui->table_Cursors->horizontalHeader()->setFixedHeight(20);
+        ui->table_Cursors->setFixedHeight(76);
+
+        ui->table_Cursors->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+        ui->table_Cursors->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        ui->table_Cursors->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+        ui->table_Cursors->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+
+        ui->table_Cursors->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->table_Cursors->setSelectionMode(QAbstractItemView::NoSelection);
+
+        // 填充初始空数据
+        for (int row = 0; row < 3; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                QTableWidgetItem* item = new QTableWidgetItem("-");
+                item->setTextAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+                ui->table_Cursors->setItem(row, col, item);
+            }
+        }
+
+        ui->table_Cursors->item(0, 0)->setText("☑ Cursor 1");
+        ui->table_Cursors->item(0, 0)->setBackground(QColor(0, 150, 0));
+        ui->table_Cursors->item(0, 0)->setForeground(Qt::white);
+
+        ui->table_Cursors->item(1, 0)->setText("☐ Cursor 2");
+        ui->table_Cursors->item(1, 0)->setBackground(QColor(255, 140, 0));
+        ui->table_Cursors->item(1, 0)->setForeground(Qt::white);
+
+        ui->table_Cursors->item(2, 0)->setText("Δ (C2 - C1)");
+        ui->table_Cursors->item(2, 0)->setBackground(QColor(240, 240, 240));
+        ui->table_Cursors->item(2, 0)->setForeground(Qt::black);
+    }
+
+    // ==========================================
+    // 3. 左右 Y 轴 与 底部 X 轴 初始化
+    // ==========================================
+    ui->plotAdmittance->yAxis->setLabel("电导 G (S)");
+    ui->plotAdmittance->yAxis->setLabelColor(QColor(40, 110, 255));
+    ui->plotAdmittance->yAxis->setTickLabelColor(QColor(40, 110, 255));
+    ui->plotAdmittance->yAxis->setNumberFormat("g");
+    ui->plotAdmittance->yAxis->setNumberPrecision(5);
+    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis);
+    ui->plotAdmittance->graph(0)->setPen(QPen(QColor(40, 110, 255), 2));
+
+    ui->plotAdmittance->yAxis2->setVisible(true);
+    ui->plotAdmittance->yAxis2->setLabel("电纳 B (S)");
+    ui->plotAdmittance->yAxis2->setLabelColor(QColor(255, 60, 60));
+    ui->plotAdmittance->yAxis2->setTickLabelColor(QColor(255, 60, 60));
+    ui->plotAdmittance->yAxis2->setNumberFormat("g");
+    ui->plotAdmittance->yAxis2->setNumberPrecision(5);
+    ui->plotAdmittance->addGraph(ui->plotAdmittance->xAxis, ui->plotAdmittance->yAxis2);
+    ui->plotAdmittance->graph(1)->setPen(QPen(QColor(255, 60, 60), 2));
+
+    ui->plotAdmittance->xAxis->setLabel("频率 (kHz)");
+    ui->plotAdmittance->xAxis->setScaleType(QCPAxis::stLogarithmic);
+    QSharedPointer<QCPAxisTickerLog> logTicker(new QCPAxisTickerLog);
+    ui->plotAdmittance->xAxis->setTicker(logTicker);
+    ui->plotAdmittance->xAxis->setNumberFormat("eb");
+    ui->plotAdmittance->xAxis->setNumberPrecision(1);
+    ui->plotAdmittance->xAxis->setTickLabelRotation(30);
+
+    // 网格与交互
+    QPen gridPen(QColor(220, 220, 220), 1, Qt::SolidLine);
+    QPen subGridPen(QColor(240, 240, 240), 1, Qt::DotLine);
+    ui->plotAdmittance->xAxis->grid()->setPen(gridPen);
+    ui->plotAdmittance->xAxis->grid()->setSubGridVisible(true);
+    ui->plotAdmittance->xAxis->grid()->setSubGridPen(subGridPen);
+    ui->plotAdmittance->yAxis->grid()->setPen(gridPen);
+    ui->plotAdmittance->yAxis->grid()->setSubGridVisible(true);
+    ui->plotAdmittance->yAxis->grid()->setSubGridPen(subGridPen);
+    ui->plotAdmittance->yAxis2->grid()->setVisible(false);
+
+    ui->plotAdmittance->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    QList<QCPAxis*> axesList;
+    axesList << ui->plotAdmittance->xAxis << ui->plotAdmittance->yAxis << ui->plotAdmittance->yAxis2;
+    ui->plotAdmittance->axisRect()->setRangeZoomAxes(axesList);
+    ui->plotAdmittance->axisRect()->setRangeDragAxes(axesList);
+
+    // ==========================================================
+    // 4. 🌟 Cursor 1 & 2 游标对象初始化 (圆点吸附风格，彻底去杂乱)
+    // ==========================================================
+    // Cursor 1 (实时 - 蓝/红实心点 + 绿色虚线)
+    tracerCond = new QCPItemTracer(ui->plotAdmittance);
+    tracerCond->setGraph(ui->plotAdmittance->graph(0));
+    tracerCond->setStyle(QCPItemTracer::tsCircle); // 改为圆点
+    tracerCond->setPen(QPen(QColor(40, 110, 255)));
+    tracerCond->setBrush(QBrush(QColor(40, 110, 255))); // 实心蓝
+    tracerCond->setSize(7);
+    tracerCond->setVisible(false);
+    tracerCond->setLayer("overlay");
+
+    tracerSusp = new QCPItemTracer(ui->plotAdmittance);
+    tracerSusp->setGraph(ui->plotAdmittance->graph(1));
+    tracerSusp->setStyle(QCPItemTracer::tsCircle); // 改为圆点
+    tracerSusp->setPen(QPen(QColor(255, 60, 60)));
+    tracerSusp->setBrush(QBrush(QColor(255, 60, 60))); // 实心红
+    tracerSusp->setSize(7);
+    tracerSusp->setVisible(false);
+    tracerSusp->setLayer("overlay");
+
+    vLine = new QCPItemLine(ui->plotAdmittance);
+    vLine->setPen(QPen(Qt::darkGreen, 1, Qt::DashLine));
+    vLine->setVisible(false);
+    vLine->setLayer("overlay");
+
+    // Cursor 2 (锁定 - 橙色实心点 + 橙色虚线)
+    tracerCond2 = new QCPItemTracer(ui->plotAdmittance);
+    tracerCond2->setGraph(ui->plotAdmittance->graph(0));
+    tracerCond2->setStyle(QCPItemTracer::tsCircle);
+    tracerCond2->setPen(QPen(QColor(255, 140, 0)));
+    tracerCond2->setBrush(QBrush(QColor(255, 140, 0))); // 实心橙
+    tracerCond2->setSize(7);
+    tracerCond2->setVisible(false);
+    tracerCond2->setLayer("overlay");
+
+    tracerSusp2 = new QCPItemTracer(ui->plotAdmittance);
+    tracerSusp2->setGraph(ui->plotAdmittance->graph(1));
+    tracerSusp2->setStyle(QCPItemTracer::tsCircle);
+    tracerSusp2->setPen(QPen(QColor(255, 140, 0)));
+    tracerSusp2->setBrush(QBrush(QColor(255, 140, 0))); // 实心橙
+    tracerSusp2->setSize(7);
+    tracerSusp2->setVisible(false);
+    tracerSusp2->setLayer("overlay");
+
+    vLine2 = new QCPItemLine(ui->plotAdmittance);
+    vLine2->setPen(QPen(QColor(255, 140, 0), 1, Qt::DashLine));
+    vLine2->setVisible(false);
+    vLine2->setLayer("overlay");
+
+    // ==========================================
+    // 5. 事件 1：鼠标移动 (🌟 修复滞后)
+    // ==========================================
+    connect(ui->plotAdmittance, &QCustomPlot::mouseMove, this, [=](QMouseEvent* event) {
+        if (!ui->plotAdmittance || ui->plotAdmittance->graphCount() < 2) return;
+        if (!ui->plotAdmittance->graph(0)->data() || ui->plotAdmittance->graph(0)->data()->isEmpty()) return;
+        if (!tracerCond || !tracerSusp || !vLine) return;
+
+        if (!ui->plotAdmittance->axisRect()->rect().contains(event->pos())) {
+            tracerCond->setVisible(false);
+            tracerSusp->setVisible(false);
+            vLine->setVisible(false);
+            ui->plotAdmittance->layer("overlay")->replot();
+            return;
+        }
+
+        double x = ui->plotAdmittance->xAxis->pixelToCoord(event->pos().x());
+        if (x <= 0) return;
+
+        tracerCond->setVisible(true);
+        tracerSusp->setVisible(true);
+        vLine->setVisible(true);
+
+        tracerCond->setGraphKey(x);
+        tracerSusp->setGraphKey(x);
+
+        // 🌟 核心修复1：放弃读取复杂的 position，直接用鼠标 x 坐标定位竖线！
+        // 用极值 -1e10 到 1e10，保证线条不管怎么缩放都是无限长的！
+        vLine->start->setCoords(x, -1e10);
+        vLine->end->setCoords(x, 1e10);
+
+        // 🌟 核心修复2：必须先重绘，让内部引擎解算出圆点的实际附着位置，再去取值！
+        ui->plotAdmittance->layer("overlay")->replot();
+
+        if (!tracerCond->position) return;
+
+        // 写入 Cursor 1 数据
+        double f1 = tracerCond->position->key();
+        double c1 = tracerCond->position->value();
+        double s1 = tracerSusp->position->value();
+
+        if (ui->table_Cursors) {
+            ui->table_Cursors->item(0, 1)->setText(QString::number(f1, 'f', 3));
+            ui->table_Cursors->item(0, 2)->setText(QString::number(c1, 'g', 5));
+            ui->table_Cursors->item(0, 3)->setText(QString::number(s1, 'g', 5));
+
+            // 如果 C2 存在，实时跳动计算 Delta (C2 - C1)
+            if (cursor2Active && tracerCond2->position) {
+                double f2 = tracerCond2->position->key();
+                double c2 = tracerCond2->position->value();
+                double s2 = tracerSusp2->position->value();
+
+                ui->table_Cursors->item(2, 1)->setText(QString::number(f2 - f1, 'f', 3));
+                ui->table_Cursors->item(2, 2)->setText(QString::number(c2 - c1, 'g', 5));
+                ui->table_Cursors->item(2, 3)->setText(QString::number(s2 - s1, 'g', 5));
+            }
+        }
+        });
+
+    // ==========================================
+    // 6. 事件 2：左键双击 (锁定 Cursor 2)
+    // ==========================================
+    connect(ui->plotAdmittance, &QCustomPlot::mouseDoubleClick, this, [=](QMouseEvent* event) {
+        if (event->button() == Qt::LeftButton && ui->plotAdmittance->axisRect()->rect().contains(event->pos())) {
+            if (ui->plotAdmittance->graphCount() < 2 || ui->plotAdmittance->graph(0)->data()->isEmpty()) return;
+
+            double x = ui->plotAdmittance->xAxis->pixelToCoord(event->pos().x());
+            if (x <= 0) return;
+
+            cursor2Active = true;
+            tracerCond2->setVisible(true);
+            tracerSusp2->setVisible(true);
+            vLine2->setVisible(true);
+
+            tracerCond2->setGraphKey(x);
+            tracerSusp2->setGraphKey(x);
+
+            // 🌟 核心修复3：直接锁定 x 坐标，消灭残留虚线！
+            vLine2->start->setCoords(x, -1e10);
+            vLine2->end->setCoords(x, 1e10);
+
+            ui->plotAdmittance->layer("overlay")->replot();
+
+            if (!tracerCond2->position) return;
+
+            // 写入 Cursor 2 数据
+            double f2 = tracerCond2->position->key();
+            double c2 = tracerCond2->position->value();
+            double s2 = tracerSusp2->position->value();
+
+            if (ui->table_Cursors) {
+                ui->table_Cursors->item(1, 0)->setText("☑ Cursor 2");
+                ui->table_Cursors->item(1, 1)->setText(QString::number(f2, 'f', 3));
+                ui->table_Cursors->item(1, 2)->setText(QString::number(c2, 'g', 5));
+                ui->table_Cursors->item(1, 3)->setText(QString::number(s2, 'g', 5));
+
+                if (tracerCond->position) {
+                    double f1 = tracerCond->position->key();
+                    double c1 = tracerCond->position->value();
+                    double s1 = tracerSusp->position->value();
+                    ui->table_Cursors->item(2, 1)->setText(QString::number(f2 - f1, 'f', 3));
+                    ui->table_Cursors->item(2, 2)->setText(QString::number(c2 - c1, 'g', 5));
+                    ui->table_Cursors->item(2, 3)->setText(QString::number(s2 - s1, 'g', 5));
+                }
+            }
+        }
+        });
+
+    // ==========================================
+    // 7. 事件 3：右键单击 (清除 Cursor 2)
+    // ==========================================
+    connect(ui->plotAdmittance, &QCustomPlot::mousePress, this, [=](QMouseEvent* event) {
+        if (event->button() == Qt::RightButton && cursor2Active) {
+            cursor2Active = false;
+            tracerCond2->setVisible(false);
+            tracerSusp2->setVisible(false);
+            vLine2->setVisible(false);
+            ui->plotAdmittance->layer("overlay")->replot();
+
+            if (ui->table_Cursors) {
+                ui->table_Cursors->item(1, 0)->setText("☐ Cursor 2");
+                for (int i = 1; i <= 3; i++) ui->table_Cursors->item(1, i)->setText("-");
+                for (int i = 1; i <= 3; i++) ui->table_Cursors->item(2, i)->setText("-");
+            }
+        }
+        });
 }
 
-//析构函数
+    // ... 下方保留你之前写好的 Y轴、X轴、网格线初始化的代码 ...
+// 析构函数
 MainWindow::~MainWindow()
 {
     if (bode) {
-        // 第一步：修复拼写错误，去掉空格，并且建议加上 *CLS 清除历史错误
-        bode->sendCommand("*CLS\n");
-        bode->sendCommand("*RST\n"); // 修改前是 "* RST\n"
+        // 🌟 必须加上这个判断！只有在真正连接的情况下，才能发指令！
+        if (bode->isConnected()) {
+            bode->sendCommand("*CLS\n");
+            bode->sendCommand("*RST\n");
+            bode->disconnect();
+        }
 
-        // 第二步：关闭 VISA 会话 (viClose)
-        bode->disconnect();
-
-        // 第三步：强制杀掉服务器进程并清空句柄
         bode->stopScpiRunner();
 
         delete bode;
@@ -334,20 +558,29 @@ void MainWindow::on_btnSelfTest_clicked()
     ui->textBrowserLog->clear();
     appendLog("===== 开始仪器自检 =====",LOG_INFO);
 
-    bool ok1 = checkInstrument(rigol,
-                             ui->lineEditDGAddress->text(),
-                               "信号源");
+    const QString dgAddress = ui->lineEditDGAddress->text();
 
     // ------------数采的自检代码尚未实现，缺少驱动代码-----------------
     // bool ok2 = checkInstrument(daq,
     //                            ui->lineEditMRAddress->text(),
     //                            "数据采集仪");
-    bool ok2=1;
+    ui->btnSelfTest->setEnabled(false);
 
-    if(ok1 && ok2)
-        appendLog("===== 全部设备正常 =====",LOG_INFO);
-    else
-        appendLog("===== 存在异常设备 =====",LOG_WARNING);
+    executeAsync(
+        [=]() -> bool {
+            bool ok1 = checkInstrument(rigol, dgAddress, "信号源");
+            bool ok2 = true;
+            return ok1 && ok2;
+        },
+        [=](bool allOk) {
+            if(allOk)
+                appendLog("===== 全部设备正常 =====",LOG_INFO);
+            else
+                appendLog("===== 存在异常设备 =====",LOG_WARNING);
+
+            ui->btnSelfTest->setEnabled(true);
+        }
+    );
 }
 
 
@@ -383,17 +616,36 @@ void MainWindow::on_btnSweepConfig_clicked()
 
     QString errorMsg;
 
-     rigol->sendCmd(":SOUR1:SWE:STAT ON");
-
     if(!validateSweepConfig(startFreq,stopFreq,amplitude,sweepTime,stepCount,errorMsg))
     {
         QMessageBox::warning(this,"输入错误",errorMsg);
         return;
     }
 
-    rigol->setSweep(startFreq,stopFreq,amplitude,sweepTime,stepCount);
+    ui->btnSweepConfig->setEnabled(false);
+    appendLog("正在下发扫频参数...", LOG_INFO);
 
-    appendLog("扫频参数配置完成",1);
+    executeAsync(
+        [=]() -> QString {
+            if (!rigol || !rigol->isConnected()) {
+                return "ERROR:信号源未连接";
+            }
+
+            rigol->sendCmd(":SOUR1:SWE:STAT ON");
+            rigol->setSweep(startFreq, stopFreq, amplitude, sweepTime, stepCount);
+            return "OK";
+        },
+        [=](QString result) {
+            if (result.startsWith("ERROR:")) {
+                appendLog(result.mid(6), LOG_ERROR);
+            }
+            else {
+                appendLog("扫频参数配置完成", LOG_SUCCESS);
+            }
+
+            ui->btnSweepConfig->setEnabled(true);
+        }
+    );
 }
 
 bool MainWindow::validateSweepConfig(double &startFreq,
@@ -515,6 +767,17 @@ bool MainWindow::validateArbConfig(QString &filePath,
     return true;
 }
 
+// 统一管理所有依赖仪器连接状态的按钮
+void MainWindow::setTestControlsEnabled(bool enabled)
+{
+    ui->btnStartMeasurement->setEnabled(enabled);
+    ui->btnOpenCali->setEnabled(enabled);
+    ui->btnShortCali->setEnabled(enabled);
+    ui->btnLoadCali->setEnabled(enabled);
+    ui->btnDisconnect->setEnabled(enabled); // 断开按钮同理
+    // 如果你还有其他依赖仪器连接的按钮，都可以加在这里
+}
+
 void MainWindow::on_btnSelectArb_clicked()
 {
     // 1 打开文件选择框
@@ -571,9 +834,29 @@ void MainWindow::on_btnArbConfig_clicked()
         return;
     }
 
-    rigol->setArbWave(filePath,sampleRate,amplitude);
+    ui->btnArbConfig->setEnabled(false);
+    appendLog("正在下发 ARB 波形参数...", LOG_INFO);
 
-    appendLog("ARB波形配置完成",LOG_INFO);
+    executeAsync(
+        [=]() -> QString {
+            if (!rigol || !rigol->isConnected()) {
+                return "ERROR:信号源未连接";
+            }
+
+            rigol->setArbWave(filePath, sampleRate, amplitude);
+            return "OK";
+        },
+        [=](QString result) {
+            if (result.startsWith("ERROR:")) {
+                appendLog(result.mid(6), LOG_ERROR);
+            }
+            else {
+                appendLog("ARB波形配置完成", LOG_SUCCESS);
+            }
+
+            ui->btnArbConfig->setEnabled(true);
+        }
+    );
 }
 
 // ///////////////////////////////////////自定义信号配置页面逻辑实现/////////////////////////
@@ -621,69 +904,122 @@ void MainWindow::switchPage(QWidget *page)
 void MainWindow::on_btnBodeVisaConnect_clicked()
 {
     QString ip = ui->editBodeVisa->text().trimmed();
+
+    // 1. 简单的 VISA 地址格式验证 (防呆设计)
     if (ip.isEmpty()) {
-        appendLog("ERROR: IP address is empty.", LOG_ERROR);
+        appendLog("连接失败：VISA 地址不能为空！", LOG_ERROR);
         return;
     }
 
-    // 1. 禁用连接按钮，防止用户狂点导致多线程冲突
-    // ui->btnBodeVisaConnect->setEnabled(false); 
-    appendLog("正在启动 SCPI 服务并连接 VISA，请稍候...", LOG_INFO);
-
-    // 2. 将耗时操作扔进后台线程
-    QFuture<void> future = QtConcurrent::run([=]() {
-
-        PROCESS_INFORMATION pi{};
-        bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
-
-        // 在后台线程里 msleep 是绝对安全的，不会卡界面！
-        QThread::msleep(1500);
-
-        if (!runnerOK) {
-            // 注意：子线程不能直接操作 UI！必须切回主线程去更新界面
-            QMetaObject::invokeMethod(this, [=]() {
-                appendLog("ERROR: Failed to start SCPI Runner.", LOG_ERROR);
-                // ui->btnBodeVisaConnect->setEnabled(true);
-                });
-            return;
+    // 智能修复 VISA 地址格式
+    if (!ip.toUpper().startsWith("TCPIP")) {
+        if (!ip.contains("::")) {
+            ip = "TCPIP0::" + ip + "::5025::SOCKET";
         }
+        else {
+            ip = "TCPIP0::" + ip;
+        }
+        ui->editBodeVisa->setText(ip); // 将修正后的标准格式写回 UI
+    }
 
-        bool ok = bode->connectVisa(ip);
-        if (!ok) {
-            QMetaObject::invokeMethod(this, [=]() {
-                appendLog("ERROR: VISA connection failed.", LOG_ERROR);
+    // 2. 锁定 UI，进入挂起状态
+    ui->btnBodeVisaConnect->setEnabled(false);
+    setTestControlsEnabled(false);
+    setConnectionLed(false);
+
+    // 3. 启动异步框架
+    executeAsync(
+        // ----------------------------------------
+        // 任务 A：后台耗时连接操作
+        // ----------------------------------------
+        [=]() -> QString {
+            PROCESS_INFORMATION pi{};
+            bool runnerOK = bode->startScpiRunner(Bode100Spec::command, pi);
+
+            // 如果底层服务直接启动失败，提前拦截，不用等倒计时
+            if (!runnerOK) {
+                return "ERROR:启动 SCPI Runner 服务失败！请检查路径或权限。";
+            }
+
+            // ==========================================
+            // 🌟 核心新增：5 秒精准倒计时日志
+            // ==========================================
+            for (int i = 5; i >= 0; --i) {
+                QString msg = QString("正在启动 SCPI 服务并连接 VISA，请稍候...（%1s）").arg(i);
+
+                // ⚠️ 必须安全地切回主线程更新 UI 日志，否则会导致跨线程崩溃
+                QMetaObject::invokeMethod(this, [=]() {
+                    appendLog(msg, LOG_INFO);
+                    });
+
+                // 留出最后一秒(0s)立刻执行后续代码，前面每次休眠 1 秒
+                if (i > 0) {
+                    QThread::msleep(1000);
+                }
+            }
+
+            // 尝试建立 VISA 通讯
+            if (!bode->connectVisa(ip)) {
+                bode->stopScpiRunner();
+                return "ERROR:VISA 通信建立失败！请检查网络、IP地址或仪器电源。";
+            }
+
+            // 核心防线：立刻申请硬件排他锁
+            QString lockStatus = bode->queryCommand(":SYST:LOCK:REQ?\n");
+            if (!lockStatus.contains("1") && !lockStatus.toUpper().contains("OK")) {
+                bode->disconnect();
+                bode->stopScpiRunner();
+                return "ERROR:仪器被其他软件占用（锁定失败）！请先关闭官方软件。";
+            }
+
+            // 此时已经独占仪器，进行初始化复位
+            QString idn = bode->queryCommand("*IDN?\n");
+            bode->sendCommand("*CLS\n");
+            bode->sendCommand(":CALC:PAR:DEF Z\n");
+            bode->sendCommand(":SENS:Z:METH TSER\n");
+            bode->queryCommand("*OPC?\n");
+            QString errStatus = bode->queryCommand(":SYST:ERR?\n");
+
+            // 初始化完释放锁
+            bode->queryCommand(":SYST:LOCK:REL?\n");
+
+            if (!errStatus.contains("0") && !errStatus.toLower().contains("no error")) {
+                return "ERROR:仪器底层自检报错: " + errStatus;
+            }
+
+            return "SUCCESS:" + idn;
+        },
+
+        // ----------------------------------------
+        // 任务 B：主线程 UI 更新操作
+        // ----------------------------------------
+        [=](QString workerResult) {
+
+            if (workerResult.startsWith("ERROR:")) {
+                QString errorMsg = workerResult.mid(6);
+                appendLog("❌ " + errorMsg, LOG_ERROR);
+
                 setConnectionLed(false);
-                // ui->btnBodeVisaConnect->setEnabled(true);
-                });
-            return;
-        }
+                setTestControlsEnabled(false);
 
-        // --- 正常发送指令 (耗时操作都在后台完成) ---
-        QString idn = bode->queryCommand("*IDN?\n");
-        bode->sendCommand("*CLS\n");
-        bode->queryCommand(":SYST:LOCK:REQ?\n");
-        bode->sendCommand(":CALC:PAR:DEF Z\n");
-        bode->sendCommand(":SENS:Z:METH TSER\n");
-        bode->queryCommand("*OPC?\n");
-        QString errStatus = bode->queryCommand(":SYST:ERR?\n");
-        bode->queryCommand(":SYST:LOCK:REL?\n");
+            }
+            else if (workerResult.startsWith("SUCCESS:")) {
+                QString idn = workerResult.mid(8);
+                appendLog("✅ VISA 连接成功！硬件独占锁定测试通过。", LOG_SUCCESS);
+                appendLog("设备信息: " + idn, LOG_INFO);
 
-        // 3. 所有耗时通讯做完后，切回主线程更新 UI
-        QMetaObject::invokeMethod(this, [=]() {
-            appendLog("Device ID: " + idn, LOG_INFO);
-            if (errStatus.contains("0") && errStatus.toLower().contains("no error")) {
-                appendLog("初始阻抗测量模式配置成功！", LOG_INFO);
                 setConnectionLed(true);
+                setTestControlsEnabled(true); // 解锁测量的按键
+
             }
             else {
-                appendLog("仪器返回错误: " + errStatus, LOG_ERROR);
+                appendLog("连接发生未知异常: " + workerResult, LOG_ERROR);
             }
-            // 恢复按钮状态
-            // ui->btnBodeVisaConnect->setEnabled(true);
-            });
-        });
-}
 
+            ui->btnBodeVisaConnect->setEnabled(true);
+        }
+    );
+}
 
 //#########################状态指示灯########################
 void MainWindow::setConnectionLed(bool isConnected) {
@@ -707,6 +1043,56 @@ void MainWindow::setConnectionLed(bool isConnected) {
             "}"
         );
     }
+}
+
+
+void MainWindow::on_btnDisconnect_clicked()
+{
+    // 1. 防呆：如果没有连接，直接返回
+    if (!bode || !bode->isConnected()) {
+        appendLog("当前未连接任何设备，无需断开。", LOG_WARNING);
+        return;
+    }
+
+    // 2. 锁定UI，给用户视觉反馈
+    ui->btnDisconnect->setEnabled(false);
+    ui->btnBodeVisaConnect->setEnabled(false);
+    appendLog("正在执行安全断开流程，请稍候...", LOG_INFO);
+
+    // 3. 使用异步框架执行断开操作 (绝不卡死界面)
+    executeAsync(
+        [=]() -> QString {
+            // 在后台线程调用我们刚写好的硬核断开函数
+            bode->disconnect();
+            return "OK";
+        },
+        [=](QString result) {
+            // 4. 断开完成，切回主线程重置所有 UI 状态
+            appendLog("✅ 连接已安全断开，资源已释放。", LOG_SUCCESS);
+
+            setConnectionLed(false);       // 熄灭绿灯，亮起红灯
+            setTestControlsEnabled(false); // 封印所有测量和校准按钮！
+
+            // 恢复“连接”按钮的使能，让用户可以重新连接
+            ui->btnBodeVisaConnect->setEnabled(true);
+            ui->btnDisconnect->setEnabled(true);
+
+            // (可选) 清理图表上的游标和曲线
+            /*
+            if (ui->plotAdmittance) {
+                ui->plotAdmittance->graph(0)->data()->clear();
+                ui->plotAdmittance->graph(1)->data()->clear();
+                ui->plotAdmittance->layer("overlay")->replot();
+                ui->plotAdmittance->replot();
+            }
+            if (ui->table_Cursors) {
+                for(int i = 1; i <= 3; i++) ui->table_Cursors->item(0, i)->setText("-");
+                for(int i = 1; i <= 3; i++) ui->table_Cursors->item(1, i)->setText("-");
+                for(int i = 1; i <= 3; i++) ui->table_Cursors->item(2, i)->setText("-");
+            }
+            */
+        }
+    );
 }
 // //#########################状态指示灯########################
 // /////////////////////////////////////////////////////////////
@@ -747,7 +1133,10 @@ void MainWindow::setConnectionLed(bool isConnected) {
 
 void MainWindow::on_btnOpenCali_clicked()
 {
-    if (vi == 0) return;
+    if (!bode || !bode->isConnected()) {
+        appendLog("仪器未连接，无法校准！", LOG_ERROR);
+        return;
+    }
     // 1. [UI 线程] 禁用按钮，给出提示
     ui->btnOpenCali->setEnabled(false);
     appendLog("正在进行开路校准，仪器执行中...", LOG_INFO);
@@ -787,7 +1176,10 @@ void MainWindow::on_btnOpenCali_clicked()
 void MainWindow::on_btnShortCali_clicked()
 {
 
-    if (vi == 0) return;
+    if (!bode || !bode->isConnected()) {
+        appendLog("仪器未连接，无法校准！", LOG_ERROR);
+        return;
+    }
 
     // 1. [UI 线程] 禁用按钮，给出提示
     ui->btnShortCali->setEnabled(false);
@@ -832,7 +1224,10 @@ void MainWindow::on_btnShortCali_clicked()
 
 void MainWindow::on_btnLoadCali_clicked()
 {
-    if (vi == 0) return;
+    if (!bode || !bode->isConnected()) {
+        appendLog("仪器未连接，无法校准！", LOG_ERROR);
+        return;
+    }
 
     // 1. [UI 线程] 禁用按钮，给出提示
     ui->btnLoadCali->setEnabled(false);
@@ -954,8 +1349,8 @@ void MainWindow::on_btnLoadCali_clicked()
 
 void MainWindow::on_btnStartMeasurement_clicked()
 {
-    if (vi == 0) {
-        appendLog("仪器未连接，请先连接仪器！", LOG_ERROR);
+    if (!bode || !bode->isConnected()) {
+        appendLog("仪器未连接，无法校准！", LOG_ERROR);
         return;
     }
 
@@ -989,84 +1384,89 @@ void MainWindow::on_btnStartMeasurement_clicked()
     // ==========================================
     // 3. 开启子线程执行测量 (防卡死)
     // ==========================================
-    QFuture<void> future = QtConcurrent::run([=]() {
+    struct MeasurementUiResult {
+        MeasureResult result;
+        QVector<double> xFreq;
+        QVector<double> yCond;
+        QVector<double> ySusp;
+    };
 
-        // 调用底层的测量函数
-        MeasureResult result = bode->performMeasurement(params);
+    executeAsync(
+        [=]() -> MeasurementUiResult {
+            MeasurementUiResult workerResult;
+            workerResult.result = bode->performMeasurement(params);
 
-        // ==========================================
-        // 4. 切回主线程更新 UI 并绘制双轴图表
-        // ==========================================
-        QMetaObject::invokeMethod(this, [=]() {
+            if (!workerResult.result.success) {
+                return workerResult;
+            }
+
+            size_t count = workerResult.result.frequencies.size();
+            if (workerResult.result.magnitudes.size() < count) {
+                count = workerResult.result.magnitudes.size();
+            }
+            if (workerResult.result.phases.size() < count) {
+                count = workerResult.result.phases.size();
+            }
+
+            workerResult.xFreq.reserve(static_cast<int>(count));
+            workerResult.yCond.reserve(static_cast<int>(count));
+            workerResult.ySusp.reserve(static_cast<int>(count));
+
+            for (size_t i = 0; i < count; ++i) {
+                double f = static_cast<double>(workerResult.result.frequencies[i]) / 1000.0;
+                double zMag = static_cast<double>(workerResult.result.magnitudes[i]);
+                double zPhaseDeg = static_cast<double>(workerResult.result.phases[i]);
+
+                workerResult.xFreq.push_back(f);
+
+                if (zMag != 0.0 && !std::isnan(zMag)) {
+                    double zPhaseRad = zPhaseDeg * M_PI / 180.0;
+                    double G = std::cos(zPhaseRad) / zMag;
+                    double B = -std::sin(zPhaseRad) / zMag;
+
+                    if (std::isnan(G) || std::isinf(G)) G = 0.0;
+                    if (std::isnan(B) || std::isinf(B)) B = 0.0;
+
+                    workerResult.yCond.push_back(G);
+                    workerResult.ySusp.push_back(B);
+                }
+                else {
+                    workerResult.yCond.push_back(0.0);
+                    workerResult.ySusp.push_back(0.0);
+                }
+            }
+
+            return workerResult;
+        },
+        [=](MeasurementUiResult workerResult) {
+            const MeasureResult& result = workerResult.result;
+
             if (result.success) {
                 appendLog("✅ " + result.message, LOG_INFO);
 
-                QVector<double> xFreq;
-                QVector<double> yCond; // 电导 G (实部，映射到左 Y 轴)
-                QVector<double> ySusp; // 电纳 B (虚部，映射到右 Y 轴)
-
-                // 遍历底层传回来的阻抗和相位数据
-                for (size_t i = 0; i < result.frequencies.size(); ++i) {
-                    double f = static_cast<double>(result.frequencies[i]);
-                    double zMag = static_cast<double>(result.magnitudes[i]);
-                    double zPhaseDeg = static_cast<double>(result.phases[i]);
-
-                    xFreq.push_back(f);
-
-                    if (zMag != 0.0) {
-                        // 角度转弧度计算
-                        double zPhaseRad = zPhaseDeg * M_PI / 180.0;
-
-                        // 核心转换公式：Y = 1/Z
-                        double G = std::cos(zPhaseRad) / zMag;
-                        double B = -std::sin(zPhaseRad) / zMag;
-
-                        yCond.push_back(G);
-                        ySusp.push_back(B);
-                    }
-                    else {
-                        // 防御性处理：防止阻抗为 0 导致除零崩溃
-                        yCond.push_back(0.0);
-                        ySusp.push_back(0.0);
-                    }
-                }
-
                 // 安全校验：确保在 UI 构造函数中已经 addGraph() 至少两次了
                 if (ui->plotAdmittance->graphCount() >= 2) {
-                    // 将数据喂给对应的曲线
-                    ui->plotAdmittance->graph(0)->setData(xFreq, yCond); // 蓝线：电导 G
-                    ui->plotAdmittance->graph(1)->setData(xFreq, ySusp); // 红线：电纳 B
+                    ui->plotAdmittance->graph(0)->setData(workerResult.xFreq, workerResult.yCond);
+                    ui->plotAdmittance->graph(1)->setData(workerResult.xFreq, workerResult.ySusp);
 
-                    // ==========================================
-                    // 🌟 双轴各自独立自适应缩放
-                    // ==========================================
-
-                    // 1. 让 X 轴适应全部频率范围 (以 graph(0) 为准即可)
                     ui->plotAdmittance->graph(0)->rescaleKeyAxis();
-
-                    // 2. 让左侧 Y 轴适应电导 G 的数据范围
                     ui->plotAdmittance->graph(0)->rescaleValueAxis();
-
-                    // 3. 让右侧 Y 轴适应电纳 B 的数据范围 (独立缩放，互不干扰)
                     ui->plotAdmittance->graph(1)->rescaleValueAxis();
 
-                    // 强制重绘图表
                     ui->plotAdmittance->replot();
                     appendLog("双轴导纳曲线绘制成功！", LOG_SUCCESS);
                 }
                 else {
                     appendLog("绘图失败：图表未正确初始化 (图层数量 < 2)", LOG_WARNING);
                 }
-
             }
             else {
                 appendLog("❌ 测量失败：" + result.message, LOG_ERROR);
             }
 
-            // 测量结束，恢复按钮点击功能
             ui->btnStartMeasurement->setEnabled(true);
-            });
-        });
+        }
+    );
 }
 
 

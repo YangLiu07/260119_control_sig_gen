@@ -16,7 +16,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);//nullptr参数可选，可以指定不同的父亲，这是构造函数，公共的
+    MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();//这是析构函数，公共的
 
 private slots:
@@ -33,6 +34,7 @@ private slots:
     void switchPage(QWidget *page);
     void on_btnBodeVisaConnect_clicked();
     void setConnectionLed(bool isConnected);
+    void on_btnDisconnect_clicked();
     void on_btnOpenCali_clicked();
 
     void on_btnShortCali_clicked();
@@ -53,9 +55,27 @@ private:
     RigolDriver *rigol; // 声明驱动对象
     BodeDrive* bode;
     QString arbFilePath;     // 保存ARB波形文件路径
-    ViSession vi;
+    //ViSession vi;
     class ChartManager; // 前置声明
     ChartManager* chartMgr = nullptr; // 图表管理器指针
+    //QCPItemTracer* tracerCond; // 电导光标 (蓝线)
+    //QCPItemTracer* tracerSusp; // 电纳光标 (红线)
+    //QCPItemLine* vLine;        // 垂直参考线
+
+    void initChart();
+    //nullptr参数可选，可以指定不同的父亲，这是构造函数，公共的
+        // --- Cursor 1 (实时游标 - 蓝色/红色) ---
+    QCPItemTracer* tracerCond;
+    QCPItemTracer* tracerSusp;
+    QCPItemLine* vLine;
+
+    // --- Cursor 2 (锁定游标 - 橙色) ---
+    QCPItemTracer* tracerCond2;
+    QCPItemTracer* tracerSusp2;
+    QCPItemLine* vLine2;
+
+    // --- 状态标志位 ---
+    bool cursor2Active = false; // 记录 Cursor 2 是否被激活
     
     void cleanOldLogs(const QString &path);
     bool checkInstrument(RigolDriver* dev, QString addr, QString name);// 仪器自检函数
@@ -70,7 +90,7 @@ private:
                            double &amplitude,
                            QString &errorMsg);
 
-    
+    void setTestControlsEnabled(bool enabled); // 统一控制测试按钮的状态
     template<typename WorkerFunc, typename UiUpdater>
     void executeAsync(WorkerFunc worker, UiUpdater uiUpdater)
     {

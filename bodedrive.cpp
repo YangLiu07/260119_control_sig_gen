@@ -53,26 +53,79 @@ bool BodeDrive::connectVisa(const QString& ip)
 }
 
 
+//void BodeDrive::disconnect()
+//{
+//    //关闭vi会话
+//    //sendCommandData(vi,"RST");
+//    if (vi != VI_NULL)
+//    {
+//        viClose(vi);
+//        vi = VI_NULL;
+//    }
+//
+//    if (rm != VI_NULL)
+//    {
+//        viClose(rm);
+//        rm = VI_NULL;
+//    }
+//
+//
+//
+//}
+
+
 void BodeDrive::disconnect()
 {
-    //关闭vi会话
-    //sendCommandData(vi,"RST");
-    if (vi != VI_NULL)
-    {
+    // ==========================================
+    // 1. 释放仪器硬件锁与清理状态
+    // ==========================================
+    if (vi != VI_NULL) {
+        log("正在安全释放仪器硬件控制权...");
+
+        // 尝试释放排他锁，允许其他软件或前面板接管仪器
+        // 加上 try-catch 防御，防止因为物理断线导致发指令崩溃
+        try {
+            // 清理错误队列
+            sendCommand("*CLS\n");
+
+            // 释放硬件锁并等待完成
+            QString relStatus = queryCommand(":SYST:LOCK:REL?\n");
+            if (relStatus.contains("1") || relStatus.contains("OK")) {
+                log("硬件锁已成功释放。");
+            }
+            else {
+                log("释放硬件锁超时或无响应，可能已物理断线。");
+            }
+        }
+        catch (...) {
+            log("释放硬件锁时发生异常，强制断开。");
+        }
+
+        // ==========================================
+        // 2. 关闭 VISA 仪器会话句柄
+        // ==========================================
         viClose(vi);
         vi = VI_NULL;
+        log("VISA 仪器通信会话已关闭。");
     }
 
-    if (rm != VI_NULL)
-    {
+    // ==========================================
+    // 3. 关闭 VISA 资源管理器句柄
+    // ==========================================
+    if (rm != VI_NULL) {
         viClose(rm);
         rm = VI_NULL;
+        log("VISA 资源管理器已释放。");
     }
 
+    // ==========================================
+    // 4. 彻底清理系统后台进程
+    // ==========================================
+    // 调用你之前写好的强杀函数，确保端口 5025 被完全释放
+    stopScpiRunner();
 
-
+    log("=== 仪器已彻底断开连接 ===");
 }
-
 
 QString BodeDrive::queryIDN()
 {
@@ -164,7 +217,7 @@ bool BodeDrive::startScpiRunner(
 }
 //void BodeDrive::stopScpiRunner() {
 //    if (isServerRunning && pi.hProcess != NULL) {
-//        // 1. 尝试优雅关闭（如果服务器有退出机制，可以发送命令，没有的话直接强杀）
+//        // 1. 尝试关闭（如果服务器有退出机制，可以发送命令，没有的话直接强杀）
 //        // TerminateProcess 是最直接清空服务器的方法
 //        TerminateProcess(pi.hProcess, 0);
 //
@@ -180,7 +233,7 @@ bool BodeDrive::startScpiRunner(
 //}
 void BodeDrive::stopScpiRunner()
 {
-    // 1. 尝试通过 Windows 句柄杀进程 (你原本的方式)
+    // 1. 尝试通过 Windows 句柄杀进程
     if (isServerRunning && pi.hProcess != NULL) {
         TerminateProcess(pi.hProcess, 0);
         CloseHandle(pi.hProcess);
@@ -188,8 +241,8 @@ void BodeDrive::stopScpiRunner()
         pi = { 0 };
     }
 
-    // 2. 商业防呆兜底：防止句柄丢失导致的僵尸进程，直接按进程名系统级强杀
-    // 注意替换为你实际的 SCPI 服务器 exe 名称
+    //防止句柄丢失导致的僵尸进程，直接按进程名系统级强杀
+    //
     QString processName = "OmicronLab.VectorNetworkAnalysis.ScpiRunner.exe";
     QProcess::execute("taskkill", QStringList() << "-im" << processName << "-f");
 
@@ -316,20 +369,29 @@ QString BodeDrive::queryCommand(const QString& cmd) {
 
 std::vector<float> BodeDrive::parseResults(const std::string& data)
 {
-
     std::vector<float> results;
-
     std::istringstream ss(data);
-
     std::string token;
 
     while (getline(ss, token, ','))
     {
-        results.push_back(std::stof(token));
+        // 去除字符串首尾的空格和换行符
+        token.erase(0, token.find_first_not_of(" \t\r\n"));
+        token.erase(token.find_last_not_of(" \t\r\n") + 1);
+
+        if (token.empty()) continue; // 跳过空字符串
+
+        try {
+            // 🌟 加上 try-catch，防止解析非法字符引发闪退
+            results.push_back(std::stof(token));
+        }
+        catch (...) {
+            // 解析失败时，静默忽略当前非法数字，保证程序活下去
+            continue;
+        }
     }
 
     return results;
-
 }
 
 QString BodeDrive::bodeCalibration(CalMode mode)

@@ -1077,42 +1077,6 @@
          <string>仪器配置</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_31">
-        <property name="geometry">
-         <rect>
-          <x>330</x>
-          <y>30</y>
-          <width>75</width>
-          <height>19</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>实时图表</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_39">
-        <property name="geometry">
-         <rect>
-          <x>630</x>
-          <y>30</y>
-          <width>75</width>
-          <height>19</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>测试控制</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_40">
         <property name="geometry">
          <rect>
@@ -1154,7 +1118,7 @@
          <rect>
           <x>20</x>
           <y>100</y>
-          <width>56</width>
+          <width>61</width>
           <height>21</height>
          </rect>
         </property>
@@ -1172,7 +1136,7 @@
          <rect>
           <x>20</x>
           <y>140</y>
-          <width>56</width>
+          <width>61</width>
           <height>21</height>
          </rect>
         </property>
@@ -1190,7 +1154,7 @@
          <rect>
           <x>20</x>
           <y>180</y>
-          <width>56</width>
+          <width>61</width>
           <height>21</height>
          </rect>
         </property>
@@ -1314,10 +1278,10 @@
        <widget class="QTextBrowser" name="textBrowserLog2">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>9</x>
           <y>370</y>
-          <width>760</width>
-          <height>161</height>
+          <width>771</width>
+          <height>171</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -1377,8 +1341,8 @@
          <rect>
           <x>80</x>
           <y>240</y>
-          <width>71</width>
-          <height>22</height>
+          <width>91</width>
+          <height>21</height>
          </rect>
         </property>
         <item>
@@ -1414,7 +1378,7 @@
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>340</y>
+          <y>310</y>
           <width>56</width>
           <height>21</height>
          </rect>
@@ -1431,10 +1395,10 @@
        <widget class="QCustomPlot" name="plotAdmittance" native="true">
         <property name="geometry">
          <rect>
-          <x>220</x>
-          <y>60</y>
-          <width>351</width>
-          <height>301</height>
+          <x>200</x>
+          <y>-10</y>
+          <width>571</width>
+          <height>291</height>
          </rect>
         </property>
         <widget class="QPushButton" name="btnBodeVisaConnect_2">
@@ -1456,7 +1420,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="btnBodeVisaDisConnect">
+       <widget class="QPushButton" name="btnDisconnect">
         <property name="geometry">
          <rect>
           <x>70</x>
@@ -1485,6 +1449,34 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnOpenCali_2">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>340</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>保存文档</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="table_Cursors">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>287</y>
+          <width>571</width>
+          <height>80</height>
+         </rect>
         </property>
        </widget>
       </widget>
